@@ -593,6 +593,10 @@ input[type="range"] {
   gap: 8px;
 }
 
+.adopt-simulation-note {
+  flex: 1;
+}
+
 .action-bundle-btn {
   flex-shrink: 0;
   padding: 10px 14px;
@@ -617,7 +621,8 @@ input[type="range"] {
 
 .action-bundle-btn[disabled],
 .action-simulate-btn[disabled],
-.bundle-run-btn[disabled] {
+.bundle-run-btn[disabled],
+.adopt-simulation-btn[disabled] {
   cursor: progress;
   opacity: 0.72;
 }

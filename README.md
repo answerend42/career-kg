@@ -201,8 +201,8 @@ python3 scripts/run_recommendation_benchmark.py
 3. 用户在“节点确认”面板里微调节点分值。
 4. 用户可选择目标岗位，调用 `/api/role-gap` 查看差距、成长路径、推荐行动模板和 what-if 模拟。
 5. 用户既可单独模拟某个行动，也可把最多 2 个行动加入方案篮子，再调用 `/api/action-simulate` 比较组合收益、重复覆盖和岗位排序变化。
-6. 前端使用确认后的节点再次调用 `/api/recommend`。
-7. 页面展示职业排序、关键路径、限制项和传播图。
+6. 用户可采纳当前模拟方案，把 `simulation.injected_boosts` 写回确认节点层，再调用 `/api/recommend` 重算推荐。
+7. 页面展示新的职业排序、关键路径、限制项和传播图。
 
 ## 真实来源数据
 

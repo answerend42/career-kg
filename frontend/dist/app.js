@@ -211,6 +211,11 @@ async function submitInitialRecommendation() {
 
 async function recomputeFromConfirmedSignals() {
   const signals = buildConfirmedSignalPayload();
+  const sourceByEntity = new Map(
+    state.confirmedSignals
+      .map((item) => [item.nodeId || item.nodeName, item.source])
+      .filter(([entity]) => entity)
+  );
 
   if (signals.length === 0) {
     setError("请先保留至少一个确认后的节点。");
@@ -235,7 +240,7 @@ async function recomputeFromConfirmedSignals() {
       nodeId: item.node_id,
       nodeName: item.node_name,
       score: clampScore(item.score),
-      source: "confirmed",
+      source: sourceByEntity.get(item.node_id) || sourceByEntity.get(item.node_name) || "confirmed",
     }));
     const stillSelected = findJobById(result, state.selectedJobId);
     state.selectedJobId = stillSelected ? stillSelected.job_id : pickInitialJobId(result);
@@ -316,6 +321,68 @@ async function runActionSimulation(payload, loadingMessage, successMessage) {
   } catch (error) {
     setError(`行动模拟失败：${error.message}`);
   }
+}
+
+async function adoptSimulationIntoProfile() {
+  const simulation = state.actionSimulationResult;
+  if (!simulation?.injected_boosts?.length) {
+    setError("当前模拟没有可写回的证据节点。");
+    return;
+  }
+
+  mergeSimulationIntoConfirmedSignals(simulation.injected_boosts);
+  state.actionSimulationResult = null;
+  state.selectedActionBundleKeys = [];
+  state.targetGapResult = null;
+  state.targetGapInputSignature = "";
+  renderConfirmedSignals();
+  renderTargetGapAnalysis();
+  await recomputeFromConfirmedSignals();
+}
+
+function mergeSimulationIntoConfirmedSignals(boosts) {
+  const nextSignals = [...state.confirmedSignals];
+  boosts.forEach((boost) => {
+    const signalIndex = nextSignals.findIndex(
+      (item) => item.nodeId === boost.node_id || (!item.nodeId && item.nodeName === boost.node_name)
+    );
+    if (signalIndex >= 0) {
+      const current = nextSignals[signalIndex];
+      nextSignals[signalIndex] = {
+        ...current,
+        nodeId: current.nodeId || boost.node_id,
+        nodeName: current.nodeName || boost.node_name,
+        score: Math.max(clampScore(current.score), clampScore(boost.to_score)),
+        source: mergeSignalSource(current.source, "方案采纳"),
+      };
+      return;
+    }
+    nextSignals.push({
+      id: uid(),
+      nodeId: boost.node_id,
+      nodeName: boost.node_name,
+      score: clampScore(boost.to_score),
+      source: "方案采纳",
+    });
+  });
+  state.confirmedSignals = nextSignals;
+}
+
+function mergeSignalSource(...sources) {
+  const uniqueSources = [];
+  sources
+    .flatMap((item) => String(item || "").split("+"))
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .forEach((source) => {
+      if (source === "confirmed" && sources.length > 1) {
+        return;
+      }
+      if (!uniqueSources.includes(source)) {
+        uniqueSources.push(source);
+      }
+    });
+  return uniqueSources.join(" + ") || "confirmed";
 }
 
 function toggleActionBundle(actionKey) {
@@ -716,6 +783,11 @@ function renderTargetGapAnalysis() {
       clearActionBundle();
     });
   });
+  elements.targetGapAnalysis.querySelectorAll("[data-action-adopt-simulation]").forEach((button) => {
+    button.addEventListener("click", () => {
+      adoptSimulationIntoProfile();
+    });
+  });
 }
 
 function renderActionBundleSection() {
@@ -805,13 +877,24 @@ function renderActionSimulationSection() {
                   <strong>${simulation.target_role_rank_before || "-"} → ${simulation.target_role_rank_after || "-"}</strong>
                 </div>
               </div>
-                ${
-                  simulation.applied_actions?.length
-                    ? `<div class="chip-row action-chip-row">${simulation.applied_actions
-                        .map((action) => `<span class="soft-chip accent-chip">${escapeHtml(action.title)}</span>`)
-                        .join("")}</div>`
-                    : ""
+              ${
+                simulation.applied_actions?.length
+                  ? `<div class="chip-row action-chip-row">${simulation.applied_actions
+                      .map((action) => `<span class="soft-chip accent-chip">${escapeHtml(action.title)}</span>`)
+                      .join("")}</div>`
+                  : ""
               }
+              <div class="bundle-action-row">
+                <button
+                  class="primary-btn adopt-simulation-btn"
+                  type="button"
+                  data-action-adopt-simulation
+                  ${!simulation.injected_boosts?.length || state.busy ? "disabled" : ""}
+                >
+                  ${simulation.bundle_size > 1 ? "采纳这个组合并重算推荐" : "采纳这个动作并重算推荐"}
+                </button>
+                <p class="soft-note adopt-simulation-note">把当前模拟注入的证据节点写回到确认节点层，再走一遍知识图谱重算。</p>
+              </div>
               ${
                 simulation.bundle_size > 1
                   ? `<div class="detail-card bundle-result-card">
