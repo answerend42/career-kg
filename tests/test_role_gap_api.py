@@ -33,6 +33,12 @@ class RoleGapApiTests(unittest.TestCase):
         self.assertEqual(target["learning_path"][0]["step"], 1)
         self.assertEqual(target["learning_path"][0]["relation"], "requires")
         self.assertGreater(target["learning_path"][0]["expected_total_score"], target["current_score"])
+        self.assertTrue(all(len(step["recommended_actions"]) > 0 for step in target["learning_path"]))
+        matched_node_ids = set(target["learning_path"][0]["recommended_actions"][0]["matched_node_ids"])
+        self.assertTrue(
+            target["learning_path"][0]["focus_node_id"] in matched_node_ids
+            or any(boost["node_id"] in matched_node_ids for boost in target["learning_path"][0]["boosts"])
+        )
         self.assertGreater(target["what_if_scenarios"][0]["predicted_score"], target["current_score"])
         self.assertGreater(target["what_if_scenarios"][0]["delta_score"], 0.0)
         self.assertGreater(len(target["what_if_scenarios"][0]["boosts"]), 0)
@@ -62,6 +68,21 @@ class RoleGapApiTests(unittest.TestCase):
         self.assertLessEqual(normalized_map["knowledge_math_foundation"], 0.22)
         self.assertIn("constraint_dislike_math_theory", normalized_map)
         self.assertNotIn("project_model_training", normalized_map)
+
+    def test_role_gap_steps_do_not_emit_empty_action_templates_across_roles(self) -> None:
+        failures: list[str] = []
+        for role_id in sorted(self.service.graph.role_ids):
+            result = self.service.role_gap(
+                {
+                    "target_role_id": role_id,
+                    "scenario_limit": 2,
+                }
+            )
+            for step in result["target_role"]["learning_path"]:
+                if not step["recommended_actions"]:
+                    failures.append(f"{role_id}:{step['focus_node_id']}")
+
+        self.assertEqual([], failures)
 
 
 if __name__ == "__main__":

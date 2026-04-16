@@ -43,7 +43,8 @@
 2. 基于该岗位当前 `paths / limitations / missing_requirements` 做定向诊断
 3. 从 `requires` 和弱 `supports` 父节点里提炼优先补齐建议
 4. 用建议节点和图上的前置关系编排 2-4 步成长路径
-5. 对建议节点做轻量注入重算，生成 1-3 个 what-if 模拟场景
+5. 为每一步成长路径匹配具体行动模板
+6. 对建议节点做轻量注入重算，生成 1-3 个 what-if 模拟场景
 
 ## 响应结构
 
@@ -78,4 +79,5 @@
 - `missing_requirements`
 - `priority_suggestions`
 - `learning_path`
+- `learning_path[*].recommended_actions`
 - `what_if_scenarios`

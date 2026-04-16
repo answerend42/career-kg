@@ -522,6 +522,50 @@ input[type="range"] {
   margin-top: 4px;
 }
 
+.action-template-section {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(17, 77, 81, 0.14);
+}
+
+.action-section-title,
+.action-subtitle {
+  margin: 0 0 10px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+}
+
+.action-card-list {
+  display: grid;
+  gap: 10px;
+}
+
+.action-card {
+  padding: 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  background: rgba(250, 247, 240, 0.92);
+}
+
+.action-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.action-chip-row {
+  align-items: center;
+}
+
+.action-reason {
+  margin: 10px 0 0;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
 .soft-chip {
   display: inline-flex;
   align-items: center;

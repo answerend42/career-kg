@@ -126,3 +126,6 @@ class GraphLoader:
 
     def load_parsing_patterns(self) -> dict:
         return self._load_json("data/dictionaries/parsing_patterns.json")  # type: ignore[return-value]
+
+    def load_action_templates(self) -> list[dict[str, Any]]:
+        return self._load_json("data/demo/action_templates.json")  # type: ignore[return-value]

@@ -210,6 +210,23 @@ class SimulationScenario:
 
 
 @dataclass(slots=True)
+class ActionCard:
+    template_id: str
+    title: str
+    action_type: str
+    summary: str
+    effort_level: str
+    deliverables: list[str] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
+    matched_node_ids: list[str] = field(default_factory=list)
+    matched_node_names: list[str] = field(default_factory=list)
+    reason: str = ""
+
+    def as_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(slots=True)
 class LearningPathStep:
     step: int
     focus_node_id: str
@@ -222,10 +239,12 @@ class LearningPathStep:
     blocked_by: list[str] = field(default_factory=list)
     unlock_nodes: list[str] = field(default_factory=list)
     boosts: list[SimulatedBoost] = field(default_factory=list)
+    recommended_actions: list[ActionCard] = field(default_factory=list)
 
     def as_dict(self) -> dict[str, Any]:
         payload = asdict(self)
         payload["boosts"] = [item.as_dict() for item in self.boosts]
+        payload["recommended_actions"] = [item.as_dict() for item in self.recommended_actions]
         return payload
 
 

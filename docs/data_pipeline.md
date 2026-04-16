@@ -24,6 +24,8 @@
   - 端到端推荐质量 benchmark
 - `data/sources/sample_request.json`
   - 示例输入
+- `data/sources/action_templates.json`
+  - 成长路径步骤映射到具体项目/练习/课程模板的行动库
 
 ## 构建命令
 
@@ -59,6 +61,7 @@ python3 scripts/validate_graph.py
 - `data/demo/sample_request.json`
 - `data/demo/nl_benchmark.json`
 - `data/demo/recommendation_benchmark.json`
+- `data/demo/action_templates.json`
 
 运行时只读取这些编译产物，`backend/app/services/graph_loader.py` 不直接消费 source 文件。
 

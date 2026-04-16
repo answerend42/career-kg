@@ -24,6 +24,17 @@ const SOURCE_TYPE_LABELS = {
   onet_online: "O*NET",
   roadmap_sh: "roadmap.sh",
 };
+const ACTION_TYPE_LABELS = {
+  project: "项目",
+  practice: "练习",
+  course: "课程",
+  portfolio: "作品集",
+};
+const EFFORT_LEVEL_LABELS = {
+  low: "低投入",
+  medium: "中投入",
+  high: "高投入",
+};
 
 const state = {
   catalog: [],
@@ -376,6 +387,44 @@ function renderTargetGapAnalysis() {
                   )
                   .join("")}
               </ul>
+              <div class="action-template-section">
+                <p class="action-section-title">推荐行动</p>
+                ${
+                  step.recommended_actions?.length
+                    ? `<div class="action-card-list">${step.recommended_actions
+                        .map(
+                          (action) => `
+                            <article class="action-card">
+                              <div class="action-card-head">
+                                <div>
+                                  <p class="signal-name">${escapeHtml(action.title)}</p>
+                                  <p class="signal-meta">${escapeHtml(action.summary)}</p>
+                                </div>
+                                <div class="chip-row action-chip-row">
+                                  <span class="soft-chip">${escapeHtml(ACTION_TYPE_LABELS[action.action_type] || action.action_type)}</span>
+                                  <span class="soft-chip accent-chip">${escapeHtml(EFFORT_LEVEL_LABELS[action.effort_level] || action.effort_level)}</span>
+                                </div>
+                              </div>
+                              ${
+                                action.reason
+                                  ? `<p class="action-reason">${escapeHtml(action.reason)}</p>`
+                                  : ""
+                              }
+                              ${
+                                action.deliverables?.length
+                                  ? `<p class="action-subtitle">建议交付物</p>
+                                     <div class="chip-row action-chip-row">${action.deliverables
+                                       .map((item) => `<span class="soft-chip">${escapeHtml(item)}</span>`)
+                                       .join("")}</div>`
+                                  : ""
+                              }
+                            </article>
+                          `
+                        )
+                        .join("")}</div>`
+                    : `<p class="soft-note">当前这一步还没有稳定匹配到行动模板。</p>`
+                }
+              </div>
             </article>
           `
         )

@@ -51,6 +51,7 @@
 - `target_role.missing_requirements`
 - `target_role.priority_suggestions`
 - `target_role.learning_path`
+- `target_role.learning_path[*].recommended_actions`
 - `target_role.what_if_scenarios`
 
 ## 前端使用方式
@@ -64,6 +65,7 @@
    - 关键缺口
    - 优先补齐建议
    - 成长路径时间线
+   - 每一步的推荐行动模板
    - what-if 模拟卡片
 
 ## 当前边界

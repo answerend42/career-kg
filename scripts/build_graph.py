@@ -167,6 +167,7 @@ class GraphBuilder:
         parsing_patterns = load_json(self.sources_dir / "parsing_patterns.json")
         nl_benchmark = load_json(self.sources_dir / "nl_benchmark.json")
         recommendation_benchmark = load_json(self.sources_dir / "recommendation_benchmark.json")
+        action_templates = load_json(self.sources_dir / "action_templates.json")
         imported_profiles_path = self.sources_dir / "imported_profiles.json"
         imported_profiles = load_json(imported_profiles_path) if imported_profiles_path.exists() else []
 
@@ -197,6 +198,7 @@ class GraphBuilder:
         write_json(self.demo_dir / "sample_request.json", sample_request)
         write_json(self.demo_dir / "nl_benchmark.json", nl_benchmark)
         write_json(self.demo_dir / "recommendation_benchmark.json", recommendation_benchmark)
+        write_json(self.demo_dir / "action_templates.json", action_templates)
 
         return {
             "nodes": len(self.nodes),

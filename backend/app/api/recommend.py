@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from ..schemas import NearMissItem, RecommendationItem, RecommendationRequest, RoleGapRequest
+from ..services.action_template_matcher import ActionTemplateMatcher
 from ..services.explainer import GraphExplainer
 from ..services.graph_loader import GraphLoader
 from ..services.inference_engine import InferenceEngine, NodeState
@@ -26,12 +27,14 @@ class RecommendationService:
         self.aliases = self.loader.load_aliases()
         self.preference_patterns = self.loader.load_preference_patterns()
         self.parsing_patterns = self.loader.load_parsing_patterns()
+        self.action_templates = self.loader.load_action_templates()
         self.normalizer = InputNormalizer(self.graph, self.aliases)
         self.nl_parser = LightweightNLParser(self.graph, self.aliases, self.preference_patterns, self.parsing_patterns)
         self.engine = InferenceEngine()
         self.explainer = GraphExplainer()
         self.role_gap_analyzer = RoleGapAnalyzer(self.graph, self.engine, self.explainer)
         self.learning_path_planner = LearningPathPlanner(self.graph, self.role_gap_analyzer)
+        self.action_template_matcher = ActionTemplateMatcher(self.graph, self.action_templates)
         self.sample_request_path = self.loader.base_dir / "data" / "demo" / "sample_request.json"
         self.provenance_summary = self._build_provenance_summary()
 
@@ -96,6 +99,10 @@ class RecommendationService:
         analysis.learning_path = self.learning_path_planner.plan(
             states=states,
             score_map=score_map,
+            target_role_id=request.target_role_id,
+        )
+        analysis.learning_path = self.action_template_matcher.attach_actions(
+            steps=analysis.learning_path,
             target_role_id=request.target_role_id,
         )
         return {
