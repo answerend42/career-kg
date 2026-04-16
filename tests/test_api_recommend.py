@@ -52,7 +52,7 @@ class RecommendationApiTests(unittest.TestCase):
 
     def test_catalog_exposes_evidence_nodes_and_sample_request(self) -> None:
         catalog = self.service.catalog()
-        self.assertGreaterEqual(len(catalog["evidence_nodes"]), 70)
+        self.assertGreaterEqual(len(catalog["evidence_nodes"]), 150)
         self.assertIn("graph_stats", catalog)
         self.assertIn("sample_request", catalog)
         self.assertIn("text", catalog["sample_request"])

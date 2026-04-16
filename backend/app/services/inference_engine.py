@@ -143,7 +143,7 @@ class InferenceEngine:
         )
         coverage = min(1.0, support_parent_count / max(1, min_support_count))
         base_score = base_positive
-        has_required_inputs = bool(relation_root_maps["requires"])
+        has_required_inputs = bool(raw_required_scores)
 
         if node.aggregator == "max_pool":
             best_parent = max(

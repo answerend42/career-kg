@@ -1,10 +1,10 @@
 # Career KG
 
-一个以知识图谱为核心的计算机职业推荐系统原型。当前版本已经具备后端推理闭环和可演示前端工作台：输入解析、节点确认、职业排序、路径解释和传播可视化都可以直接运行。
+一个以知识图谱为核心的计算机职业推荐系统原型。当前版本已经具备后端推理闭环、可编译的数据流水线和可演示前端工作台：输入解析、节点确认、职业排序、路径解释和传播可视化都可以直接运行。
 
 ## 当前能力
 
-- 使用 `data/seeds/nodes.json` 和 `data/seeds/edges.json` 构建 `128` 个节点、`275` 条边的分层知识图谱。
+- 使用 `data/sources/* -> scripts/build_graph.py -> data/seeds/*` 的流水线，构建 `362` 个节点、`1044` 条边、`50` 个职业节点的分层知识图谱。
 - 支持两类输入：
   - 自然语言描述
   - 结构化信号列表
@@ -21,19 +21,28 @@
 
 - `backend/app`: 推荐服务、推理引擎、解释器、输入解析
 - `frontend`: 静态前端工作台与构建脚本
+- `data/sources`: 可编辑的图谱源数据、模板和别名
 - `data/ontology`: 节点类型与边类型本体
 - `data/seeds`: 生成后的图谱节点与边
 - `data/dictionaries`: 别名词典和自然语言模式词典
-- `scripts/bootstrap_demo_data.py`: 生成 demo 图谱和词典
+- `scripts/bootstrap_demo_data.py`: 生成 demo source 数据并编译图谱
+- `scripts/build_graph.py`: 从 source 数据编译图谱 seed 与词典
 - `scripts/validate_graph.py`: 校验 DAG 和图谱规模
+- `docs/data_pipeline.md`: 图谱数据流水线说明
 - `tests`: 单元测试
 
 ## 快速开始
 
-1. 生成种子数据
+1. 生成 demo 源数据并编译图谱
 
 ```bash
 python3 scripts/bootstrap_demo_data.py
+```
+
+如果你已经修改了 `data/sources/*`，可以直接重新编译：
+
+```bash
+python3 scripts/build_graph.py
 ```
 
 2. 运行图校验
@@ -116,4 +125,4 @@ python3 -m unittest discover -s tests -v
 4. 职业节点输出匹配分数。
 5. 解释器回溯高贡献路径，生成可解释理由。
 
-更详细设计见 [docs/architecture.md](/Users/ans42/Code/auto-evol-project/projects/career-kg/docs/architecture.md)、[docs/recommendation_flow.md](/Users/ans42/Code/auto-evol-project/projects/career-kg/docs/recommendation_flow.md) 和 [docs/frontend_workflow.md](/Users/ans42/Code/auto-evol-project/projects/career-kg/docs/frontend_workflow.md)。
+更详细设计见 [docs/architecture.md](/Users/ans42/Code/auto-evol-project/projects/career-kg/docs/architecture.md)、[docs/data_pipeline.md](/Users/ans42/Code/auto-evol-project/projects/career-kg/docs/data_pipeline.md)、[docs/recommendation_flow.md](/Users/ans42/Code/auto-evol-project/projects/career-kg/docs/recommendation_flow.md) 和 [docs/frontend_workflow.md](/Users/ans42/Code/auto-evol-project/projects/career-kg/docs/frontend_workflow.md)。

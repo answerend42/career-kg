@@ -15,9 +15,9 @@ class GraphScaleTests(unittest.TestCase):
     def test_graph_is_large_and_acyclic(self) -> None:
         loader = GraphLoader(ROOT)
         graph = loader.load_graph()
-        self.assertGreaterEqual(len(graph.nodes), 120)
-        self.assertGreaterEqual(len(graph.edges), 250)
-        self.assertGreaterEqual(len(graph.role_ids), 10)
+        self.assertGreaterEqual(len(graph.nodes), 300)
+        self.assertGreaterEqual(len(graph.edges), 700)
+        self.assertGreaterEqual(len(graph.role_ids), 25)
         self.assertEqual(len(graph.topological_order), len(graph.nodes))
 
 
@@ -28,13 +28,27 @@ class RecommendationInferenceTests(unittest.TestCase):
 
     def test_sample_request_prioritizes_backend_roles(self) -> None:
         payload = json.loads((ROOT / "data" / "demo" / "sample_request.json").read_text(encoding="utf-8"))
+        payload["top_k"] = 12
         result = self.service.recommend(payload)
         top_ids = [item["job_id"] for item in result["recommendations"][:3]]
         self.assertIn("role_backend_engineer", top_ids)
         self.assertIn("role_python_backend_engineer", top_ids)
+        top_five_ids = [item["job_id"] for item in result["recommendations"][:5]]
+        self.assertNotIn("role_rust_backend_engineer", top_five_ids)
         backend_score = next(item["score"] for item in result["recommendations"] if item["job_id"] == "role_backend_engineer")
         data_engineer_score = next(item["score"] for item in result["recommendations"] if item["job_id"] == "role_data_engineer")
         self.assertGreater(backend_score, data_engineer_score)
+
+    def test_broad_backend_interest_without_skills_does_not_return_roles(self) -> None:
+        result = self.service.recommend(
+            {
+                "signals": [
+                    {"entity": "偏好后端", "score": 0.9},
+                ],
+                "top_k": 10,
+            }
+        )
+        self.assertEqual(result["recommendations"], [])
 
     def test_math_shortfall_suppresses_machine_learning(self) -> None:
         strong_math = {

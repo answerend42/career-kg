@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any
+
+from build_graph import build_all
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,801 +16,1855 @@ def ensure_dir(path: Path) -> None:
     path.mkdir(parents=True, exist_ok=True)
 
 
-def write_json(path: Path, payload: object) -> None:
-    path.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
-
-
-def build_dataset() -> tuple[list[dict], list[dict], dict[str, list[str]], dict[str, list[str]], list[dict], list[dict], dict]:
-    node_types = [
-        {
-            "id": "skill",
-            "layer": "evidence",
-            "default_aggregator": "source",
-            "description": "技能或工具证据，直接由用户输入或解析得到。",
-        },
-        {
-            "id": "knowledge",
-            "layer": "evidence",
-            "default_aggregator": "source",
-            "description": "课程、理论基础或通用知识证据。",
-        },
-        {
-            "id": "project",
-            "layer": "evidence",
-            "default_aggregator": "source",
-            "description": "项目经历、实践场景或工作方式证据。",
-        },
-        {
-            "id": "interest",
-            "layer": "evidence",
-            "default_aggregator": "source",
-            "description": "兴趣偏好、工作倾向或主观选择。",
-        },
-        {
-            "id": "constraint",
-            "layer": "evidence",
-            "default_aggregator": "source",
-            "description": "明确短板或负向偏好，用于抑制相关方向。",
-        },
-        {
-            "id": "soft_skill",
-            "layer": "evidence",
-            "default_aggregator": "source",
-            "description": "沟通、协作、文档等软技能证据。",
-        },
-        {
-            "id": "ability_unit",
-            "layer": "ability",
-            "default_aggregator": "weighted_sum_capped",
-            "description": "由原子证据聚合得到的基础能力单元。",
-        },
-        {
-            "id": "compound_capability",
-            "layer": "composite",
-            "default_aggregator": "soft_and",
-            "description": "由多个能力单元共同组成的复合能力。",
-        },
-        {
-            "id": "career_direction",
-            "layer": "direction",
-            "default_aggregator": "penalty_gate",
-            "description": "岗位方向或能力簇，连接复合能力与具体职业。",
-        },
-        {
-            "id": "career_role",
-            "layer": "role",
-            "default_aggregator": "hard_gate",
-            "description": "最终推荐的具体职业节点。",
-        },
-    ]
-
-    edge_types = [
-        {
-            "id": "supports",
-            "sign": "positive",
-            "description": "常规正向支持，边权表示对目标节点的贡献力度。",
-            "explainable": True,
-        },
-        {
-            "id": "requires",
-            "sign": "positive",
-            "description": "关键前置关系，会触发门槛或惩罚机制。",
-            "explainable": True,
-        },
-        {
-            "id": "prefers",
-            "sign": "positive",
-            "description": "兴趣或偏好的软加成关系，不单独构成硬门槛。",
-            "explainable": True,
-        },
-        {
-            "id": "inhibits",
-            "sign": "negative",
-            "description": "抑制关系，表示明显短板或负向偏好会压低目标节点。",
-            "explainable": True,
-        },
-        {
-            "id": "evidences",
-            "sign": "positive",
-            "description": "项目、课程等实践性证据，为目标节点提供额外可信度。",
-            "explainable": True,
-        },
-    ]
-
-    nodes: list[dict] = []
-    edges: list[dict] = []
-    aliases: dict[str, list[str]] = {}
-
-    def add_node(
-        node_id: str,
-        name: str,
-        layer: str,
-        node_type: str,
-        aggregator: str,
-        description: str,
-        params: dict | None = None,
-        node_aliases: list[str] | None = None,
-    ) -> None:
-        nodes.append(
-            {
-                "id": node_id,
-                "name": name,
-                "layer": layer,
-                "node_type": node_type,
-                "aggregator": aggregator,
-                "description": description,
-                "params": params or {},
-            }
-        )
-        if node_aliases:
-            aliases[node_id] = sorted({name.lower(), *[alias.lower() for alias in node_aliases]})
-
-    def add_edge(
-        source: str,
-        target: str,
-        relation: str,
-        weight: float,
-        note: str,
-    ) -> None:
-        edges.append(
-            {
-                "source": source,
-                "target": target,
-                "relation": relation,
-                "weight": weight,
-                "note": note,
-            }
-        )
-
-    skill_specs = [
-        ("skill_python", "Python", ["python", "py"]),
-        ("skill_java", "Java", ["java"]),
-        ("skill_cpp", "C++", ["c++", "cpp"]),
-        ("skill_c", "C", ["c language", "c语言"]),
-        ("skill_javascript", "JavaScript", ["javascript", "js"]),
-        ("skill_typescript", "TypeScript", ["typescript", "ts"]),
-        ("skill_golang", "Go", ["go", "golang"]),
-        ("skill_rust", "Rust", ["rust"]),
-        ("skill_sql", "SQL", ["sql"]),
-        ("skill_bash", "Bash", ["bash", "shell", "shell script"]),
-        ("tool_flask", "Flask", ["flask"]),
-        ("tool_django", "Django", ["django"]),
-        ("tool_fastapi", "FastAPI", ["fastapi"]),
-        ("tool_spring_boot", "Spring Boot", ["spring", "spring boot"]),
-        ("tool_react", "React", ["react"]),
-        ("tool_vue", "Vue", ["vue", "vue.js"]),
-        ("tool_nodejs", "Node.js", ["node", "nodejs", "node.js"]),
-        ("tool_linux", "Linux", ["linux"]),
-        ("tool_docker", "Docker", ["docker"]),
-        ("tool_kubernetes", "Kubernetes", ["k8s", "kubernetes"]),
-        ("tool_git", "Git", ["git"]),
-        ("tool_mysql", "MySQL", ["mysql"]),
-        ("tool_postgresql", "PostgreSQL", ["postgresql", "postgres"]),
-        ("tool_redis", "Redis", ["redis"]),
-        ("tool_mongodb", "MongoDB", ["mongodb", "mongo"]),
-        ("tool_pandas", "Pandas", ["pandas"]),
-        ("tool_numpy", "NumPy", ["numpy"]),
-        ("tool_spark", "Spark", ["spark", "apache spark"]),
-        ("tool_hadoop", "Hadoop", ["hadoop"]),
-        ("tool_kafka", "Kafka", ["kafka"]),
-        ("tool_airflow", "Airflow", ["airflow"]),
-        ("tool_pytorch", "PyTorch", ["pytorch", "torch"]),
-        ("tool_tensorflow", "TensorFlow", ["tensorflow", "tf"]),
-        ("tool_scikit_learn", "Scikit-learn", ["sklearn", "scikit-learn"]),
-        ("tool_selenium", "Selenium", ["selenium"]),
-        ("tool_pytest", "Pytest", ["pytest"]),
-        ("tool_wireshark", "Wireshark", ["wireshark"]),
-        ("tool_nmap", "Nmap", ["nmap"]),
-        ("tool_burp_suite", "Burp Suite", ["burp", "burp suite"]),
-        ("tool_aws", "AWS", ["aws"]),
-        ("tool_aliyun", "阿里云", ["aliyun", "阿里云"]),
-    ]
-
-    knowledge_specs = [
-        ("knowledge_data_structures", "数据结构", ["data structures", "数据结构"]),
-        ("knowledge_algorithms", "算法", ["algorithms", "算法"]),
-        ("knowledge_oop", "面向对象", ["oop", "面向对象"]),
-        ("knowledge_database_theory", "数据库原理", ["database theory", "数据库原理"]),
-        ("knowledge_operating_systems", "操作系统", ["os", "操作系统"]),
-        ("knowledge_networks", "计算机网络", ["networking", "computer networks", "计算机网络"]),
-        ("knowledge_statistics", "统计基础", ["statistics", "统计学"]),
-        ("knowledge_linear_algebra", "线性代数", ["linear algebra", "线性代数"]),
-        ("knowledge_probability", "概率论", ["probability", "概率论"]),
-        ("knowledge_system_design", "系统设计", ["system design", "架构设计", "系统设计"]),
-        ("knowledge_math_foundation", "数学基础", ["math", "数学", "数学基础"]),
-    ]
-
-    project_specs = [
-        ("project_backend_api", "后端接口项目", ["backend api", "后端接口", "api项目"]),
-        ("project_microservice", "微服务项目", ["microservice", "微服务"]),
-        ("project_web_ui", "Web 前端项目", ["web ui", "前端项目", "网页项目"]),
-        ("project_data_pipeline", "数据管道项目", ["data pipeline", "数据管道"]),
-        ("project_dashboard", "分析看板项目", ["dashboard", "数据看板", "可视化项目"]),
-        ("project_model_training", "模型训练项目", ["model training", "模型训练"]),
-        ("project_ml_deployment", "模型部署项目", ["ml deployment", "模型部署"]),
-        ("project_test_automation", "测试自动化项目", ["test automation", "测试自动化"]),
-        ("project_devops_automation", "运维自动化项目", ["devops automation", "运维自动化"]),
-        ("project_security_ctf", "安全实战项目", ["ctf", "渗透", "安全项目"]),
-    ]
-
-    interest_specs = [
-        ("interest_backend", "偏好后端", ["后端", "backend", "后端接口"]),
-        ("interest_frontend", "偏好前端", ["前端", "frontend", "界面"]),
-        ("interest_data", "偏好数据", ["数据方向", "数据工程", "数据分析", "data"]),
-        ("interest_ml", "偏好机器学习", ["机器学习", "ml", "ai", "算法方向"]),
-        ("interest_devops", "偏好运维平台", ["运维", "devops", "平台工程"]),
-        ("interest_security", "偏好安全", ["安全", "security"]),
-        ("interest_stable_delivery", "偏好稳定交付", ["稳定交付", "质量保障", "可靠性"]),
-        ("interest_visualization", "偏好可视化表达", ["可视化", "图表", "dashboard"]),
-    ]
-
-    soft_specs = [
-        ("soft_communication", "沟通表达", ["communication", "沟通"]),
-        ("soft_teamwork", "团队协作", ["teamwork", "协作"]),
-        ("soft_self_learning", "自主学习", ["自学", "self learning", "自驱"]),
-        ("soft_documentation", "文档习惯", ["documentation", "文档"]),
-    ]
-
-    constraint_specs = [
-        ("constraint_dislike_math_theory", "不喜欢高数学理论", ["不喜欢数学", "数学薄弱", "怕数学", "不太擅长数学"]),
-        ("constraint_dislike_oncall", "不喜欢值班运维", ["不想值班", "不喜欢运维值班", "抗拒 oncall", "不喜欢 oncall"]),
-        ("constraint_dislike_ui_polish", "不喜欢界面打磨", ["不喜欢前端细节", "不喜欢界面", "不喜欢 ui", "不爱做样式"]),
-    ]
-
-    for node_id, name, node_aliases in skill_specs:
-        add_node(node_id, name, "evidence", "skill", "source", f"{name} 相关技能或工具证据。", node_aliases=node_aliases)
-    for node_id, name, node_aliases in knowledge_specs:
-        add_node(node_id, name, "evidence", "knowledge", "source", f"{name} 相关理论基础。", node_aliases=node_aliases)
-    for node_id, name, node_aliases in project_specs:
-        add_node(node_id, name, "evidence", "project", "source", f"{name} 实践经历。", node_aliases=node_aliases)
-    for node_id, name, node_aliases in interest_specs:
-        add_node(node_id, name, "evidence", "interest", "source", f"{name} 偏好证据。", node_aliases=node_aliases)
-    for node_id, name, node_aliases in soft_specs:
-        add_node(node_id, name, "evidence", "soft_skill", "source", f"{name} 软技能证据。", node_aliases=node_aliases)
-    for node_id, name, node_aliases in constraint_specs:
-        add_node(node_id, name, "evidence", "constraint", "source", f"{name}，会抑制部分职业方向。", node_aliases=node_aliases)
-
-    ability_specs = [
-        ("ability_programming_fundamentals", "编程基础", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_database_practice", "数据库实践", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_backend_basics", "后端基础", "weighted_sum_capped", {"cap": 1.0, "required_threshold": 0.12, "required_floor": 0.55}),
-        ("ability_python_backend_stack", "Python 后端栈", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_java_backend_stack", "Java 后端栈", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_frontend_basics", "前端基础", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_ui_delivery", "界面交付能力", "max_pool", {"cap": 1.0}),
-        ("ability_data_processing", "数据处理能力", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_data_modeling", "数据建模能力", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_ml_foundations", "机器学习基础", "weighted_sum_capped", {"cap": 1.0, "required_threshold": 0.14, "required_floor": 0.35}),
-        ("ability_model_training", "模型训练能力", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_devops_basics", "运维开发基础", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_cloud_native", "云原生基础", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_test_automation", "测试自动化能力", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_security_basics", "安全分析基础", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_network_analysis", "网络分析能力", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_system_design", "系统设计能力", "weighted_sum_capped", {"cap": 1.0}),
-        ("ability_engineering_collaboration", "工程协作能力", "weighted_sum_capped", {"cap": 1.0}),
-    ]
-
-    composite_specs = [
-        ("cap_backend_engineering", "后端工程能力", {"min_support_count": 3, "required_threshold": 0.08}),
-        ("cap_python_backend_engineering", "Python 后端工程能力", {"min_support_count": 2, "required_threshold": 0.06}),
-        ("cap_java_backend_engineering", "Java 后端工程能力", {"min_support_count": 2, "required_threshold": 0.06}),
-        ("cap_frontend_engineering", "前端工程能力", {"min_support_count": 3, "required_threshold": 0.08}),
-        ("cap_fullstack_engineering", "全栈工程能力", {"min_support_count": 3, "required_threshold": 0.08}),
-        ("cap_data_engineering", "数据工程能力", {"min_support_count": 3, "required_threshold": 0.08}),
-        ("cap_data_analysis", "数据分析能力", {"min_support_count": 3, "required_threshold": 0.08}),
-        ("cap_ml_engineering", "机器学习工程能力", {"min_support_count": 3, "required_threshold": 0.08}),
-        ("cap_devops_engineering", "DevOps 工程能力", {"min_support_count": 3, "required_threshold": 0.08}),
-        ("cap_qa_engineering", "测试开发能力", {"min_support_count": 3, "required_threshold": 0.08}),
-        ("cap_security_engineering", "安全工程能力", {"min_support_count": 3, "required_threshold": 0.08}),
-        ("cap_platform_engineering", "平台工程能力", {"min_support_count": 3, "required_threshold": 0.08}),
-    ]
-
-    direction_specs = [
-        ("dir_web_backend", "Web 后端方向"),
-        ("dir_frontend", "前端方向"),
-        ("dir_fullstack", "全栈方向"),
-        ("dir_data", "数据方向"),
-        ("dir_machine_learning", "机器学习方向"),
-        ("dir_devops", "运维平台方向"),
-        ("dir_quality_assurance", "测试开发方向"),
-        ("dir_security", "安全方向"),
-        ("dir_platform", "平台工程方向"),
-    ]
-
-    role_specs = [
-        ("role_backend_engineer", "后端开发工程师"),
-        ("role_python_backend_engineer", "Python 后端工程师"),
-        ("role_java_backend_engineer", "Java 后端工程师"),
-        ("role_frontend_engineer", "前端工程师"),
-        ("role_fullstack_engineer", "全栈工程师"),
-        ("role_data_engineer", "数据工程师"),
-        ("role_data_analyst", "数据分析师"),
-        ("role_ml_engineer", "机器学习工程师"),
-        ("role_devops_engineer", "DevOps 工程师"),
-        ("role_test_development_engineer", "测试开发工程师"),
-        ("role_security_engineer", "安全工程师"),
-        ("role_platform_engineer", "平台工程师"),
-    ]
-
-    for node_id, name, aggregator, params in ability_specs:
-        add_node(node_id, name, "ability", "ability_unit", aggregator, f"{name}，由多种证据聚合而成。", params=params)
-    for node_id, name, params in composite_specs:
-        add_node(node_id, name, "composite", "compound_capability", "soft_and", f"{name}，用于连接基础能力与职业方向。", params=params)
-    for node_id, name in direction_specs:
-        add_node(
-            node_id,
-            name,
-            "direction",
-            "career_direction",
-            "penalty_gate",
-            f"{name}，承接复合能力并汇入具体岗位。",
-            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
-        )
-    for node_id, name in role_specs:
-        add_node(
-            node_id,
-            name,
-            "role",
-            "career_role",
-            "hard_gate",
-            f"{name}，最终推荐岗位节点。",
-            params={"cap": 1.0, "required_threshold": 0.025},
-        )
-
-    def link_many(sources: list[str], target: str, relation: str, weight: float, note: str) -> None:
-        for source in sources:
-            add_edge(source, target, relation, weight, note)
-
-    link_many(
-        [
-            "skill_python",
-            "skill_java",
-            "skill_cpp",
-            "skill_c",
-            "skill_javascript",
-            "skill_typescript",
-            "skill_golang",
-            "skill_rust",
-            "skill_bash",
-            "tool_git",
-            "knowledge_oop",
-        ],
-        "ability_programming_fundamentals",
-        "supports",
-        0.18,
-        "主流编程语言和版本控制共同支撑编程基础。",
-    )
-    link_many(
-        ["knowledge_data_structures", "knowledge_algorithms"],
-        "ability_programming_fundamentals",
-        "requires",
-        0.22,
-        "数据结构与算法是编程基础的重要前置。",
-    )
-
-    link_many(
-        ["skill_sql", "tool_mysql", "tool_postgresql", "tool_mongodb", "tool_redis"],
-        "ability_database_practice",
-        "supports",
-        0.22,
-        "数据库及缓存工具提升数据库实践能力。",
-    )
-    add_edge("knowledge_database_theory", "ability_database_practice", "requires", 0.25, "数据库原理支撑数据库实践。")
-
-    link_many(
-        ["tool_flask", "tool_django", "tool_fastapi", "tool_spring_boot", "tool_nodejs", "project_backend_api"],
-        "ability_backend_basics",
-        "supports",
-        0.18,
-        "常见服务端框架和接口项目支撑后端基础。",
-    )
-    link_many(
-        ["ability_programming_fundamentals", "ability_database_practice"],
-        "ability_backend_basics",
-        "requires",
-        0.3,
-        "后端基础依赖编程和数据库能力。",
-    )
-    add_edge("tool_linux", "ability_backend_basics", "supports", 0.14, "Linux 使用经验能增强后端基础。")
-
-    link_many(
-        ["skill_python", "tool_flask", "tool_django", "tool_fastapi", "tool_redis"],
-        "ability_python_backend_stack",
-        "supports",
-        0.2,
-        "Python 及相关框架形成 Python 后端技术栈。",
-    )
-    add_edge("ability_backend_basics", "ability_python_backend_stack", "requires", 0.25, "Python 后端栈建立在后端基础上。")
-
-    link_many(
-        ["skill_java", "tool_spring_boot", "tool_redis", "tool_mysql"],
-        "ability_java_backend_stack",
-        "supports",
-        0.22,
-        "Java 与 Spring Boot 形成 Java 后端技术栈。",
-    )
-    add_edge("ability_backend_basics", "ability_java_backend_stack", "requires", 0.25, "Java 后端栈建立在后端基础上。")
-
-    link_many(
-        ["skill_javascript", "skill_typescript", "tool_react", "tool_vue", "tool_nodejs", "project_web_ui"],
-        "ability_frontend_basics",
-        "supports",
-        0.18,
-        "前端语言、框架和项目实践构成前端基础。",
-    )
-    add_edge("ability_programming_fundamentals", "ability_frontend_basics", "requires", 0.22, "前端基础依赖通用编程基础。")
-
-    link_many(
-        ["tool_react", "tool_vue", "project_web_ui", "interest_visualization", "soft_documentation"],
-        "ability_ui_delivery",
-        "supports",
-        0.22,
-        "框架实践与可视化偏好支撑界面交付能力。",
-    )
-    add_edge("constraint_dislike_ui_polish", "ability_ui_delivery", "inhibits", 0.35, "不喜欢界面打磨会压低界面交付能力。")
-
-    link_many(
-        ["skill_python", "skill_sql", "tool_pandas", "tool_numpy", "tool_spark", "tool_hadoop", "project_data_pipeline"],
-        "ability_data_processing",
-        "supports",
-        0.17,
-        "脚本、SQL 和大数据工具共同构成数据处理能力。",
-    )
-    add_edge("ability_programming_fundamentals", "ability_data_processing", "requires", 0.22, "数据处理依赖编程基础。")
-
-    link_many(
-        ["skill_sql", "knowledge_database_theory", "knowledge_statistics", "project_dashboard"],
-        "ability_data_modeling",
-        "supports",
-        0.22,
-        "数据库与统计基础支撑数据建模能力。",
-    )
-    add_edge("ability_database_practice", "ability_data_modeling", "requires", 0.25, "数据建模建立在数据库实践上。")
-
-    link_many(
-        [
-            "skill_python",
-            "tool_numpy",
-            "tool_scikit_learn",
-            "knowledge_statistics",
-            "knowledge_linear_algebra",
-            "knowledge_probability",
-            "knowledge_algorithms",
-        ],
-        "ability_ml_foundations",
-        "supports",
-        0.16,
-        "Python、统计和数学知识共同组成机器学习基础。",
-    )
-    add_edge("knowledge_math_foundation", "ability_ml_foundations", "requires", 0.3, "机器学习基础要求数学基础。")
-    add_edge("constraint_dislike_math_theory", "ability_ml_foundations", "inhibits", 0.28, "不喜欢数学理论会压低机器学习基础。")
-
-    link_many(
-        ["tool_pytorch", "tool_tensorflow", "project_model_training", "project_ml_deployment"],
-        "ability_model_training",
-        "supports",
-        0.22,
-        "训练框架与项目实践支撑模型训练能力。",
-    )
-    add_edge("ability_ml_foundations", "ability_model_training", "requires", 0.28, "模型训练能力建立在机器学习基础上。")
-
-    link_many(
-        ["tool_linux", "skill_bash", "tool_docker", "tool_git", "project_devops_automation", "tool_aws", "tool_aliyun"],
-        "ability_devops_basics",
-        "supports",
-        0.17,
-        "Linux、脚本、容器和自动化项目支撑运维开发基础。",
-    )
-    add_edge("constraint_dislike_oncall", "ability_devops_basics", "inhibits", 0.22, "抗拒 on-call 会压低运维开发基础。")
-
-    link_many(
-        ["tool_docker", "tool_kubernetes", "tool_aws", "tool_aliyun", "tool_kafka", "tool_airflow", "tool_linux"],
-        "ability_cloud_native",
-        "supports",
-        0.16,
-        "容器、编排和云平台经验构成云原生基础。",
-    )
-    add_edge("ability_devops_basics", "ability_cloud_native", "requires", 0.22, "云原生能力建立在运维开发基础上。")
-
-    link_many(
-        ["tool_selenium", "tool_pytest", "project_test_automation", "skill_python", "skill_javascript"],
-        "ability_test_automation",
-        "supports",
-        0.2,
-        "测试工具与脚本能力支撑测试自动化能力。",
-    )
-    add_edge("ability_programming_fundamentals", "ability_test_automation", "requires", 0.2, "测试自动化依赖编程基础。")
-
-    link_many(
-        ["tool_linux", "knowledge_networks", "tool_wireshark", "tool_nmap", "tool_burp_suite", "project_security_ctf"],
-        "ability_security_basics",
-        "supports",
-        0.18,
-        "网络与安全工具实践构成安全分析基础。",
-    )
-    add_edge("ability_programming_fundamentals", "ability_security_basics", "requires", 0.18, "安全分析基础依赖编程理解。")
-
-    link_many(
-        ["knowledge_networks", "tool_wireshark", "tool_nmap", "tool_linux"],
-        "ability_network_analysis",
-        "supports",
-        0.24,
-        "网络理论与抓包扫描工具支撑网络分析能力。",
-    )
-    add_edge("ability_security_basics", "ability_network_analysis", "requires", 0.2, "网络分析常与安全基础联动。")
-
-    link_many(
-        ["knowledge_system_design", "knowledge_operating_systems", "knowledge_networks", "tool_redis", "tool_kafka", "project_microservice"],
-        "ability_system_design",
-        "supports",
-        0.16,
-        "系统设计、操作系统、网络和中间件共同构成系统设计能力。",
-    )
-    add_edge("ability_backend_basics", "ability_system_design", "requires", 0.2, "系统设计能力建立在后端基础上。")
-
-    link_many(
-        ["soft_communication", "soft_teamwork", "soft_self_learning", "soft_documentation", "tool_git"],
-        "ability_engineering_collaboration",
-        "supports",
-        0.18,
-        "沟通、协作、文档和 Git 协作形成工程协作能力。",
-    )
-    link_many(
-        ["project_backend_api", "project_web_ui", "project_data_pipeline", "project_test_automation", "project_devops_automation"],
-        "ability_engineering_collaboration",
-        "evidences",
-        0.12,
-        "项目经历为工程协作提供额外证据。",
-    )
-
-    link_many(
-        ["ability_backend_basics", "ability_database_practice", "ability_system_design", "ability_engineering_collaboration"],
-        "cap_backend_engineering",
-        "supports",
-        0.22,
-        "后端工程能力来自基础后端、数据库、系统设计与协作能力。",
-    )
-    add_edge("project_backend_api", "cap_backend_engineering", "evidences", 0.2, "后端接口项目是后端工程能力的直接证据。")
-    add_edge("interest_backend", "cap_backend_engineering", "prefers", 0.18, "偏好后端会提升后端工程方向。")
-
-    link_many(
-        ["ability_python_backend_stack", "cap_backend_engineering"],
-        "cap_python_backend_engineering",
-        "supports",
-        0.28,
-        "Python 后端工程能力由 Python 技术栈与通用后端工程能力共同组成。",
-    )
-    add_edge("ability_python_backend_stack", "cap_python_backend_engineering", "requires", 0.32, "Python 栈是该能力的关键前置。")
-
-    link_many(
-        ["ability_java_backend_stack", "cap_backend_engineering"],
-        "cap_java_backend_engineering",
-        "supports",
-        0.28,
-        "Java 后端工程能力由 Java 技术栈与通用后端工程能力共同组成。",
-    )
-    add_edge("ability_java_backend_stack", "cap_java_backend_engineering", "requires", 0.32, "Java 栈是该能力的关键前置。")
-
-    link_many(
-        ["ability_frontend_basics", "ability_ui_delivery", "ability_engineering_collaboration"],
-        "cap_frontend_engineering",
-        "supports",
-        0.24,
-        "前端工程能力依赖前端基础、界面交付与协作能力。",
-    )
-    add_edge("interest_frontend", "cap_frontend_engineering", "prefers", 0.2, "偏好前端会提升前端工程能力。")
-    add_edge("constraint_dislike_ui_polish", "cap_frontend_engineering", "inhibits", 0.28, "不喜欢界面打磨会压低前端工程能力。")
-
-    link_many(
-        ["cap_backend_engineering", "cap_frontend_engineering", "ability_system_design"],
-        "cap_fullstack_engineering",
-        "supports",
-        0.24,
-        "全栈工程能力需要前后端与系统设计共同支撑。",
-    )
-    link_many(["interest_backend", "interest_frontend"], "cap_fullstack_engineering", "prefers", 0.12, "同时偏好前后端会增强全栈倾向。")
-
-    link_many(
-        ["ability_data_processing", "ability_database_practice", "ability_cloud_native", "ability_engineering_collaboration"],
-        "cap_data_engineering",
-        "supports",
-        0.2,
-        "数据工程能力依赖数据处理、数据库、云原生与协作能力。",
-    )
-    add_edge("project_data_pipeline", "cap_data_engineering", "evidences", 0.24, "数据管道项目是数据工程能力的核心证据。")
-    add_edge("interest_data", "cap_data_engineering", "prefers", 0.18, "偏好数据会增强数据工程方向。")
-
-    link_many(
-        ["ability_data_processing", "ability_data_modeling", "ability_engineering_collaboration"],
-        "cap_data_analysis",
-        "supports",
-        0.24,
-        "数据分析能力依赖数据处理、建模和协作表达。",
-    )
-    add_edge("project_dashboard", "cap_data_analysis", "evidences", 0.24, "分析看板项目是数据分析能力的重要证据。")
-    link_many(["interest_data", "interest_visualization"], "cap_data_analysis", "prefers", 0.14, "偏好数据和可视化会增强分析方向。")
-
-    link_many(
-        ["ability_ml_foundations", "ability_model_training", "ability_data_processing", "ability_cloud_native"],
-        "cap_ml_engineering",
-        "supports",
-        0.19,
-        "机器学习工程能力需要基础、训练、数据和部署能力协同。",
-    )
-    add_edge("ability_ml_foundations", "cap_ml_engineering", "requires", 0.3, "机器学习基础是该能力的硬前置。")
-    add_edge("interest_ml", "cap_ml_engineering", "prefers", 0.18, "偏好机器学习会增强该方向。")
-    add_edge("constraint_dislike_math_theory", "cap_ml_engineering", "inhibits", 0.3, "不喜欢数学理论会抑制机器学习方向。")
-
-    link_many(
-        ["ability_devops_basics", "ability_cloud_native", "ability_system_design", "ability_engineering_collaboration"],
-        "cap_devops_engineering",
-        "supports",
-        0.2,
-        "DevOps 能力需要运维基础、云原生、系统设计和协作能力。",
-    )
-    link_many(["interest_devops", "interest_stable_delivery"], "cap_devops_engineering", "prefers", 0.14, "偏好运维平台和稳定交付会增强 DevOps 能力。")
-    add_edge("constraint_dislike_oncall", "cap_devops_engineering", "inhibits", 0.3, "抗拒值班会抑制 DevOps 能力。")
-
-    link_many(
-        ["ability_test_automation", "ability_programming_fundamentals", "ability_engineering_collaboration"],
-        "cap_qa_engineering",
-        "supports",
-        0.24,
-        "测试开发能力由测试自动化、编程基础和协作能力共同组成。",
-    )
-    add_edge("project_test_automation", "cap_qa_engineering", "evidences", 0.24, "测试自动化项目是测试开发能力的直接证据。")
-    add_edge("interest_stable_delivery", "cap_qa_engineering", "prefers", 0.16, "偏好稳定交付会增强测试开发方向。")
-
-    link_many(
-        ["ability_security_basics", "ability_network_analysis", "ability_programming_fundamentals"],
-        "cap_security_engineering",
-        "supports",
-        0.24,
-        "安全工程能力由安全基础、网络分析和编程能力共同组成。",
-    )
-    add_edge("project_security_ctf", "cap_security_engineering", "evidences", 0.26, "安全实战项目是安全方向的重要证据。")
-    add_edge("interest_security", "cap_security_engineering", "prefers", 0.18, "偏好安全会增强安全工程能力。")
-
-    link_many(
-        ["cap_backend_engineering", "cap_devops_engineering", "ability_cloud_native", "ability_system_design"],
-        "cap_platform_engineering",
-        "supports",
-        0.2,
-        "平台工程能力需要后端、运维、云原生和系统设计协同。",
-    )
-    add_edge("interest_stable_delivery", "cap_platform_engineering", "prefers", 0.16, "偏好稳定交付会增强平台工程方向。")
-
-    link_many(
-        ["cap_backend_engineering", "cap_python_backend_engineering", "cap_java_backend_engineering"],
-        "dir_web_backend",
-        "supports",
-        0.22,
-        "多种后端能力簇共同支撑 Web 后端方向。",
-    )
-    add_edge("cap_backend_engineering", "dir_web_backend", "requires", 0.3, "后端工程能力是 Web 后端方向的关键前置。")
-    add_edge("interest_backend", "dir_web_backend", "prefers", 0.16, "偏好后端会增强 Web 后端方向。")
-
-    add_edge("cap_frontend_engineering", "dir_frontend", "supports", 0.3, "前端工程能力直接支撑前端方向。")
-    add_edge("cap_frontend_engineering", "dir_frontend", "requires", 0.32, "前端工程能力是前端方向的关键前置。")
-    add_edge("interest_frontend", "dir_frontend", "prefers", 0.18, "偏好前端会增强前端方向。")
-    add_edge("constraint_dislike_ui_polish", "dir_frontend", "inhibits", 0.28, "不喜欢界面打磨会抑制前端方向。")
-
-    link_many(
-        ["cap_fullstack_engineering", "cap_backend_engineering", "cap_frontend_engineering"],
-        "dir_fullstack",
-        "supports",
-        0.22,
-        "全栈方向需要前后端能力共同支撑。",
-    )
-    add_edge("cap_fullstack_engineering", "dir_fullstack", "requires", 0.3, "全栈工程能力是全栈方向的关键前置。")
-
-    link_many(
-        ["cap_data_engineering", "cap_data_analysis"],
-        "dir_data",
-        "supports",
-        0.28,
-        "数据工程与数据分析共同支撑数据方向。",
-    )
-    add_edge("cap_data_engineering", "dir_data", "requires", 0.18, "数据工程能力是数据方向的重要前置。")
-    add_edge("interest_data", "dir_data", "prefers", 0.16, "偏好数据会增强数据方向。")
-
-    link_many(
-        ["cap_ml_engineering", "ability_ml_foundations", "ability_model_training"],
-        "dir_machine_learning",
-        "supports",
-        0.22,
-        "机器学习方向由工程能力、基础与训练能力共同支撑。",
-    )
-    add_edge("cap_ml_engineering", "dir_machine_learning", "requires", 0.32, "机器学习工程能力是机器学习方向的关键前置。")
-    add_edge("interest_ml", "dir_machine_learning", "prefers", 0.18, "偏好机器学习会增强该方向。")
-    add_edge("constraint_dislike_math_theory", "dir_machine_learning", "inhibits", 0.3, "不喜欢数学理论会抑制机器学习方向。")
-
-    link_many(
-        ["cap_devops_engineering", "cap_platform_engineering"],
-        "dir_devops",
-        "supports",
-        0.26,
-        "DevOps 与平台工程能力共同支撑运维平台方向。",
-    )
-    add_edge("cap_devops_engineering", "dir_devops", "requires", 0.3, "DevOps 工程能力是运维平台方向的关键前置。")
-    add_edge("interest_devops", "dir_devops", "prefers", 0.18, "偏好运维平台会增强该方向。")
-    add_edge("constraint_dislike_oncall", "dir_devops", "inhibits", 0.28, "抗拒值班会抑制运维平台方向。")
-
-    add_edge("cap_qa_engineering", "dir_quality_assurance", "supports", 0.3, "测试开发能力直接支撑测试开发方向。")
-    add_edge("cap_qa_engineering", "dir_quality_assurance", "requires", 0.3, "测试开发能力是测试开发方向的关键前置。")
-    add_edge("interest_stable_delivery", "dir_quality_assurance", "prefers", 0.18, "偏好稳定交付会增强测试开发方向。")
-
-    add_edge("cap_security_engineering", "dir_security", "supports", 0.3, "安全工程能力直接支撑安全方向。")
-    add_edge("cap_security_engineering", "dir_security", "requires", 0.32, "安全工程能力是安全方向的关键前置。")
-    add_edge("interest_security", "dir_security", "prefers", 0.18, "偏好安全会增强安全方向。")
-
-    link_many(
-        ["cap_platform_engineering", "cap_devops_engineering", "cap_backend_engineering"],
-        "dir_platform",
-        "supports",
-        0.22,
-        "平台工程方向需要平台、DevOps 与后端能力协同。",
-    )
-    add_edge("cap_platform_engineering", "dir_platform", "requires", 0.3, "平台工程能力是平台方向的关键前置。")
-    add_edge("interest_stable_delivery", "dir_platform", "prefers", 0.16, "偏好稳定交付会增强平台方向。")
-
-    link_many(["dir_web_backend", "cap_backend_engineering"], "role_backend_engineer", "supports", 0.26, "后端方向与后端工程能力共同支撑后端工程师岗位。")
-    add_edge("cap_backend_engineering", "role_backend_engineer", "requires", 0.32, "后端工程能力是后端工程师的关键前置。")
-    add_edge("interest_backend", "role_backend_engineer", "prefers", 0.16, "偏好后端会增强岗位匹配度。")
-
-    link_many(["dir_web_backend", "cap_python_backend_engineering"], "role_python_backend_engineer", "supports", 0.28, "Python 后端方向与能力共同支撑 Python 后端岗位。")
-    add_edge("cap_python_backend_engineering", "role_python_backend_engineer", "requires", 0.34, "Python 后端工程能力是该岗位的关键前置。")
-
-    link_many(["dir_web_backend", "cap_java_backend_engineering"], "role_java_backend_engineer", "supports", 0.28, "Java 后端方向与能力共同支撑 Java 后端岗位。")
-    add_edge("cap_java_backend_engineering", "role_java_backend_engineer", "requires", 0.34, "Java 后端工程能力是该岗位的关键前置。")
-
-    link_many(["dir_frontend", "cap_frontend_engineering"], "role_frontend_engineer", "supports", 0.28, "前端方向与前端工程能力共同支撑前端岗位。")
-    add_edge("cap_frontend_engineering", "role_frontend_engineer", "requires", 0.34, "前端工程能力是前端岗位的关键前置。")
-    add_edge("constraint_dislike_ui_polish", "role_frontend_engineer", "inhibits", 0.34, "不喜欢界面打磨会压低前端岗位。")
-
-    link_many(["dir_fullstack", "cap_fullstack_engineering"], "role_fullstack_engineer", "supports", 0.28, "全栈方向与全栈能力共同支撑全栈岗位。")
-    add_edge("cap_fullstack_engineering", "role_fullstack_engineer", "requires", 0.34, "全栈工程能力是全栈岗位的关键前置。")
-
-    link_many(["dir_data", "cap_data_engineering"], "role_data_engineer", "supports", 0.28, "数据方向与数据工程能力共同支撑数据工程师岗位。")
-    add_edge("cap_data_engineering", "role_data_engineer", "requires", 0.34, "数据工程能力是数据工程师的关键前置。")
-    add_edge("interest_data", "role_data_engineer", "prefers", 0.16, "偏好数据会增强岗位匹配度。")
-
-    link_many(["dir_data", "cap_data_analysis"], "role_data_analyst", "supports", 0.28, "数据方向与数据分析能力共同支撑数据分析师岗位。")
-    add_edge("cap_data_analysis", "role_data_analyst", "requires", 0.3, "数据分析能力是数据分析师的关键前置。")
-    add_edge("interest_visualization", "role_data_analyst", "prefers", 0.16, "偏好可视化会增强数据分析师匹配度。")
-
-    link_many(["dir_machine_learning", "cap_ml_engineering"], "role_ml_engineer", "supports", 0.28, "机器学习方向与工程能力共同支撑机器学习工程师岗位。")
-    add_edge("cap_ml_engineering", "role_ml_engineer", "requires", 0.36, "机器学习工程能力是机器学习岗位的关键前置。")
-    add_edge("constraint_dislike_math_theory", "role_ml_engineer", "inhibits", 0.34, "不喜欢数学理论会显著压低机器学习岗位。")
-
-    link_many(["dir_devops", "cap_devops_engineering"], "role_devops_engineer", "supports", 0.28, "运维平台方向与 DevOps 能力共同支撑 DevOps 岗位。")
-    add_edge("cap_devops_engineering", "role_devops_engineer", "requires", 0.34, "DevOps 工程能力是 DevOps 岗位的关键前置。")
-    add_edge("constraint_dislike_oncall", "role_devops_engineer", "inhibits", 0.34, "抗拒值班会显著压低 DevOps 岗位。")
-
-    link_many(["dir_quality_assurance", "cap_qa_engineering"], "role_test_development_engineer", "supports", 0.28, "测试开发方向与测试能力共同支撑测试开发岗位。")
-    add_edge("cap_qa_engineering", "role_test_development_engineer", "requires", 0.34, "测试开发能力是测试开发岗位的关键前置。")
-
-    link_many(["dir_security", "cap_security_engineering"], "role_security_engineer", "supports", 0.28, "安全方向与安全能力共同支撑安全岗位。")
-    add_edge("cap_security_engineering", "role_security_engineer", "requires", 0.34, "安全工程能力是安全岗位的关键前置。")
-
-    link_many(["dir_platform", "cap_platform_engineering"], "role_platform_engineer", "supports", 0.28, "平台方向与平台能力共同支撑平台工程岗位。")
-    add_edge("cap_platform_engineering", "role_platform_engineer", "requires", 0.34, "平台工程能力是平台工程岗位的关键前置。")
-    add_edge("interest_stable_delivery", "role_platform_engineer", "prefers", 0.16, "偏好稳定交付会增强平台工程岗位匹配度。")
-
-    preference_patterns = {
-        "strong_positive": ["精通", "熟练", "擅长", "扎实"],
-        "medium_positive": ["熟悉", "做过", "写过", "使用过", "实践过", "经验"],
-        "light_positive": ["会", "了解", "接触过", "用过"],
-        "weak_positive": ["一点", "入门", "略懂", "会一点"],
-        "negative": ["不擅长", "不太擅长", "薄弱", "不会", "不喜欢", "讨厌", "抗拒", "不想", "不想做", "不想写", "不愿", "没兴趣"],
-        "preference": ["喜欢", "更喜欢", "偏好", "倾向", "想做", "希望做"],
+def write_json(path: Path, payload: Any) -> None:
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def evidence(node_id: str, name: str, aliases: list[str], description: str, *, origin: str = "curated") -> dict[str, Any]:
+    return {
+        "id": node_id,
+        "name": name,
+        "aliases": aliases,
+        "description": description,
+        "origin": origin,
     }
 
-    sample_request = {
+
+def template_node(
+    node_id: str,
+    name: str,
+    *,
+    supports: list[str],
+    requires: list[str] | None = None,
+    prefers: list[str] | None = None,
+    evidences: list[str] | None = None,
+    inhibits: list[str] | None = None,
+    params: dict[str, Any] | None = None,
+    aggregator: str | None = None,
+    description: str | None = None,
+    aliases: list[str] | None = None,
+    weights: dict[str, float] | None = None,
+) -> dict[str, Any]:
+    payload: dict[str, Any] = {
+        "id": node_id,
+        "name": name,
+        "supports": supports,
+        "requires": requires or [],
+        "prefers": prefers or [],
+        "evidences": evidences or [],
+        "inhibits": inhibits or [],
+        "params": params or {"cap": 1.0},
+        "description": description or f"{name}。",
+    }
+    if aggregator:
+        payload["aggregator"] = aggregator
+    if aliases:
+        payload["aliases"] = aliases
+    if weights:
+        payload["weights"] = weights
+    return payload
+
+
+def standalone_role(
+    node_id: str,
+    name: str,
+    *,
+    direction_id: str,
+    capability_id: str,
+    prefers: list[str] | None = None,
+    inhibits: list[str] | None = None,
+    supports: list[str] | None = None,
+    requires: list[str] | None = None,
+    evidences: list[str] | None = None,
+    aliases: list[str] | None = None,
+    family: str,
+) -> dict[str, Any]:
+    return {
+        "id": node_id,
+        "name": name,
+        "direction_id": direction_id,
+        "capability_id": capability_id,
+        "supports": supports or [],
+        "requires": requires or [],
+        "prefers": prefers or [],
+        "evidences": evidences or [],
+        "inhibits": inhibits or [],
+        "aliases": aliases or [],
+        "family": family,
+        "description": f"{name}，最终推荐岗位节点。",
+        "params": {"cap": 1.0, "required_threshold": 0.025},
+    }
+
+
+def specialization(
+    slug: str,
+    role_name: str,
+    *,
+    family: str,
+    direction_id: str,
+    base_capability_id: str,
+    stack_name: str,
+    capability_name: str,
+    stack_supports: list[str],
+    stack_requires: list[str] | None = None,
+    stack_prefers: list[str] | None = None,
+    stack_evidences: list[str] | None = None,
+    stack_inhibits: list[str] | None = None,
+    capability_supports: list[str] | None = None,
+    capability_requires: list[str] | None = None,
+    capability_prefers: list[str] | None = None,
+    capability_evidences: list[str] | None = None,
+    capability_inhibits: list[str] | None = None,
+    role_supports: list[str] | None = None,
+    role_requires: list[str] | None = None,
+    role_prefers: list[str] | None = None,
+    role_evidences: list[str] | None = None,
+    role_inhibits: list[str] | None = None,
+    aliases: list[str] | None = None,
+) -> dict[str, Any]:
+    return {
+        "family": family,
+        "direction_id": direction_id,
+        "base_capability_id": base_capability_id,
+        "stack_ability_id": f"ability_{slug}_stack",
+        "stack_ability_name": stack_name,
+        "stack_supports": stack_supports,
+        "stack_requires": stack_requires or [],
+        "stack_prefers": stack_prefers or [],
+        "stack_evidences": stack_evidences or [],
+        "stack_inhibits": stack_inhibits or [],
+        "capability_id": f"cap_{slug}",
+        "capability_name": capability_name,
+        "capability_supports": capability_supports or [],
+        "capability_requires": capability_requires or [],
+        "capability_prefers": capability_prefers or [],
+        "capability_evidences": capability_evidences or [],
+        "capability_inhibits": capability_inhibits or [],
+        "role_id": f"role_{slug}",
+        "role_name": role_name,
+        "role_supports": role_supports or [],
+        "role_requires": role_requires or [],
+        "role_prefers": role_prefers or [],
+        "role_evidences": role_evidences or [],
+        "role_inhibits": role_inhibits or [],
+        "aliases": aliases or [],
+        "description": f"{role_name}，由细分技术栈能力生成的岗位节点。",
+    }
+
+
+def build_skills() -> dict[str, list[dict[str, Any]]]:
+    skills = [
+        evidence("skill_python", "Python", ["python", "py"], "Python 编程技能。"),
+        evidence("skill_java", "Java", ["java"], "Java 编程技能。"),
+        evidence("skill_cpp", "C++", ["c++", "cpp"], "C++ 编程技能。"),
+        evidence("skill_c", "C", ["c language", "c语言"], "C 语言编程技能。"),
+        evidence("skill_javascript", "JavaScript", ["javascript", "js"], "JavaScript 编程技能。"),
+        evidence("skill_typescript", "TypeScript", ["typescript", "ts"], "TypeScript 编程技能。"),
+        evidence("skill_golang", "Go", ["go", "golang"], "Go 编程技能。"),
+        evidence("skill_rust", "Rust", ["rust"], "Rust 编程技能。"),
+        evidence("skill_sql", "SQL", ["sql"], "SQL 查询与建模技能。"),
+        evidence("skill_bash", "Bash", ["bash", "shell", "shell script"], "Shell 与 Bash 脚本技能。"),
+        evidence("skill_kotlin", "Kotlin", ["kotlin"], "Kotlin 开发技能。"),
+        evidence("skill_swift", "Swift", ["swift"], "Swift 开发技能。"),
+        evidence("skill_csharp", "C#", ["c#", "csharp"], "C# 开发技能。"),
+        evidence("skill_php", "PHP", ["php"], "PHP 开发技能。"),
+        evidence("skill_dart", "Dart", ["dart"], "Dart 语言技能。"),
+        evidence("skill_scala", "Scala", ["scala"], "Scala 语言技能。"),
+    ]
+
+    tools = [
+        evidence("tool_flask", "Flask", ["flask"], "Flask 后端框架经验。"),
+        evidence("tool_django", "Django", ["django"], "Django 后端框架经验。"),
+        evidence("tool_fastapi", "FastAPI", ["fastapi"], "FastAPI 服务开发经验。"),
+        evidence("tool_spring_boot", "Spring Boot", ["spring", "spring boot"], "Spring Boot 服务开发经验。"),
+        evidence("tool_mybatis", "MyBatis", ["mybatis"], "Java ORM 与数据访问经验。"),
+        evidence("tool_nodejs", "Node.js", ["node", "nodejs", "node.js"], "Node.js 服务端运行时经验。"),
+        evidence("tool_express", "Express", ["express"], "Express 服务开发经验。"),
+        evidence("tool_nestjs", "NestJS", ["nestjs", "nest"], "NestJS 服务开发经验。"),
+        evidence("tool_gin", "Gin", ["gin"], "Gin Web 框架经验。"),
+        evidence("tool_echo", "Echo", ["echo framework", "echo"], "Echo Web 框架经验。"),
+        evidence("tool_laravel", "Laravel", ["laravel"], "Laravel 服务开发经验。"),
+        evidence("tool_dotnet", ".NET", [".net", "dotnet"], ".NET 服务开发经验。"),
+        evidence("tool_react", "React", ["react"], "React 前端框架经验。"),
+        evidence("tool_vue", "Vue", ["vue", "vue.js"], "Vue 前端框架经验。"),
+        evidence("tool_nextjs", "Next.js", ["nextjs", "next.js"], "Next.js 全栈框架经验。"),
+        evidence("tool_android_studio", "Android Studio", ["android studio"], "Android Studio 开发工具经验。"),
+        evidence("tool_xcode", "Xcode", ["xcode"], "Xcode 开发工具经验。"),
+        evidence("tool_flutter", "Flutter", ["flutter"], "Flutter 跨端开发经验。"),
+        evidence("tool_linux", "Linux", ["linux"], "Linux 使用与运维经验。"),
+        evidence("tool_docker", "Docker", ["docker"], "Docker 容器化经验。"),
+        evidence("tool_kubernetes", "Kubernetes", ["k8s", "kubernetes"], "Kubernetes 编排经验。"),
+        evidence("tool_git", "Git", ["git"], "Git 版本控制经验。"),
+        evidence("tool_github_actions", "GitHub Actions", ["github actions", "gha"], "GitHub Actions 流水线经验。"),
+        evidence("tool_jenkins", "Jenkins", ["jenkins"], "Jenkins 流水线经验。"),
+        evidence("tool_terraform", "Terraform", ["terraform"], "Terraform IaC 经验。"),
+        evidence("tool_nginx", "Nginx", ["nginx"], "Nginx 网关与代理经验。"),
+        evidence("tool_mysql", "MySQL", ["mysql"], "MySQL 数据库经验。"),
+        evidence("tool_postgresql", "PostgreSQL", ["postgresql", "postgres"], "PostgreSQL 数据库经验。"),
+        evidence("tool_redis", "Redis", ["redis"], "Redis 缓存经验。"),
+        evidence("tool_mongodb", "MongoDB", ["mongodb", "mongo"], "MongoDB 文档数据库经验。"),
+        evidence("tool_elasticsearch", "Elasticsearch", ["elasticsearch", "es"], "Elasticsearch 搜索与检索经验。"),
+        evidence("tool_clickhouse", "ClickHouse", ["clickhouse"], "ClickHouse OLAP 引擎经验。"),
+        evidence("tool_hive", "Hive", ["hive"], "Hive 数据仓库经验。"),
+        evidence("tool_snowflake", "Snowflake", ["snowflake"], "Snowflake 数仓平台经验。"),
+        evidence("tool_pandas", "Pandas", ["pandas"], "Pandas 数据处理经验。"),
+        evidence("tool_numpy", "NumPy", ["numpy"], "NumPy 科学计算经验。"),
+        evidence("tool_spark", "Spark", ["spark", "apache spark"], "Spark 批处理经验。"),
+        evidence("tool_hadoop", "Hadoop", ["hadoop"], "Hadoop 生态经验。"),
+        evidence("tool_flink", "Flink", ["flink", "apache flink"], "Flink 实时计算经验。"),
+        evidence("tool_kafka", "Kafka", ["kafka"], "Kafka 消息流经验。"),
+        evidence("tool_airflow", "Airflow", ["airflow"], "Airflow 调度经验。"),
+        evidence("tool_dbt", "dbt", ["dbt"], "dbt 数仓建模经验。"),
+        evidence("tool_superset", "Superset", ["superset"], "Superset 数据可视化经验。"),
+        evidence("tool_pytorch", "PyTorch", ["pytorch", "torch"], "PyTorch 模型开发经验。"),
+        evidence("tool_tensorflow", "TensorFlow", ["tensorflow", "tf"], "TensorFlow 模型开发经验。"),
+        evidence("tool_scikit_learn", "Scikit-learn", ["sklearn", "scikit-learn"], "Scikit-learn 建模经验。"),
+        evidence("tool_opencv", "OpenCV", ["opencv"], "OpenCV 视觉处理经验。"),
+        evidence("tool_mlflow", "MLflow", ["mlflow"], "MLflow 模型实验与追踪经验。"),
+        evidence("tool_ray", "Ray", ["ray"], "Ray 分布式训练经验。"),
+        evidence("tool_selenium", "Selenium", ["selenium"], "Selenium 自动化测试经验。"),
+        evidence("tool_pytest", "Pytest", ["pytest"], "Pytest 自动化测试经验。"),
+        evidence("tool_jmeter", "JMeter", ["jmeter"], "JMeter 性能测试经验。"),
+        evidence("tool_prometheus", "Prometheus", ["prometheus"], "Prometheus 指标监控经验。"),
+        evidence("tool_grafana", "Grafana", ["grafana"], "Grafana 仪表盘经验。"),
+        evidence("tool_wireshark", "Wireshark", ["wireshark"], "Wireshark 抓包分析经验。"),
+        evidence("tool_nmap", "Nmap", ["nmap"], "Nmap 扫描经验。"),
+        evidence("tool_burp_suite", "Burp Suite", ["burp", "burp suite"], "Burp Suite 应用安全测试经验。"),
+        evidence("tool_aws", "AWS", ["aws"], "AWS 云平台经验。"),
+        evidence("tool_aliyun", "阿里云", ["aliyun", "阿里云"], "阿里云平台经验。"),
+        evidence("tool_gcp", "GCP", ["gcp", "google cloud"], "Google Cloud 平台经验。"),
+        evidence("tool_azure", "Azure", ["azure"], "Azure 云平台经验。"),
+    ]
+
+    knowledge = [
+        evidence("knowledge_data_structures", "数据结构", ["data structures", "数据结构"], "数据结构理论基础。"),
+        evidence("knowledge_algorithms", "算法", ["algorithms", "算法"], "算法设计与复杂度基础。"),
+        evidence("knowledge_oop", "面向对象", ["oop", "面向对象"], "面向对象设计基础。"),
+        evidence("knowledge_database_theory", "数据库原理", ["database theory", "数据库原理"], "数据库原理基础。"),
+        evidence("knowledge_operating_systems", "操作系统", ["os", "操作系统"], "操作系统基础。"),
+        evidence("knowledge_networks", "计算机网络", ["networking", "computer networks", "计算机网络"], "计算机网络基础。"),
+        evidence("knowledge_statistics", "统计基础", ["statistics", "统计学"], "统计学基础。"),
+        evidence("knowledge_linear_algebra", "线性代数", ["linear algebra", "线性代数"], "线性代数基础。"),
+        evidence("knowledge_probability", "概率论", ["probability", "概率论"], "概率论基础。"),
+        evidence("knowledge_system_design", "系统设计", ["system design", "架构设计", "系统设计"], "系统设计基础。"),
+        evidence("knowledge_math_foundation", "数学基础", ["math", "数学", "数学基础"], "数学基础。"),
+        evidence("knowledge_distributed_systems", "分布式系统", ["distributed systems", "分布式"], "分布式系统基础。"),
+        evidence("knowledge_microservice_architecture", "微服务架构", ["microservice architecture", "微服务架构"], "微服务架构设计知识。"),
+        evidence("knowledge_data_warehouse_modeling", "数仓建模", ["data warehouse modeling", "数仓建模"], "数仓建模知识。"),
+        evidence("knowledge_etl_modeling", "ETL 建模", ["etl", "etl modeling"], "ETL 建模与调度知识。"),
+        evidence("knowledge_experimentation", "实验设计", ["experimentation", "ab test", "实验设计"], "实验设计与评估知识。"),
+        evidence("knowledge_cryptography", "密码学基础", ["cryptography", "密码学"], "密码学基础知识。"),
+        evidence("knowledge_secure_coding", "安全编码", ["secure coding", "安全编码"], "安全编码知识。"),
+        evidence("knowledge_ui_ux_basics", "界面交互基础", ["ui ux", "交互设计", "界面交互"], "界面交互基础知识。"),
+        evidence("knowledge_mobile_architecture", "移动端架构", ["mobile architecture", "移动端架构"], "移动端架构知识。"),
+        evidence("knowledge_embedded_protocols", "嵌入式通信协议", ["embedded protocols", "串口协议", "modbus", "can"], "嵌入式通信协议基础。"),
+        evidence("knowledge_hardware_debugging", "硬件调试", ["hardware debugging", "硬件调试"], "硬件调试基础知识。"),
+    ]
+
+    projects = [
+        evidence("project_backend_api", "后端接口项目", ["backend api", "后端接口", "api项目"], "后端接口项目经验。"),
+        evidence("project_microservice", "微服务项目", ["microservice", "微服务"], "微服务项目经验。"),
+        evidence("project_low_latency_service", "低延迟服务项目", ["low latency service", "低延迟服务"], "低延迟服务项目经验。"),
+        evidence("project_api_gateway", "网关治理项目", ["api gateway", "网关项目"], "网关与服务治理项目经验。"),
+        evidence("project_web_ui", "Web 前端项目", ["web ui", "前端项目", "网页项目"], "Web 前端项目经验。"),
+        evidence("project_component_library", "组件库项目", ["component library", "组件库"], "组件库与设计系统项目经验。"),
+        evidence("project_mobile_app", "移动应用项目", ["mobile app", "移动端项目", "app项目"], "移动应用项目经验。"),
+        evidence("project_cross_platform_app", "跨端应用项目", ["cross platform app", "跨端项目"], "跨端应用项目经验。"),
+        evidence("project_data_pipeline", "数据管道项目", ["data pipeline", "数据管道"], "数据管道项目经验。"),
+        evidence("project_real_time_pipeline", "实时数据链路项目", ["real time pipeline", "实时链路"], "实时链路项目经验。"),
+        evidence("project_dashboard", "分析看板项目", ["dashboard", "数据看板", "可视化项目"], "分析看板项目经验。"),
+        evidence("project_ab_testing", "实验平台项目", ["ab testing", "a/b test", "实验平台"], "实验平台项目经验。"),
+        evidence("project_model_training", "模型训练项目", ["model training", "模型训练"], "模型训练项目经验。"),
+        evidence("project_ml_deployment", "模型部署项目", ["ml deployment", "模型部署"], "模型部署项目经验。"),
+        evidence("project_recommendation_system", "推荐系统项目", ["recommendation system", "推荐系统"], "推荐系统项目经验。"),
+        evidence("project_test_automation", "测试自动化项目", ["test automation", "测试自动化"], "测试自动化项目经验。"),
+        evidence("project_performance_testing", "性能压测项目", ["performance testing", "性能压测"], "性能压测项目经验。"),
+        evidence("project_devops_automation", "运维自动化项目", ["devops automation", "运维自动化"], "运维自动化项目经验。"),
+        evidence("project_ci_cd_platform", "CI/CD 平台项目", ["ci cd platform", "流水线平台"], "CI/CD 平台项目经验。"),
+        evidence("project_security_ctf", "安全实战项目", ["ctf", "渗透", "安全项目"], "安全实战项目经验。"),
+        evidence("project_blue_team_monitoring", "安全监测项目", ["blue team monitoring", "安全监测"], "安全监测与告警项目经验。"),
+        evidence("project_app_hardening", "应用加固项目", ["app hardening", "应用加固"], "应用加固项目经验。"),
+        evidence("project_platform_portal", "内部平台门户项目", ["platform portal", "内部平台"], "平台门户项目经验。"),
+        evidence("project_observability_platform", "可观测平台项目", ["observability platform", "可观测平台"], "可观测平台项目经验。"),
+        evidence("project_iot_gateway", "IoT 网关项目", ["iot gateway", "iot网关"], "IoT 网关项目经验。"),
+        evidence("project_firmware_delivery", "固件交付项目", ["firmware delivery", "固件项目"], "固件交付项目经验。"),
+        evidence("project_data_warehouse", "数据仓库项目", ["data warehouse", "数仓项目"], "数据仓库项目经验。"),
+    ]
+
+    interests = [
+        evidence("interest_backend", "偏好后端", ["后端", "backend", "后端接口", "服务端"], "后端方向偏好。"),
+        evidence("interest_frontend", "偏好前端", ["前端", "frontend", "界面"], "前端方向偏好。"),
+        evidence("interest_data", "偏好数据", ["数据方向", "数据工程", "数据分析", "data"], "数据方向偏好。"),
+        evidence("interest_ml", "偏好机器学习", ["机器学习", "ml", "ai", "算法方向"], "机器学习方向偏好。"),
+        evidence("interest_devops", "偏好运维平台", ["运维", "devops", "平台工程"], "DevOps 与平台方向偏好。"),
+        evidence("interest_security", "偏好安全", ["安全", "security"], "安全方向偏好。"),
+        evidence("interest_stable_delivery", "偏好稳定交付", ["稳定交付", "质量保障", "可靠性"], "稳定交付偏好。"),
+        evidence("interest_visualization", "偏好可视化表达", ["可视化", "图表", "dashboard"], "可视化表达偏好。"),
+        evidence("interest_mobile", "偏好移动端", ["移动端", "mobile", "app开发"], "移动端方向偏好。"),
+        evidence("interest_client_experience", "偏好客户端体验", ["客户端体验", "交互体验", "用户体验"], "客户端体验偏好。"),
+        evidence("interest_infra_automation", "偏好基础设施自动化", ["基础设施自动化", "infra automation"], "基础设施自动化偏好。"),
+        evidence("interest_research", "偏好研究探索", ["研究", "research", "探索"], "研究探索偏好。"),
+        evidence("interest_low_level_systems", "偏好底层系统", ["底层系统", "系统编程", "low level"], "底层系统偏好。"),
+        evidence("interest_product_delivery", "偏好产品落地", ["产品落地", "业务落地", "交付"], "产品落地偏好。"),
+        evidence("interest_reliability", "偏好可靠性工程", ["可靠性", "reliability", "sre"], "可靠性方向偏好。"),
+    ]
+
+    soft_skills = [
+        evidence("soft_communication", "沟通表达", ["communication", "沟通"], "沟通表达能力。"),
+        evidence("soft_teamwork", "团队协作", ["teamwork", "协作"], "团队协作能力。"),
+        evidence("soft_self_learning", "自主学习", ["自学", "self learning", "自驱"], "自主学习能力。"),
+        evidence("soft_documentation", "文档习惯", ["documentation", "文档"], "文档习惯。"),
+        evidence("soft_ownership", "责任心", ["ownership", "责任心"], "对系统结果负责的意识。"),
+        evidence("soft_problem_solving", "问题拆解", ["problem solving", "问题拆解"], "问题拆解能力。"),
+        evidence("soft_business_understanding", "业务理解", ["business understanding", "业务理解"], "业务理解能力。"),
+        evidence("soft_mentoring", "知识分享", ["mentoring", "知识分享"], "知识分享与带教能力。"),
+    ]
+
+    constraints = [
+        evidence("constraint_dislike_math_theory", "不喜欢高数学理论", ["不喜欢数学", "数学薄弱", "怕数学", "不太擅长数学"], "数学理论短板。"),
+        evidence("constraint_dislike_oncall", "不喜欢值班运维", ["不想值班", "不喜欢运维值班", "抗拒 oncall", "不喜欢 oncall"], "抗拒 on-call 值班。"),
+        evidence("constraint_dislike_ui_polish", "不喜欢界面打磨", ["不喜欢前端细节", "不喜欢界面", "不喜欢 ui", "不爱做样式"], "不偏好界面细节打磨。"),
+        evidence("constraint_dislike_manual_testing", "不喜欢重复性测试", ["不喜欢重复测试", "抗拒手工测试"], "不偏好重复性测试工作。"),
+        evidence("constraint_dislike_research_uncertainty", "不喜欢高不确定性研究", ["不喜欢研究探索", "抗拒高不确定性"], "不偏好高不确定性研究工作。"),
+        evidence("constraint_dislike_low_level_debugging", "不喜欢底层调试", ["不喜欢底层调试", "抗拒驱动调试"], "不偏好底层调试。"),
+        evidence("constraint_dislike_customer_communication", "不喜欢高频业务沟通", ["不喜欢频繁沟通", "抗拒业务沟通"], "不偏好高频业务沟通。"),
+    ]
+
+    return {
+        "skill": skills,
+        "tool": tools,
+        "knowledge": knowledge,
+        "project": projects,
+        "interest": interests,
+        "soft_skill": soft_skills,
+        "constraint": constraints,
+    }
+
+
+def build_capability_templates() -> dict[str, list[dict[str, Any]]]:
+    abilities = [
+        template_node(
+            "ability_programming_fundamentals",
+            "编程基础",
+            supports=[
+                "skill_python",
+                "skill_java",
+                "skill_cpp",
+                "skill_c",
+                "skill_javascript",
+                "skill_typescript",
+                "skill_golang",
+                "skill_rust",
+                "skill_csharp",
+                "skill_kotlin",
+                "skill_swift",
+                "skill_php",
+                "skill_bash",
+                "tool_git",
+                "knowledge_oop",
+            ],
+            requires=["knowledge_data_structures", "knowledge_algorithms"],
+            params={"cap": 1.0},
+            description="通用编程基础能力。",
+        ),
+        template_node(
+            "ability_database_practice",
+            "数据库实践",
+            supports=[
+                "skill_sql",
+                "tool_mysql",
+                "tool_postgresql",
+                "tool_mongodb",
+                "tool_redis",
+                "tool_clickhouse",
+                "tool_elasticsearch",
+            ],
+            requires=["knowledge_database_theory"],
+            params={"cap": 1.0},
+            description="数据库设计、查询与缓存实践能力。",
+        ),
+        template_node(
+            "ability_backend_basics",
+            "后端基础",
+            supports=[
+                "tool_flask",
+                "tool_django",
+                "tool_fastapi",
+                "tool_spring_boot",
+                "tool_nodejs",
+                "tool_express",
+                "tool_nestjs",
+                "project_backend_api",
+                "project_microservice",
+            ],
+            requires=["ability_programming_fundamentals", "ability_database_practice"],
+            params={"cap": 1.0, "required_threshold": 0.12, "required_floor": 0.55},
+            description="服务端开发的基础能力。",
+        ),
+        template_node(
+            "ability_api_design",
+            "接口设计能力",
+            supports=["project_backend_api", "project_api_gateway", "tool_nginx", "knowledge_microservice_architecture"],
+            requires=["ability_backend_basics"],
+            params={"cap": 1.0},
+            description="面向服务接口与网关的设计能力。",
+        ),
+        template_node(
+            "ability_service_governance",
+            "服务治理能力",
+            supports=["tool_kafka", "tool_redis", "tool_nginx", "project_microservice", "project_api_gateway"],
+            requires=["ability_backend_basics", "knowledge_distributed_systems"],
+            params={"cap": 1.0},
+            description="服务拆分、网关治理与中间件协同能力。",
+        ),
+        template_node(
+            "ability_python_backend_stack",
+            "Python 后端栈",
+            supports=["skill_python", "tool_flask", "tool_django", "tool_fastapi", "tool_redis"],
+            requires=["ability_backend_basics"],
+            params={"cap": 1.0},
+            description="Python 服务开发技术栈能力。",
+        ),
+        template_node(
+            "ability_java_backend_stack",
+            "Java 后端栈",
+            supports=["skill_java", "tool_spring_boot", "tool_mybatis", "tool_mysql", "tool_redis"],
+            requires=["ability_backend_basics"],
+            params={"cap": 1.0},
+            description="Java 服务开发技术栈能力。",
+        ),
+        template_node(
+            "ability_go_backend_stack",
+            "Go 后端栈",
+            supports=["skill_golang", "tool_gin", "tool_echo", "tool_kafka", "tool_redis"],
+            requires=["ability_backend_basics"],
+            params={"cap": 1.0},
+            description="Go 服务开发技术栈能力。",
+        ),
+        template_node(
+            "ability_node_backend_stack",
+            "Node 后端栈",
+            supports=["skill_javascript", "skill_typescript", "tool_nodejs", "tool_express", "tool_nestjs"],
+            requires=["ability_backend_basics"],
+            params={"cap": 1.0},
+            description="Node.js 服务开发技术栈能力。",
+        ),
+        template_node(
+            "ability_php_backend_stack",
+            "PHP 后端栈",
+            supports=["skill_php", "tool_laravel", "tool_mysql", "tool_redis"],
+            requires=["ability_backend_basics"],
+            params={"cap": 1.0},
+            description="PHP 服务开发技术栈能力。",
+        ),
+        template_node(
+            "ability_system_programming",
+            "系统编程基础",
+            supports=["skill_cpp", "skill_c", "skill_rust", "tool_linux", "project_low_latency_service"],
+            requires=["knowledge_operating_systems", "ability_programming_fundamentals"],
+            params={"cap": 1.0},
+            description="面向系统级开发与性能优化的基础能力。",
+        ),
+        template_node(
+            "ability_frontend_basics",
+            "前端基础",
+            supports=["skill_javascript", "skill_typescript", "tool_react", "tool_vue", "tool_nextjs", "project_web_ui"],
+            requires=["ability_programming_fundamentals", "knowledge_ui_ux_basics"],
+            params={"cap": 1.0},
+            description="Web 前端基础能力。",
+        ),
+        template_node(
+            "ability_react_frontend_stack",
+            "React 前端栈",
+            supports=["tool_react", "tool_nextjs", "project_web_ui", "project_component_library"],
+            requires=["ability_frontend_basics"],
+            params={"cap": 1.0},
+            description="React 生态交付能力。",
+        ),
+        template_node(
+            "ability_vue_frontend_stack",
+            "Vue 前端栈",
+            supports=["tool_vue", "project_web_ui", "project_component_library"],
+            requires=["ability_frontend_basics"],
+            params={"cap": 1.0},
+            description="Vue 生态交付能力。",
+        ),
+        template_node(
+            "ability_ui_delivery",
+            "界面交付能力",
+            supports=["project_web_ui", "project_component_library", "interest_visualization", "soft_documentation", "interest_client_experience"],
+            inhibits=["constraint_dislike_ui_polish"],
+            aggregator="max_pool",
+            params={"cap": 1.0},
+            description="面向界面体验与设计细节的交付能力。",
+        ),
+        template_node(
+            "ability_data_processing",
+            "数据处理能力",
+            supports=["skill_python", "skill_sql", "tool_pandas", "tool_numpy", "tool_spark", "tool_hadoop", "project_data_pipeline"],
+            requires=["ability_programming_fundamentals"],
+            params={"cap": 1.0},
+            description="离线数据处理与脚本化处理能力。",
+        ),
+        template_node(
+            "ability_data_modeling",
+            "数据建模能力",
+            supports=["skill_sql", "knowledge_database_theory", "knowledge_statistics", "project_dashboard", "knowledge_data_warehouse_modeling"],
+            requires=["ability_database_practice"],
+            params={"cap": 1.0},
+            description="面向指标、维度与模型设计的数据建模能力。",
+        ),
+        template_node(
+            "ability_batch_compute",
+            "批处理能力",
+            supports=["tool_spark", "tool_hadoop", "tool_airflow", "project_data_pipeline", "project_data_warehouse"],
+            requires=["ability_data_processing", "knowledge_etl_modeling"],
+            params={"cap": 1.0},
+            description="批处理与调度能力。",
+        ),
+        template_node(
+            "ability_realtime_compute",
+            "实时计算能力",
+            supports=["tool_flink", "tool_kafka", "project_real_time_pipeline", "project_low_latency_service"],
+            requires=["ability_data_processing", "knowledge_distributed_systems"],
+            params={"cap": 1.0},
+            description="实时链路与流处理能力。",
+        ),
+        template_node(
+            "ability_data_warehouse",
+            "数仓建设能力",
+            supports=["tool_hive", "tool_snowflake", "tool_dbt", "project_data_warehouse", "knowledge_data_warehouse_modeling"],
+            requires=["ability_data_modeling", "ability_batch_compute"],
+            params={"cap": 1.0},
+            description="数仓建设与建模能力。",
+        ),
+        template_node(
+            "ability_analytics_storytelling",
+            "分析表达能力",
+            supports=["tool_superset", "project_dashboard", "knowledge_experimentation", "interest_visualization", "soft_communication"],
+            requires=["ability_data_modeling"],
+            params={"cap": 1.0},
+            description="将数据结论转化为可沟通结果的能力。",
+        ),
+        template_node(
+            "ability_ml_foundations",
+            "机器学习基础",
+            supports=[
+                "skill_python",
+                "tool_numpy",
+                "tool_scikit_learn",
+                "knowledge_statistics",
+                "knowledge_linear_algebra",
+                "knowledge_probability",
+                "knowledge_algorithms",
+            ],
+            requires=["knowledge_math_foundation"],
+            inhibits=["constraint_dislike_math_theory"],
+            params={"cap": 1.0, "required_threshold": 0.14, "required_floor": 0.35},
+            description="机器学习理论与基础建模能力。",
+        ),
+        template_node(
+            "ability_model_training",
+            "模型训练能力",
+            supports=["tool_pytorch", "tool_tensorflow", "project_model_training", "project_ml_deployment", "tool_ray"],
+            requires=["ability_ml_foundations"],
+            params={"cap": 1.0},
+            description="模型训练与实验调优能力。",
+        ),
+        template_node(
+            "ability_feature_engineering",
+            "特征工程能力",
+            supports=["tool_pandas", "tool_numpy", "project_recommendation_system", "project_data_pipeline"],
+            requires=["ability_data_processing", "ability_ml_foundations"],
+            params={"cap": 1.0},
+            description="特征构造与样本处理能力。",
+        ),
+        template_node(
+            "ability_mlops_basics",
+            "MLOps 基础",
+            supports=["tool_mlflow", "tool_docker", "tool_kubernetes", "project_ml_deployment", "project_ci_cd_platform"],
+            requires=["ability_model_training", "ability_cloud_native"],
+            params={"cap": 1.0},
+            description="模型部署、实验管理与持续交付能力。",
+        ),
+        template_node(
+            "ability_devops_basics",
+            "运维开发基础",
+            supports=["tool_linux", "skill_bash", "tool_docker", "tool_git", "project_devops_automation", "tool_aws", "tool_aliyun"],
+            inhibits=["constraint_dislike_oncall"],
+            params={"cap": 1.0},
+            description="运维开发与自动化基础能力。",
+        ),
+        template_node(
+            "ability_cloud_native",
+            "云原生基础",
+            supports=["tool_docker", "tool_kubernetes", "tool_aws", "tool_aliyun", "tool_gcp", "tool_azure", "tool_terraform"],
+            requires=["ability_devops_basics"],
+            params={"cap": 1.0},
+            description="容器化、编排与云平台能力。",
+        ),
+        template_node(
+            "ability_observability_engineering",
+            "可观测性能力",
+            supports=["tool_prometheus", "tool_grafana", "project_observability_platform", "project_ci_cd_platform"],
+            requires=["ability_cloud_native", "ability_engineering_collaboration"],
+            params={"cap": 1.0},
+            description="监控、日志和指标体系建设能力。",
+        ),
+        template_node(
+            "ability_sre_basics",
+            "可靠性工程基础",
+            supports=["interest_reliability", "project_observability_platform", "project_devops_automation", "soft_ownership"],
+            requires=["ability_devops_basics", "ability_system_design"],
+            inhibits=["constraint_dislike_oncall"],
+            params={"cap": 1.0},
+            description="可靠性工程与故障恢复基础能力。",
+        ),
+        template_node(
+            "ability_test_automation",
+            "测试自动化能力",
+            supports=["tool_selenium", "tool_pytest", "project_test_automation", "skill_python", "skill_javascript"],
+            requires=["ability_programming_fundamentals"],
+            params={"cap": 1.0},
+            description="自动化测试脚本与平台能力。",
+        ),
+        template_node(
+            "ability_performance_engineering",
+            "性能工程能力",
+            supports=["tool_jmeter", "project_performance_testing", "project_low_latency_service", "knowledge_operating_systems"],
+            requires=["ability_test_automation", "ability_system_programming"],
+            params={"cap": 1.0},
+            description="性能压测与性能调优能力。",
+        ),
+        template_node(
+            "ability_security_basics",
+            "安全分析基础",
+            supports=["tool_linux", "knowledge_networks", "tool_wireshark", "tool_nmap", "tool_burp_suite", "project_security_ctf"],
+            requires=["ability_programming_fundamentals"],
+            params={"cap": 1.0},
+            description="安全分析与攻防基础能力。",
+        ),
+        template_node(
+            "ability_application_security",
+            "应用安全能力",
+            supports=["knowledge_secure_coding", "tool_burp_suite", "project_app_hardening", "project_backend_api"],
+            requires=["ability_security_basics", "ability_backend_basics"],
+            params={"cap": 1.0},
+            description="面向业务应用的安全能力。",
+        ),
+        template_node(
+            "ability_security_operations",
+            "安全运营能力",
+            supports=["project_blue_team_monitoring", "tool_prometheus", "tool_grafana", "project_security_ctf"],
+            requires=["ability_security_basics", "ability_observability_engineering"],
+            params={"cap": 1.0},
+            description="告警、联动与监测响应能力。",
+        ),
+        template_node(
+            "ability_network_analysis",
+            "网络分析能力",
+            supports=["knowledge_networks", "tool_wireshark", "tool_nmap", "tool_linux"],
+            requires=["ability_security_basics"],
+            params={"cap": 1.0},
+            description="网络侧分析与协议理解能力。",
+        ),
+        template_node(
+            "ability_system_design",
+            "系统设计能力",
+            supports=[
+                "knowledge_system_design",
+                "knowledge_operating_systems",
+                "knowledge_networks",
+                "knowledge_distributed_systems",
+                "tool_redis",
+                "tool_kafka",
+                "project_microservice",
+            ],
+            requires=["ability_backend_basics"],
+            params={"cap": 1.0},
+            description="系统设计与架构抽象能力。",
+        ),
+        template_node(
+            "ability_engineering_collaboration",
+            "工程协作能力",
+            supports=["soft_communication", "soft_teamwork", "soft_self_learning", "soft_documentation", "tool_git"],
+            evidences=[
+                "project_backend_api",
+                "project_web_ui",
+                "project_data_pipeline",
+                "project_test_automation",
+                "project_devops_automation",
+                "project_mobile_app",
+            ],
+            params={"cap": 1.0},
+            description="跨团队协作与工程交付能力。",
+        ),
+        template_node(
+            "ability_mobile_foundations",
+            "移动端基础",
+            supports=["skill_kotlin", "skill_swift", "project_mobile_app", "knowledge_mobile_architecture"],
+            requires=["ability_programming_fundamentals"],
+            params={"cap": 1.0},
+            description="移动端开发基础能力。",
+        ),
+        template_node(
+            "ability_android_stack",
+            "Android 技术栈",
+            supports=["skill_kotlin", "tool_android_studio", "project_mobile_app"],
+            requires=["ability_mobile_foundations"],
+            params={"cap": 1.0},
+            description="Android 开发技术栈能力。",
+        ),
+        template_node(
+            "ability_ios_stack",
+            "iOS 技术栈",
+            supports=["skill_swift", "tool_xcode", "project_mobile_app"],
+            requires=["ability_mobile_foundations"],
+            params={"cap": 1.0},
+            description="iOS 开发技术栈能力。",
+        ),
+        template_node(
+            "ability_cross_platform_delivery",
+            "跨端交付能力",
+            supports=["skill_dart", "tool_flutter", "project_cross_platform_app"],
+            requires=["ability_mobile_foundations"],
+            params={"cap": 1.0},
+            description="跨端应用交付能力。",
+        ),
+        template_node(
+            "ability_embedded_development",
+            "嵌入式开发能力",
+            supports=["skill_c", "skill_cpp", "project_iot_gateway", "knowledge_embedded_protocols"],
+            requires=["ability_programming_fundamentals", "interest_low_level_systems"],
+            params={"cap": 1.0},
+            description="嵌入式侧开发与协议适配能力。",
+        ),
+        template_node(
+            "ability_firmware_integration",
+            "固件集成能力",
+            supports=["project_firmware_delivery", "knowledge_hardware_debugging", "knowledge_embedded_protocols", "tool_linux"],
+            requires=["ability_embedded_development"],
+            params={"cap": 1.0},
+            description="固件集成与联调能力。",
+        ),
+        template_node(
+            "ability_low_level_engineering",
+            "底层工程能力",
+            supports=["skill_c", "skill_cpp", "skill_rust", "knowledge_operating_systems", "project_low_latency_service"],
+            requires=["ability_system_programming"],
+            inhibits=["constraint_dislike_low_level_debugging"],
+            params={"cap": 1.0},
+            description="面向性能与底层系统的工程能力。",
+        ),
+        template_node(
+            "ability_product_delivery",
+            "产品落地能力",
+            supports=["soft_business_understanding", "interest_product_delivery", "project_platform_portal", "project_dashboard"],
+            requires=["ability_engineering_collaboration"],
+            inhibits=["constraint_dislike_customer_communication"],
+            params={"cap": 1.0},
+            description="理解业务并完成产品落地的能力。",
+        ),
+    ]
+
+    composites = [
+        template_node(
+            "cap_backend_engineering",
+            "后端工程能力",
+            supports=[
+                "ability_backend_basics",
+                "ability_database_practice",
+                "ability_api_design",
+                "ability_service_governance",
+                "ability_system_design",
+                "ability_engineering_collaboration",
+            ],
+            evidences=["project_backend_api"],
+            prefers=["interest_backend"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="通用后端工程能力。",
+        ),
+        template_node(
+            "cap_python_backend_engineering",
+            "Python 后端工程能力",
+            supports=["ability_python_backend_stack", "cap_backend_engineering"],
+            requires=["ability_python_backend_stack"],
+            params={"min_support_count": 2, "required_threshold": 0.06},
+            aggregator="soft_and",
+            description="Python 服务开发工程能力。",
+        ),
+        template_node(
+            "cap_java_backend_engineering",
+            "Java 后端工程能力",
+            supports=["ability_java_backend_stack", "cap_backend_engineering"],
+            requires=["ability_java_backend_stack"],
+            params={"min_support_count": 2, "required_threshold": 0.06},
+            aggregator="soft_and",
+            description="Java 服务开发工程能力。",
+        ),
+        template_node(
+            "cap_go_backend_engineering",
+            "Go 后端工程能力",
+            supports=["ability_go_backend_stack", "cap_backend_engineering"],
+            requires=["ability_go_backend_stack"],
+            params={"min_support_count": 2, "required_threshold": 0.06},
+            aggregator="soft_and",
+            description="Go 服务开发工程能力。",
+        ),
+        template_node(
+            "cap_node_backend_engineering",
+            "Node 后端工程能力",
+            supports=["ability_node_backend_stack", "cap_backend_engineering"],
+            requires=["ability_node_backend_stack"],
+            params={"min_support_count": 2, "required_threshold": 0.06},
+            aggregator="soft_and",
+            description="Node 服务开发工程能力。",
+        ),
+        template_node(
+            "cap_php_backend_engineering",
+            "PHP 后端工程能力",
+            supports=["ability_php_backend_stack", "cap_backend_engineering"],
+            requires=["ability_php_backend_stack"],
+            params={"min_support_count": 2, "required_threshold": 0.06},
+            aggregator="soft_and",
+            description="PHP 服务开发工程能力。",
+        ),
+        template_node(
+            "cap_frontend_engineering",
+            "前端工程能力",
+            supports=["ability_frontend_basics", "ability_ui_delivery", "ability_engineering_collaboration"],
+            prefers=["interest_frontend"],
+            inhibits=["constraint_dislike_ui_polish"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="通用前端工程能力。",
+        ),
+        template_node(
+            "cap_react_frontend_engineering",
+            "React 前端工程能力",
+            supports=["ability_react_frontend_stack", "cap_frontend_engineering"],
+            requires=["ability_react_frontend_stack"],
+            params={"min_support_count": 2, "required_threshold": 0.06},
+            aggregator="soft_and",
+            description="React 方向前端工程能力。",
+        ),
+        template_node(
+            "cap_vue_frontend_engineering",
+            "Vue 前端工程能力",
+            supports=["ability_vue_frontend_stack", "cap_frontend_engineering"],
+            requires=["ability_vue_frontend_stack"],
+            params={"min_support_count": 2, "required_threshold": 0.06},
+            aggregator="soft_and",
+            description="Vue 方向前端工程能力。",
+        ),
+        template_node(
+            "cap_fullstack_engineering",
+            "全栈工程能力",
+            supports=["cap_backend_engineering", "cap_frontend_engineering", "ability_system_design"],
+            prefers=["interest_backend", "interest_frontend"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="前后端协同的全栈工程能力。",
+        ),
+        template_node(
+            "cap_data_engineering",
+            "数据工程能力",
+            supports=["ability_data_processing", "ability_database_practice", "ability_cloud_native", "ability_batch_compute", "ability_engineering_collaboration"],
+            evidences=["project_data_pipeline"],
+            prefers=["interest_data"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="数据工程能力。",
+        ),
+        template_node(
+            "cap_realtime_data_engineering",
+            "实时数据工程能力",
+            supports=["cap_data_engineering", "ability_realtime_compute", "ability_observability_engineering"],
+            requires=["ability_realtime_compute"],
+            prefers=["interest_data"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="实时链路与数据流工程能力。",
+        ),
+        template_node(
+            "cap_data_analysis",
+            "数据分析能力",
+            supports=["ability_data_processing", "ability_data_modeling", "ability_analytics_storytelling", "ability_product_delivery"],
+            evidences=["project_dashboard", "project_ab_testing"],
+            prefers=["interest_data", "interest_visualization"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="数据分析与业务表达能力。",
+        ),
+        template_node(
+            "cap_ml_engineering",
+            "机器学习工程能力",
+            supports=["ability_ml_foundations", "ability_model_training", "ability_feature_engineering", "ability_data_processing", "ability_cloud_native"],
+            requires=["ability_ml_foundations"],
+            prefers=["interest_ml"],
+            inhibits=["constraint_dislike_math_theory"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="机器学习工程能力。",
+        ),
+        template_node(
+            "cap_ml_platform_engineering",
+            "机器学习平台能力",
+            supports=["cap_ml_engineering", "ability_mlops_basics", "ability_observability_engineering"],
+            requires=["ability_mlops_basics"],
+            prefers=["interest_ml", "interest_infra_automation"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="机器学习平台与工程化能力。",
+        ),
+        template_node(
+            "cap_ai_application_engineering",
+            "AI 应用工程能力",
+            supports=["cap_ml_engineering", "ability_api_design", "ability_product_delivery"],
+            requires=["ability_model_training"],
+            prefers=["interest_ml", "interest_product_delivery"],
+            inhibits=["constraint_dislike_research_uncertainty"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="将模型能力落地到业务应用的能力。",
+        ),
+        template_node(
+            "cap_devops_engineering",
+            "DevOps 工程能力",
+            supports=["ability_devops_basics", "ability_cloud_native", "ability_system_design", "ability_engineering_collaboration"],
+            prefers=["interest_devops", "interest_stable_delivery"],
+            inhibits=["constraint_dislike_oncall"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="DevOps 工程能力。",
+        ),
+        template_node(
+            "cap_sre_engineering",
+            "可靠性工程能力",
+            supports=["cap_devops_engineering", "ability_sre_basics", "ability_observability_engineering"],
+            requires=["ability_sre_basics"],
+            prefers=["interest_reliability", "interest_stable_delivery"],
+            inhibits=["constraint_dislike_oncall"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="SRE 可靠性工程能力。",
+        ),
+        template_node(
+            "cap_qa_engineering",
+            "测试开发能力",
+            supports=["ability_test_automation", "ability_performance_engineering", "ability_programming_fundamentals", "ability_engineering_collaboration"],
+            evidences=["project_test_automation", "project_performance_testing"],
+            prefers=["interest_stable_delivery"],
+            inhibits=["constraint_dislike_manual_testing"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="测试开发与质量工程能力。",
+        ),
+        template_node(
+            "cap_security_engineering",
+            "安全工程能力",
+            supports=["ability_security_basics", "ability_network_analysis", "ability_programming_fundamentals"],
+            evidences=["project_security_ctf"],
+            prefers=["interest_security"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="安全工程能力。",
+        ),
+        template_node(
+            "cap_application_security",
+            "应用安全能力",
+            supports=["cap_security_engineering", "ability_application_security", "ability_backend_basics"],
+            requires=["ability_application_security"],
+            prefers=["interest_security"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="应用安全工程能力。",
+        ),
+        template_node(
+            "cap_security_operations",
+            "安全运营能力",
+            supports=["cap_security_engineering", "ability_security_operations", "ability_observability_engineering"],
+            requires=["ability_security_operations"],
+            prefers=["interest_security", "interest_stable_delivery"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="安全运营与监测能力。",
+        ),
+        template_node(
+            "cap_platform_engineering",
+            "平台工程能力",
+            supports=["cap_backend_engineering", "cap_devops_engineering", "ability_cloud_native", "ability_system_design", "ability_product_delivery"],
+            prefers=["interest_stable_delivery", "interest_infra_automation"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="平台工程能力。",
+        ),
+        template_node(
+            "cap_mobile_engineering",
+            "移动端工程能力",
+            supports=["ability_mobile_foundations", "ability_engineering_collaboration", "ability_product_delivery"],
+            prefers=["interest_mobile", "interest_client_experience"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="移动端工程能力。",
+        ),
+        template_node(
+            "cap_android_engineering",
+            "Android 工程能力",
+            supports=["cap_mobile_engineering", "ability_android_stack"],
+            requires=["ability_android_stack"],
+            params={"min_support_count": 2, "required_threshold": 0.06},
+            aggregator="soft_and",
+            description="Android 工程能力。",
+        ),
+        template_node(
+            "cap_ios_engineering",
+            "iOS 工程能力",
+            supports=["cap_mobile_engineering", "ability_ios_stack"],
+            requires=["ability_ios_stack"],
+            params={"min_support_count": 2, "required_threshold": 0.06},
+            aggregator="soft_and",
+            description="iOS 工程能力。",
+        ),
+        template_node(
+            "cap_cross_platform_mobile",
+            "跨端移动能力",
+            supports=["cap_mobile_engineering", "ability_cross_platform_delivery"],
+            requires=["ability_cross_platform_delivery"],
+            params={"min_support_count": 2, "required_threshold": 0.06},
+            aggregator="soft_and",
+            description="跨端移动应用工程能力。",
+        ),
+        template_node(
+            "cap_embedded_engineering",
+            "嵌入式工程能力",
+            supports=["ability_embedded_development", "ability_firmware_integration", "ability_low_level_engineering"],
+            prefers=["interest_low_level_systems"],
+            inhibits=["constraint_dislike_low_level_debugging"],
+            params={"min_support_count": 3, "required_threshold": 0.08},
+            aggregator="soft_and",
+            description="嵌入式与固件工程能力。",
+        ),
+        template_node(
+            "cap_observability_engineering",
+            "可观测平台能力",
+            supports=["ability_observability_engineering", "ability_sre_basics", "ability_engineering_collaboration"],
+            requires=["ability_observability_engineering"],
+            prefers=["interest_reliability"],
+            params={"min_support_count": 2, "required_threshold": 0.06},
+            aggregator="soft_and",
+            description="可观测平台建设能力。",
+        ),
+    ]
+
+    directions = [
+        template_node(
+            "dir_web_backend",
+            "Web 后端方向",
+            supports=["cap_backend_engineering", "cap_python_backend_engineering", "cap_java_backend_engineering", "cap_go_backend_engineering", "cap_node_backend_engineering", "cap_php_backend_engineering"],
+            requires=["cap_backend_engineering"],
+            prefers=["interest_backend"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="服务端研发方向。",
+        ),
+        template_node(
+            "dir_frontend",
+            "前端方向",
+            supports=["cap_frontend_engineering", "cap_react_frontend_engineering", "cap_vue_frontend_engineering"],
+            requires=["cap_frontend_engineering"],
+            prefers=["interest_frontend"],
+            inhibits=["constraint_dislike_ui_polish"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="Web 前端方向。",
+        ),
+        template_node(
+            "dir_fullstack",
+            "全栈方向",
+            supports=["cap_fullstack_engineering", "cap_backend_engineering", "cap_frontend_engineering"],
+            requires=["cap_fullstack_engineering"],
+            prefers=["interest_backend", "interest_frontend"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="全栈交付方向。",
+        ),
+        template_node(
+            "dir_data",
+            "数据工程方向",
+            supports=["cap_data_engineering", "cap_realtime_data_engineering"],
+            requires=["cap_data_engineering"],
+            prefers=["interest_data"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="数据工程方向。",
+        ),
+        template_node(
+            "dir_data_analytics",
+            "数据分析方向",
+            supports=["cap_data_analysis"],
+            requires=["cap_data_analysis"],
+            prefers=["interest_data", "interest_visualization"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="数据分析与 BI 方向。",
+        ),
+        template_node(
+            "dir_machine_learning",
+            "机器学习方向",
+            supports=["cap_ml_engineering", "cap_ml_platform_engineering"],
+            requires=["cap_ml_engineering"],
+            prefers=["interest_ml"],
+            inhibits=["constraint_dislike_math_theory"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="机器学习工程方向。",
+        ),
+        template_node(
+            "dir_ai_application",
+            "AI 应用方向",
+            supports=["cap_ai_application_engineering", "cap_ml_engineering"],
+            requires=["cap_ai_application_engineering"],
+            prefers=["interest_ml", "interest_product_delivery"],
+            inhibits=["constraint_dislike_research_uncertainty"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="AI 应用工程方向。",
+        ),
+        template_node(
+            "dir_devops",
+            "运维平台方向",
+            supports=["cap_devops_engineering", "cap_platform_engineering"],
+            requires=["cap_devops_engineering"],
+            prefers=["interest_devops", "interest_infra_automation"],
+            inhibits=["constraint_dislike_oncall"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="DevOps 与运维平台方向。",
+        ),
+        template_node(
+            "dir_site_reliability",
+            "可靠性工程方向",
+            supports=["cap_sre_engineering", "cap_observability_engineering"],
+            requires=["cap_sre_engineering"],
+            prefers=["interest_reliability", "interest_stable_delivery"],
+            inhibits=["constraint_dislike_oncall"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="SRE 与可靠性工程方向。",
+        ),
+        template_node(
+            "dir_quality_assurance",
+            "测试开发方向",
+            supports=["cap_qa_engineering"],
+            requires=["cap_qa_engineering"],
+            prefers=["interest_stable_delivery"],
+            inhibits=["constraint_dislike_manual_testing"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="测试开发与质量保障方向。",
+        ),
+        template_node(
+            "dir_security",
+            "安全方向",
+            supports=["cap_security_engineering", "cap_application_security", "cap_security_operations"],
+            requires=["cap_security_engineering"],
+            prefers=["interest_security"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="安全工程方向。",
+        ),
+        template_node(
+            "dir_platform",
+            "平台工程方向",
+            supports=["cap_platform_engineering", "cap_devops_engineering", "cap_backend_engineering"],
+            requires=["cap_platform_engineering"],
+            prefers=["interest_stable_delivery", "interest_infra_automation"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="平台工程方向。",
+        ),
+        template_node(
+            "dir_mobile",
+            "移动端方向",
+            supports=["cap_mobile_engineering", "cap_android_engineering", "cap_ios_engineering", "cap_cross_platform_mobile"],
+            requires=["cap_mobile_engineering"],
+            prefers=["interest_mobile", "interest_client_experience"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="移动端工程方向。",
+        ),
+        template_node(
+            "dir_embedded",
+            "嵌入式方向",
+            supports=["cap_embedded_engineering"],
+            requires=["cap_embedded_engineering"],
+            prefers=["interest_low_level_systems"],
+            inhibits=["constraint_dislike_low_level_debugging"],
+            params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
+            aggregator="penalty_gate",
+            description="嵌入式与固件方向。",
+        ),
+    ]
+
+    return {"abilities": abilities, "composites": composites, "directions": directions}
+
+
+def build_roles() -> dict[str, list[dict[str, Any]]]:
+    standalone_roles = [
+        standalone_role(
+            "role_backend_engineer",
+            "后端开发工程师",
+            direction_id="dir_web_backend",
+            capability_id="cap_backend_engineering",
+            prefers=["interest_backend"],
+            family="backend",
+            aliases=["后端工程师"],
+        ),
+        standalone_role(
+            "role_python_backend_engineer",
+            "Python 后端工程师",
+            direction_id="dir_web_backend",
+            capability_id="cap_python_backend_engineering",
+            prefers=["interest_backend"],
+            family="backend",
+            aliases=["python后端"],
+        ),
+        standalone_role(
+            "role_java_backend_engineer",
+            "Java 后端工程师",
+            direction_id="dir_web_backend",
+            capability_id="cap_java_backend_engineering",
+            prefers=["interest_backend"],
+            family="backend",
+            aliases=["java后端"],
+        ),
+        standalone_role(
+            "role_frontend_engineer",
+            "前端工程师",
+            direction_id="dir_frontend",
+            capability_id="cap_frontend_engineering",
+            inhibits=["constraint_dislike_ui_polish"],
+            family="frontend",
+            aliases=["web前端工程师"],
+        ),
+        standalone_role(
+            "role_fullstack_engineer",
+            "全栈工程师",
+            direction_id="dir_fullstack",
+            capability_id="cap_fullstack_engineering",
+            family="fullstack",
+            aliases=["全栈开发工程师"],
+        ),
+        standalone_role(
+            "role_data_engineer",
+            "数据工程师",
+            direction_id="dir_data",
+            capability_id="cap_data_engineering",
+            prefers=["interest_data"],
+            family="data",
+            aliases=["data engineer"],
+        ),
+        standalone_role(
+            "role_data_analyst",
+            "数据分析师",
+            direction_id="dir_data_analytics",
+            capability_id="cap_data_analysis",
+            prefers=["interest_visualization"],
+            family="data",
+            aliases=["data analyst"],
+        ),
+        standalone_role(
+            "role_ml_engineer",
+            "机器学习工程师",
+            direction_id="dir_machine_learning",
+            capability_id="cap_ml_engineering",
+            inhibits=["constraint_dislike_math_theory"],
+            family="ml",
+            aliases=["ml engineer"],
+        ),
+        standalone_role(
+            "role_ai_application_engineer",
+            "AI 应用工程师",
+            direction_id="dir_ai_application",
+            capability_id="cap_ai_application_engineering",
+            inhibits=["constraint_dislike_research_uncertainty"],
+            family="ml",
+            aliases=["ai应用工程师"],
+        ),
+        standalone_role(
+            "role_devops_engineer",
+            "DevOps 工程师",
+            direction_id="dir_devops",
+            capability_id="cap_devops_engineering",
+            inhibits=["constraint_dislike_oncall"],
+            family="devops",
+            aliases=["devops engineer"],
+        ),
+        standalone_role(
+            "role_sre_engineer",
+            "SRE 工程师",
+            direction_id="dir_site_reliability",
+            capability_id="cap_sre_engineering",
+            inhibits=["constraint_dislike_oncall"],
+            family="devops",
+            aliases=["site reliability engineer", "可靠性工程师"],
+        ),
+        standalone_role(
+            "role_test_development_engineer",
+            "测试开发工程师",
+            direction_id="dir_quality_assurance",
+            capability_id="cap_qa_engineering",
+            family="qa",
+            aliases=["测试工程师", "qa engineer"],
+        ),
+        standalone_role(
+            "role_security_engineer",
+            "安全工程师",
+            direction_id="dir_security",
+            capability_id="cap_security_engineering",
+            family="security",
+            aliases=["security engineer"],
+        ),
+        standalone_role(
+            "role_platform_engineer",
+            "平台工程师",
+            direction_id="dir_platform",
+            capability_id="cap_platform_engineering",
+            prefers=["interest_stable_delivery"],
+            family="platform",
+            aliases=["platform engineer"],
+        ),
+        standalone_role(
+            "role_mobile_engineer",
+            "移动端工程师",
+            direction_id="dir_mobile",
+            capability_id="cap_mobile_engineering",
+            prefers=["interest_mobile"],
+            family="mobile",
+            aliases=["mobile engineer"],
+        ),
+        standalone_role(
+            "role_embedded_engineer",
+            "嵌入式工程师",
+            direction_id="dir_embedded",
+            capability_id="cap_embedded_engineering",
+            prefers=["interest_low_level_systems"],
+            inhibits=["constraint_dislike_low_level_debugging"],
+            family="embedded",
+            aliases=["embedded engineer"],
+        ),
+    ]
+
+    specializations = [
+        specialization(
+            "go_backend_engineer",
+            "Go 后端工程师",
+            family="backend",
+            direction_id="dir_web_backend",
+            base_capability_id="cap_go_backend_engineering",
+            stack_name="Go 服务栈",
+            capability_name="Go 后端专项能力",
+            stack_supports=["skill_golang", "tool_gin", "tool_echo", "tool_kafka", "project_microservice"],
+            stack_requires=["ability_backend_basics"],
+            role_prefers=["interest_backend"],
+            aliases=["go后端"],
+        ),
+        specialization(
+            "nodejs_backend_engineer",
+            "Node.js 后端工程师",
+            family="backend",
+            direction_id="dir_web_backend",
+            base_capability_id="cap_node_backend_engineering",
+            stack_name="Node 服务栈",
+            capability_name="Node 后端专项能力",
+            stack_supports=["skill_typescript", "tool_nodejs", "tool_express", "tool_nestjs", "project_backend_api"],
+            stack_requires=["ability_backend_basics"],
+            role_prefers=["interest_backend"],
+            aliases=["node后端", "nodejs后端"],
+        ),
+        specialization(
+            "php_backend_engineer",
+            "PHP 后端工程师",
+            family="backend",
+            direction_id="dir_web_backend",
+            base_capability_id="cap_php_backend_engineering",
+            stack_name="PHP 服务栈",
+            capability_name="PHP 后端专项能力",
+            stack_supports=["skill_php", "tool_laravel", "tool_mysql", "project_backend_api"],
+            stack_requires=["ability_backend_basics"],
+            role_prefers=["interest_backend"],
+            aliases=["php后端"],
+        ),
+        specialization(
+            "rust_backend_engineer",
+            "Rust 服务工程师",
+            family="backend",
+            direction_id="dir_web_backend",
+            base_capability_id="cap_backend_engineering",
+            stack_name="Rust 服务栈",
+            capability_name="Rust 服务专项能力",
+            stack_supports=["skill_rust", "tool_linux", "project_low_latency_service", "knowledge_distributed_systems"],
+            stack_requires=["ability_backend_basics", "ability_system_programming"],
+            capability_supports=["ability_low_level_engineering"],
+            role_prefers=["interest_backend", "interest_low_level_systems"],
+            aliases=["rust后端"],
+        ),
+        specialization(
+            "microservice_engineer",
+            "微服务工程师",
+            family="backend",
+            direction_id="dir_web_backend",
+            base_capability_id="cap_backend_engineering",
+            stack_name="微服务治理栈",
+            capability_name="微服务专项能力",
+            stack_supports=["project_microservice", "project_api_gateway", "tool_kafka", "tool_nginx", "knowledge_microservice_architecture"],
+            stack_requires=["ability_service_governance"],
+            capability_supports=["ability_service_governance"],
+            role_prefers=["interest_backend"],
+            aliases=["微服务开发工程师"],
+        ),
+        specialization(
+            "api_platform_engineer",
+            "接口平台工程师",
+            family="backend",
+            direction_id="dir_web_backend",
+            base_capability_id="cap_backend_engineering",
+            stack_name="接口平台栈",
+            capability_name="接口平台专项能力",
+            stack_supports=["project_api_gateway", "project_backend_api", "tool_nginx", "tool_redis"],
+            stack_requires=["ability_api_design"],
+            capability_supports=["ability_api_design", "ability_product_delivery"],
+            role_prefers=["interest_backend", "interest_product_delivery"],
+            aliases=["接口平台开发"],
+        ),
+        specialization(
+            "react_frontend_engineer",
+            "React 前端工程师",
+            family="frontend",
+            direction_id="dir_frontend",
+            base_capability_id="cap_react_frontend_engineering",
+            stack_name="React 前端栈",
+            capability_name="React 前端专项能力",
+            stack_supports=["tool_react", "tool_nextjs", "project_web_ui", "project_component_library"],
+            stack_requires=["ability_frontend_basics"],
+            role_prefers=["interest_frontend"],
+            role_inhibits=["constraint_dislike_ui_polish"],
+            aliases=["react开发"],
+        ),
+        specialization(
+            "vue_frontend_engineer",
+            "Vue 前端工程师",
+            family="frontend",
+            direction_id="dir_frontend",
+            base_capability_id="cap_vue_frontend_engineering",
+            stack_name="Vue 前端栈",
+            capability_name="Vue 前端专项能力",
+            stack_supports=["tool_vue", "project_web_ui", "project_component_library"],
+            stack_requires=["ability_frontend_basics"],
+            role_prefers=["interest_frontend"],
+            role_inhibits=["constraint_dislike_ui_polish"],
+            aliases=["vue开发"],
+        ),
+        specialization(
+            "frontend_interaction_engineer",
+            "前端交互工程师",
+            family="frontend",
+            direction_id="dir_frontend",
+            base_capability_id="cap_frontend_engineering",
+            stack_name="交互体验栈",
+            capability_name="前端交互专项能力",
+            stack_supports=["project_component_library", "project_web_ui", "interest_client_experience", "knowledge_ui_ux_basics"],
+            stack_requires=["ability_ui_delivery"],
+            capability_supports=["ability_product_delivery"],
+            role_prefers=["interest_frontend", "interest_client_experience"],
+            role_inhibits=["constraint_dislike_ui_polish"],
+            aliases=["交互前端工程师"],
+        ),
+        specialization(
+            "android_engineer",
+            "Android 工程师",
+            family="mobile",
+            direction_id="dir_mobile",
+            base_capability_id="cap_android_engineering",
+            stack_name="Android 交付栈",
+            capability_name="Android 专项能力",
+            stack_supports=["skill_kotlin", "tool_android_studio", "project_mobile_app"],
+            stack_requires=["ability_mobile_foundations"],
+            role_prefers=["interest_mobile"],
+            aliases=["android开发"],
+        ),
+        specialization(
+            "ios_engineer",
+            "iOS 工程师",
+            family="mobile",
+            direction_id="dir_mobile",
+            base_capability_id="cap_ios_engineering",
+            stack_name="iOS 交付栈",
+            capability_name="iOS 专项能力",
+            stack_supports=["skill_swift", "tool_xcode", "project_mobile_app"],
+            stack_requires=["ability_mobile_foundations"],
+            role_prefers=["interest_mobile"],
+            aliases=["ios开发"],
+        ),
+        specialization(
+            "cross_platform_engineer",
+            "跨端应用工程师",
+            family="mobile",
+            direction_id="dir_mobile",
+            base_capability_id="cap_cross_platform_mobile",
+            stack_name="跨端应用栈",
+            capability_name="跨端专项能力",
+            stack_supports=["skill_dart", "tool_flutter", "project_cross_platform_app"],
+            stack_requires=["ability_mobile_foundations"],
+            role_prefers=["interest_mobile", "interest_client_experience"],
+            aliases=["flutter开发", "跨平台开发"],
+        ),
+        specialization(
+            "batch_data_engineer",
+            "离线数据工程师",
+            family="data",
+            direction_id="dir_data",
+            base_capability_id="cap_data_engineering",
+            stack_name="离线数仓栈",
+            capability_name="离线数据专项能力",
+            stack_supports=["tool_spark", "tool_airflow", "tool_hive", "project_data_pipeline", "project_data_warehouse"],
+            stack_requires=["ability_batch_compute"],
+            capability_supports=["ability_data_warehouse"],
+            role_prefers=["interest_data"],
+            aliases=["离线数仓工程师"],
+        ),
+        specialization(
+            "realtime_data_engineer",
+            "实时数据工程师",
+            family="data",
+            direction_id="dir_data",
+            base_capability_id="cap_realtime_data_engineering",
+            stack_name="实时数据栈",
+            capability_name="实时数据专项能力",
+            stack_supports=["tool_flink", "tool_kafka", "project_real_time_pipeline", "project_low_latency_service"],
+            stack_requires=["ability_realtime_compute"],
+            role_prefers=["interest_data"],
+            aliases=["流式数据工程师"],
+        ),
+        specialization(
+            "data_warehouse_engineer",
+            "数据仓库工程师",
+            family="data",
+            direction_id="dir_data",
+            base_capability_id="cap_data_engineering",
+            stack_name="数仓建模栈",
+            capability_name="数仓专项能力",
+            stack_supports=["tool_dbt", "tool_snowflake", "tool_hive", "project_data_warehouse", "knowledge_data_warehouse_modeling"],
+            stack_requires=["ability_data_warehouse"],
+            capability_supports=["ability_data_warehouse"],
+            role_prefers=["interest_data"],
+            aliases=["数仓工程师"],
+        ),
+        specialization(
+            "analytics_engineer",
+            "分析工程师",
+            family="data",
+            direction_id="dir_data_analytics",
+            base_capability_id="cap_data_analysis",
+            stack_name="分析表达栈",
+            capability_name="分析工程专项能力",
+            stack_supports=["tool_superset", "project_dashboard", "project_ab_testing", "knowledge_experimentation"],
+            stack_requires=["ability_analytics_storytelling"],
+            capability_supports=["ability_product_delivery"],
+            role_prefers=["interest_data", "interest_visualization"],
+            aliases=["analytics engineer"],
+        ),
+        specialization(
+            "bi_engineer",
+            "BI 工程师",
+            family="data",
+            direction_id="dir_data_analytics",
+            base_capability_id="cap_data_analysis",
+            stack_name="BI 交付栈",
+            capability_name="BI 专项能力",
+            stack_supports=["tool_superset", "project_dashboard", "project_platform_portal", "skill_sql"],
+            stack_requires=["ability_data_modeling"],
+            capability_supports=["ability_product_delivery"],
+            role_prefers=["interest_visualization", "interest_product_delivery"],
+            aliases=["商业智能工程师", "bi engineer"],
+        ),
+        specialization(
+            "ml_platform_engineer",
+            "机器学习平台工程师",
+            family="ml",
+            direction_id="dir_machine_learning",
+            base_capability_id="cap_ml_platform_engineering",
+            stack_name="ML 平台栈",
+            capability_name="机器学习平台专项能力",
+            stack_supports=["tool_mlflow", "tool_kubernetes", "tool_docker", "project_ml_deployment", "project_ci_cd_platform"],
+            stack_requires=["ability_mlops_basics"],
+            role_prefers=["interest_ml", "interest_infra_automation"],
+            aliases=["ml平台工程师"],
+        ),
+        specialization(
+            "mlops_engineer",
+            "MLOps 工程师",
+            family="ml",
+            direction_id="dir_machine_learning",
+            base_capability_id="cap_ml_platform_engineering",
+            stack_name="MLOps 交付栈",
+            capability_name="MLOps 专项能力",
+            stack_supports=["tool_mlflow", "tool_github_actions", "tool_terraform", "project_ml_deployment", "project_ci_cd_platform"],
+            stack_requires=["ability_mlops_basics"],
+            role_prefers=["interest_ml", "interest_stable_delivery"],
+            aliases=["mlops"],
+        ),
+        specialization(
+            "recommendation_algorithm_engineer",
+            "推荐算法工程师",
+            family="ml",
+            direction_id="dir_machine_learning",
+            base_capability_id="cap_ml_engineering",
+            stack_name="推荐算法栈",
+            capability_name="推荐算法专项能力",
+            stack_supports=["project_recommendation_system", "tool_pytorch", "tool_scikit_learn", "ability_feature_engineering"],
+            stack_requires=["ability_model_training", "ability_ml_foundations"],
+            role_prefers=["interest_ml", "interest_research"],
+            role_inhibits=["constraint_dislike_math_theory"],
+            aliases=["推荐算法工程师"],
+        ),
+        specialization(
+            "nlp_engineer",
+            "NLP 工程师",
+            family="ml",
+            direction_id="dir_machine_learning",
+            base_capability_id="cap_ml_engineering",
+            stack_name="NLP 建模栈",
+            capability_name="NLP 专项能力",
+            stack_supports=["tool_pytorch", "tool_tensorflow", "project_model_training", "skill_python"],
+            stack_requires=["ability_model_training", "ability_ml_foundations"],
+            role_prefers=["interest_ml", "interest_research"],
+            role_inhibits=["constraint_dislike_math_theory"],
+            aliases=["自然语言处理工程师"],
+        ),
+        specialization(
+            "computer_vision_engineer",
+            "计算机视觉工程师",
+            family="ml",
+            direction_id="dir_machine_learning",
+            base_capability_id="cap_ml_engineering",
+            stack_name="视觉建模栈",
+            capability_name="视觉专项能力",
+            stack_supports=["tool_opencv", "tool_pytorch", "tool_tensorflow", "project_model_training"],
+            stack_requires=["ability_model_training", "ability_ml_foundations"],
+            role_prefers=["interest_ml", "interest_research"],
+            role_inhibits=["constraint_dislike_math_theory"],
+            aliases=["cv工程师"],
+        ),
+        specialization(
+            "llm_application_engineer",
+            "大模型应用工程师",
+            family="ml",
+            direction_id="dir_ai_application",
+            base_capability_id="cap_ai_application_engineering",
+            stack_name="AI 应用落地栈",
+            capability_name="大模型应用专项能力",
+            stack_supports=["project_ml_deployment", "project_platform_portal", "ability_api_design", "ability_product_delivery"],
+            stack_requires=["ability_model_training", "ability_product_delivery"],
+            role_prefers=["interest_ml", "interest_product_delivery"],
+            aliases=["llm应用工程师", "大模型工程师"],
+        ),
+        specialization(
+            "cloud_platform_engineer",
+            "云平台工程师",
+            family="platform",
+            direction_id="dir_platform",
+            base_capability_id="cap_platform_engineering",
+            stack_name="云平台栈",
+            capability_name="云平台专项能力",
+            stack_supports=["tool_aws", "tool_aliyun", "tool_gcp", "tool_azure", "tool_terraform", "project_platform_portal"],
+            stack_requires=["ability_cloud_native"],
+            role_prefers=["interest_devops", "interest_infra_automation"],
+            aliases=["云平台开发工程师"],
+        ),
+        specialization(
+            "release_engineer",
+            "发布工程师",
+            family="platform",
+            direction_id="dir_platform",
+            base_capability_id="cap_platform_engineering",
+            stack_name="发布流水线栈",
+            capability_name="发布工程专项能力",
+            stack_supports=["tool_jenkins", "tool_github_actions", "project_ci_cd_platform", "project_devops_automation"],
+            stack_requires=["ability_devops_basics"],
+            role_prefers=["interest_stable_delivery"],
+            aliases=["release engineer", "交付工程师"],
+        ),
+        specialization(
+            "observability_engineer",
+            "可观测平台工程师",
+            family="platform",
+            direction_id="dir_site_reliability",
+            base_capability_id="cap_observability_engineering",
+            stack_name="可观测平台栈",
+            capability_name="可观测专项能力",
+            stack_supports=["tool_prometheus", "tool_grafana", "project_observability_platform", "project_platform_portal"],
+            stack_requires=["ability_observability_engineering"],
+            role_prefers=["interest_reliability", "interest_stable_delivery"],
+            aliases=["可观测工程师"],
+        ),
+        specialization(
+            "performance_test_engineer",
+            "性能测试工程师",
+            family="qa",
+            direction_id="dir_quality_assurance",
+            base_capability_id="cap_qa_engineering",
+            stack_name="性能测试栈",
+            capability_name="性能测试专项能力",
+            stack_supports=["tool_jmeter", "project_performance_testing", "project_low_latency_service", "ability_system_programming"],
+            stack_requires=["ability_performance_engineering"],
+            role_prefers=["interest_stable_delivery"],
+            aliases=["性能工程师"],
+        ),
+        specialization(
+            "qa_platform_engineer",
+            "质量平台工程师",
+            family="qa",
+            direction_id="dir_quality_assurance",
+            base_capability_id="cap_qa_engineering",
+            stack_name="质量平台栈",
+            capability_name="质量平台专项能力",
+            stack_supports=["tool_pytest", "tool_github_actions", "project_test_automation", "project_ci_cd_platform"],
+            stack_requires=["ability_test_automation"],
+            role_prefers=["interest_stable_delivery", "interest_infra_automation"],
+            aliases=["qa平台工程师"],
+        ),
+        specialization(
+            "penetration_tester",
+            "渗透测试工程师",
+            family="security",
+            direction_id="dir_security",
+            base_capability_id="cap_security_engineering",
+            stack_name="渗透测试栈",
+            capability_name="渗透测试专项能力",
+            stack_supports=["tool_burp_suite", "tool_nmap", "project_security_ctf", "project_app_hardening"],
+            stack_requires=["ability_security_basics", "ability_network_analysis"],
+            role_prefers=["interest_security"],
+            aliases=["渗透测试"],
+        ),
+        specialization(
+            "appsec_engineer",
+            "应用安全工程师",
+            family="security",
+            direction_id="dir_security",
+            base_capability_id="cap_application_security",
+            stack_name="应用安全栈",
+            capability_name="应用安全专项能力",
+            stack_supports=["knowledge_secure_coding", "tool_burp_suite", "project_app_hardening", "project_backend_api"],
+            stack_requires=["ability_application_security"],
+            role_prefers=["interest_security", "interest_backend"],
+            aliases=["appsec engineer"],
+        ),
+        specialization(
+            "soc_analyst",
+            "SOC 分析师",
+            family="security",
+            direction_id="dir_security",
+            base_capability_id="cap_security_operations",
+            stack_name="安全运营栈",
+            capability_name="安全运营专项能力",
+            stack_supports=["project_blue_team_monitoring", "tool_grafana", "tool_prometheus", "project_security_ctf"],
+            stack_requires=["ability_security_operations"],
+            role_prefers=["interest_security", "interest_stable_delivery"],
+            aliases=["soc analyst", "安全运营分析师"],
+        ),
+        specialization(
+            "cloud_security_engineer",
+            "云安全工程师",
+            family="security",
+            direction_id="dir_security",
+            base_capability_id="cap_security_engineering",
+            stack_name="云安全栈",
+            capability_name="云安全专项能力",
+            stack_supports=["tool_aws", "tool_aliyun", "tool_kubernetes", "project_devops_automation", "project_app_hardening"],
+            stack_requires=["ability_cloud_native", "ability_security_basics"],
+            capability_supports=["ability_application_security"],
+            role_prefers=["interest_security", "interest_devops"],
+            aliases=["cloud security engineer"],
+        ),
+        specialization(
+            "iot_engineer",
+            "IoT 工程师",
+            family="embedded",
+            direction_id="dir_embedded",
+            base_capability_id="cap_embedded_engineering",
+            stack_name="IoT 系统栈",
+            capability_name="IoT 专项能力",
+            stack_supports=["project_iot_gateway", "knowledge_embedded_protocols", "tool_linux", "skill_c"],
+            stack_requires=["ability_embedded_development"],
+            role_prefers=["interest_low_level_systems"],
+            aliases=["iot开发工程师"],
+        ),
+        specialization(
+            "firmware_engineer",
+            "固件工程师",
+            family="embedded",
+            direction_id="dir_embedded",
+            base_capability_id="cap_embedded_engineering",
+            stack_name="固件交付栈",
+            capability_name="固件专项能力",
+            stack_supports=["project_firmware_delivery", "knowledge_hardware_debugging", "skill_c", "skill_cpp"],
+            stack_requires=["ability_firmware_integration"],
+            role_prefers=["interest_low_level_systems"],
+            role_inhibits=["constraint_dislike_low_level_debugging"],
+            aliases=["firmware engineer", "固件开发工程师"],
+        ),
+    ]
+
+    return {"standalone_roles": standalone_roles, "specializations": specializations}
+
+
+def build_relations() -> dict[str, Any]:
+    return {
+        "layer_defaults": {
+            "ability": {"supports": 0.17, "requires": 0.24, "prefers": 0.12, "evidences": 0.14, "inhibits": 0.28},
+            "composite": {"supports": 0.22, "requires": 0.3, "prefers": 0.16, "evidences": 0.22, "inhibits": 0.3},
+            "direction": {"supports": 0.24, "requires": 0.3, "prefers": 0.18, "evidences": 0.2, "inhibits": 0.3},
+            "role": {"supports": 0.27, "requires": 0.34, "prefers": 0.16, "evidences": 0.22, "inhibits": 0.34},
+            "stack_ability": {"supports": 0.19, "requires": 0.24, "prefers": 0.12, "evidences": 0.16, "inhibits": 0.22},
+            "stack_capability": {"supports": 0.24, "requires": 0.3, "prefers": 0.16, "evidences": 0.18, "inhibits": 0.3},
+        },
+        "specialization_defaults": {
+            "stack_ability": {"aggregator": "weighted_sum_capped", "params": {"cap": 1.0}},
+            "stack_capability": {"aggregator": "soft_and", "params": {"min_support_count": 2, "required_threshold": 0.06}},
+            "role": {"aggregator": "hard_gate", "params": {"cap": 1.0, "required_threshold": 0.025}},
+        },
+        "preference_patterns": {
+            "strong_positive": ["精通", "熟练", "擅长", "扎实"],
+            "medium_positive": ["熟悉", "做过", "写过", "使用过", "实践过", "经验"],
+            "light_positive": ["会", "了解", "接触过", "用过"],
+            "weak_positive": ["一点", "入门", "略懂", "会一点"],
+            "negative": ["不擅长", "不太擅长", "薄弱", "不会", "不喜欢", "讨厌", "抗拒", "不想", "不想做", "不想写", "不愿", "没兴趣"],
+            "preference": ["喜欢", "更喜欢", "偏好", "倾向", "想做", "希望做", "热爱"],
+        },
+    }
+
+
+def build_aliases() -> dict[str, dict[str, list[str]]]:
+    return {
+        "extra_aliases": {
+            "interest_backend": ["写后端接口", "后端服务"],
+            "interest_frontend": ["写前端", "做界面"],
+            "interest_data": ["做数据", "数据处理"],
+            "interest_ml": ["做算法", "做机器学习"],
+            "constraint_dislike_math_theory": ["数学一般", "数学不太行"],
+            "constraint_dislike_oncall": ["不想夜间值班"],
+            "constraint_dislike_ui_polish": ["不爱抠样式"],
+            "role_backend_engineer": ["通用后端工程师"],
+            "role_ml_engineer": ["算法工程师"],
+        }
+    }
+
+
+def build_sample_request() -> dict[str, Any]:
+    return {
         "text": "我熟悉 Python 和 MySQL，做过 Flask 项目，会一点 Linux，不太擅长数学，更喜欢写后端接口。",
         "signals": [
             {"entity": "SQL", "score": 0.72},
@@ -816,29 +1873,37 @@ def build_dataset() -> tuple[list[dict], list[dict], dict[str, list[str]], dict[
         "top_k": 5,
     }
 
-    return node_types, edge_types, aliases, preference_patterns, nodes, edges, sample_request
+
+def build_source_dataset() -> dict[str, Any]:
+    return {
+        "skills": build_skills(),
+        "capability_templates": build_capability_templates(),
+        "roles": build_roles(),
+        "relations": build_relations(),
+        "aliases": build_aliases(),
+        "sample_request": build_sample_request(),
+    }
+
+
+def write_sources(dataset: dict[str, Any]) -> None:
+    sources_dir = ROOT / "data" / "sources"
+    ensure_dir(sources_dir)
+    write_json(sources_dir / "skills.json", dataset["skills"])
+    write_json(sources_dir / "capability_templates.json", dataset["capability_templates"])
+    write_json(sources_dir / "roles.json", dataset["roles"])
+    write_json(sources_dir / "relations.json", dataset["relations"])
+    write_json(sources_dir / "aliases.json", dataset["aliases"])
+    write_json(sources_dir / "sample_request.json", dataset["sample_request"])
 
 
 def main() -> None:
-    node_types, edge_types, aliases, preference_patterns, nodes, edges, sample_request = build_dataset()
-
-    ontology_dir = ROOT / "data" / "ontology"
-    seeds_dir = ROOT / "data" / "seeds"
-    dictionaries_dir = ROOT / "data" / "dictionaries"
-    demo_dir = ROOT / "data" / "demo"
-
-    for path in [ontology_dir, seeds_dir, dictionaries_dir, demo_dir]:
-        ensure_dir(path)
-
-    write_json(ontology_dir / "node_types.json", node_types)
-    write_json(ontology_dir / "edge_types.json", edge_types)
-    write_json(seeds_dir / "nodes.json", nodes)
-    write_json(seeds_dir / "edges.json", edges)
-    write_json(dictionaries_dir / "skill_aliases.json", aliases)
-    write_json(dictionaries_dir / "preference_patterns.json", preference_patterns)
-    write_json(demo_dir / "sample_request.json", sample_request)
-
-    print(f"generated {len(nodes)} nodes and {len(edges)} edges")
+    dataset = build_source_dataset()
+    write_sources(dataset)
+    summary = build_all(ROOT)
+    print(
+        "generated sources and compiled graph "
+        f"({summary['nodes']} nodes, {summary['edges']} edges, {summary['aliases']} alias buckets)"
+    )
 
 
 if __name__ == "__main__":
