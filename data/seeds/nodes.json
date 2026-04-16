@@ -1,0 +1,1302 @@
+[
+  {
+    "id": "skill_python",
+    "name": "Python",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Python 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "skill_java",
+    "name": "Java",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Java 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "skill_cpp",
+    "name": "C++",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "C++ 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "skill_c",
+    "name": "C",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "C 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "skill_javascript",
+    "name": "JavaScript",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "JavaScript 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "skill_typescript",
+    "name": "TypeScript",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "TypeScript 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "skill_golang",
+    "name": "Go",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Go 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "skill_rust",
+    "name": "Rust",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Rust 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "skill_sql",
+    "name": "SQL",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "SQL 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "skill_bash",
+    "name": "Bash",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Bash 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_flask",
+    "name": "Flask",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Flask 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_django",
+    "name": "Django",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Django 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_fastapi",
+    "name": "FastAPI",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "FastAPI 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_spring_boot",
+    "name": "Spring Boot",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Spring Boot 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_react",
+    "name": "React",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "React 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_vue",
+    "name": "Vue",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Vue 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_nodejs",
+    "name": "Node.js",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Node.js 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_linux",
+    "name": "Linux",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Linux 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_docker",
+    "name": "Docker",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Docker 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_kubernetes",
+    "name": "Kubernetes",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Kubernetes 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_git",
+    "name": "Git",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Git 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_mysql",
+    "name": "MySQL",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "MySQL 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_postgresql",
+    "name": "PostgreSQL",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "PostgreSQL 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_redis",
+    "name": "Redis",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Redis 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_mongodb",
+    "name": "MongoDB",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "MongoDB 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_pandas",
+    "name": "Pandas",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Pandas 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_numpy",
+    "name": "NumPy",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "NumPy 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_spark",
+    "name": "Spark",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Spark 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_hadoop",
+    "name": "Hadoop",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Hadoop 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_kafka",
+    "name": "Kafka",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Kafka 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_airflow",
+    "name": "Airflow",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Airflow 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_pytorch",
+    "name": "PyTorch",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "PyTorch 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_tensorflow",
+    "name": "TensorFlow",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "TensorFlow 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_scikit_learn",
+    "name": "Scikit-learn",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Scikit-learn 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_selenium",
+    "name": "Selenium",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Selenium 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_pytest",
+    "name": "Pytest",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Pytest 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_wireshark",
+    "name": "Wireshark",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Wireshark 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_nmap",
+    "name": "Nmap",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Nmap 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_burp_suite",
+    "name": "Burp Suite",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "Burp Suite 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_aws",
+    "name": "AWS",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "AWS 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "tool_aliyun",
+    "name": "阿里云",
+    "layer": "evidence",
+    "node_type": "skill",
+    "aggregator": "source",
+    "description": "阿里云 相关技能或工具证据。",
+    "params": {}
+  },
+  {
+    "id": "knowledge_data_structures",
+    "name": "数据结构",
+    "layer": "evidence",
+    "node_type": "knowledge",
+    "aggregator": "source",
+    "description": "数据结构 相关理论基础。",
+    "params": {}
+  },
+  {
+    "id": "knowledge_algorithms",
+    "name": "算法",
+    "layer": "evidence",
+    "node_type": "knowledge",
+    "aggregator": "source",
+    "description": "算法 相关理论基础。",
+    "params": {}
+  },
+  {
+    "id": "knowledge_oop",
+    "name": "面向对象",
+    "layer": "evidence",
+    "node_type": "knowledge",
+    "aggregator": "source",
+    "description": "面向对象 相关理论基础。",
+    "params": {}
+  },
+  {
+    "id": "knowledge_database_theory",
+    "name": "数据库原理",
+    "layer": "evidence",
+    "node_type": "knowledge",
+    "aggregator": "source",
+    "description": "数据库原理 相关理论基础。",
+    "params": {}
+  },
+  {
+    "id": "knowledge_operating_systems",
+    "name": "操作系统",
+    "layer": "evidence",
+    "node_type": "knowledge",
+    "aggregator": "source",
+    "description": "操作系统 相关理论基础。",
+    "params": {}
+  },
+  {
+    "id": "knowledge_networks",
+    "name": "计算机网络",
+    "layer": "evidence",
+    "node_type": "knowledge",
+    "aggregator": "source",
+    "description": "计算机网络 相关理论基础。",
+    "params": {}
+  },
+  {
+    "id": "knowledge_statistics",
+    "name": "统计基础",
+    "layer": "evidence",
+    "node_type": "knowledge",
+    "aggregator": "source",
+    "description": "统计基础 相关理论基础。",
+    "params": {}
+  },
+  {
+    "id": "knowledge_linear_algebra",
+    "name": "线性代数",
+    "layer": "evidence",
+    "node_type": "knowledge",
+    "aggregator": "source",
+    "description": "线性代数 相关理论基础。",
+    "params": {}
+  },
+  {
+    "id": "knowledge_probability",
+    "name": "概率论",
+    "layer": "evidence",
+    "node_type": "knowledge",
+    "aggregator": "source",
+    "description": "概率论 相关理论基础。",
+    "params": {}
+  },
+  {
+    "id": "knowledge_system_design",
+    "name": "系统设计",
+    "layer": "evidence",
+    "node_type": "knowledge",
+    "aggregator": "source",
+    "description": "系统设计 相关理论基础。",
+    "params": {}
+  },
+  {
+    "id": "knowledge_math_foundation",
+    "name": "数学基础",
+    "layer": "evidence",
+    "node_type": "knowledge",
+    "aggregator": "source",
+    "description": "数学基础 相关理论基础。",
+    "params": {}
+  },
+  {
+    "id": "project_backend_api",
+    "name": "后端接口项目",
+    "layer": "evidence",
+    "node_type": "project",
+    "aggregator": "source",
+    "description": "后端接口项目 实践经历。",
+    "params": {}
+  },
+  {
+    "id": "project_microservice",
+    "name": "微服务项目",
+    "layer": "evidence",
+    "node_type": "project",
+    "aggregator": "source",
+    "description": "微服务项目 实践经历。",
+    "params": {}
+  },
+  {
+    "id": "project_web_ui",
+    "name": "Web 前端项目",
+    "layer": "evidence",
+    "node_type": "project",
+    "aggregator": "source",
+    "description": "Web 前端项目 实践经历。",
+    "params": {}
+  },
+  {
+    "id": "project_data_pipeline",
+    "name": "数据管道项目",
+    "layer": "evidence",
+    "node_type": "project",
+    "aggregator": "source",
+    "description": "数据管道项目 实践经历。",
+    "params": {}
+  },
+  {
+    "id": "project_dashboard",
+    "name": "分析看板项目",
+    "layer": "evidence",
+    "node_type": "project",
+    "aggregator": "source",
+    "description": "分析看板项目 实践经历。",
+    "params": {}
+  },
+  {
+    "id": "project_model_training",
+    "name": "模型训练项目",
+    "layer": "evidence",
+    "node_type": "project",
+    "aggregator": "source",
+    "description": "模型训练项目 实践经历。",
+    "params": {}
+  },
+  {
+    "id": "project_ml_deployment",
+    "name": "模型部署项目",
+    "layer": "evidence",
+    "node_type": "project",
+    "aggregator": "source",
+    "description": "模型部署项目 实践经历。",
+    "params": {}
+  },
+  {
+    "id": "project_test_automation",
+    "name": "测试自动化项目",
+    "layer": "evidence",
+    "node_type": "project",
+    "aggregator": "source",
+    "description": "测试自动化项目 实践经历。",
+    "params": {}
+  },
+  {
+    "id": "project_devops_automation",
+    "name": "运维自动化项目",
+    "layer": "evidence",
+    "node_type": "project",
+    "aggregator": "source",
+    "description": "运维自动化项目 实践经历。",
+    "params": {}
+  },
+  {
+    "id": "project_security_ctf",
+    "name": "安全实战项目",
+    "layer": "evidence",
+    "node_type": "project",
+    "aggregator": "source",
+    "description": "安全实战项目 实践经历。",
+    "params": {}
+  },
+  {
+    "id": "interest_backend",
+    "name": "偏好后端",
+    "layer": "evidence",
+    "node_type": "interest",
+    "aggregator": "source",
+    "description": "偏好后端 偏好证据。",
+    "params": {}
+  },
+  {
+    "id": "interest_frontend",
+    "name": "偏好前端",
+    "layer": "evidence",
+    "node_type": "interest",
+    "aggregator": "source",
+    "description": "偏好前端 偏好证据。",
+    "params": {}
+  },
+  {
+    "id": "interest_data",
+    "name": "偏好数据",
+    "layer": "evidence",
+    "node_type": "interest",
+    "aggregator": "source",
+    "description": "偏好数据 偏好证据。",
+    "params": {}
+  },
+  {
+    "id": "interest_ml",
+    "name": "偏好机器学习",
+    "layer": "evidence",
+    "node_type": "interest",
+    "aggregator": "source",
+    "description": "偏好机器学习 偏好证据。",
+    "params": {}
+  },
+  {
+    "id": "interest_devops",
+    "name": "偏好运维平台",
+    "layer": "evidence",
+    "node_type": "interest",
+    "aggregator": "source",
+    "description": "偏好运维平台 偏好证据。",
+    "params": {}
+  },
+  {
+    "id": "interest_security",
+    "name": "偏好安全",
+    "layer": "evidence",
+    "node_type": "interest",
+    "aggregator": "source",
+    "description": "偏好安全 偏好证据。",
+    "params": {}
+  },
+  {
+    "id": "interest_stable_delivery",
+    "name": "偏好稳定交付",
+    "layer": "evidence",
+    "node_type": "interest",
+    "aggregator": "source",
+    "description": "偏好稳定交付 偏好证据。",
+    "params": {}
+  },
+  {
+    "id": "interest_visualization",
+    "name": "偏好可视化表达",
+    "layer": "evidence",
+    "node_type": "interest",
+    "aggregator": "source",
+    "description": "偏好可视化表达 偏好证据。",
+    "params": {}
+  },
+  {
+    "id": "soft_communication",
+    "name": "沟通表达",
+    "layer": "evidence",
+    "node_type": "soft_skill",
+    "aggregator": "source",
+    "description": "沟通表达 软技能证据。",
+    "params": {}
+  },
+  {
+    "id": "soft_teamwork",
+    "name": "团队协作",
+    "layer": "evidence",
+    "node_type": "soft_skill",
+    "aggregator": "source",
+    "description": "团队协作 软技能证据。",
+    "params": {}
+  },
+  {
+    "id": "soft_self_learning",
+    "name": "自主学习",
+    "layer": "evidence",
+    "node_type": "soft_skill",
+    "aggregator": "source",
+    "description": "自主学习 软技能证据。",
+    "params": {}
+  },
+  {
+    "id": "soft_documentation",
+    "name": "文档习惯",
+    "layer": "evidence",
+    "node_type": "soft_skill",
+    "aggregator": "source",
+    "description": "文档习惯 软技能证据。",
+    "params": {}
+  },
+  {
+    "id": "constraint_dislike_math_theory",
+    "name": "不喜欢高数学理论",
+    "layer": "evidence",
+    "node_type": "constraint",
+    "aggregator": "source",
+    "description": "不喜欢高数学理论，会抑制部分职业方向。",
+    "params": {}
+  },
+  {
+    "id": "constraint_dislike_oncall",
+    "name": "不喜欢值班运维",
+    "layer": "evidence",
+    "node_type": "constraint",
+    "aggregator": "source",
+    "description": "不喜欢值班运维，会抑制部分职业方向。",
+    "params": {}
+  },
+  {
+    "id": "constraint_dislike_ui_polish",
+    "name": "不喜欢界面打磨",
+    "layer": "evidence",
+    "node_type": "constraint",
+    "aggregator": "source",
+    "description": "不喜欢界面打磨，会抑制部分职业方向。",
+    "params": {}
+  },
+  {
+    "id": "ability_programming_fundamentals",
+    "name": "编程基础",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "编程基础，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_database_practice",
+    "name": "数据库实践",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "数据库实践，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_backend_basics",
+    "name": "后端基础",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "后端基础，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.12,
+      "required_floor": 0.55
+    }
+  },
+  {
+    "id": "ability_python_backend_stack",
+    "name": "Python 后端栈",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "Python 后端栈，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_java_backend_stack",
+    "name": "Java 后端栈",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "Java 后端栈，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_frontend_basics",
+    "name": "前端基础",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "前端基础，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_ui_delivery",
+    "name": "界面交付能力",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "max_pool",
+    "description": "界面交付能力，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_data_processing",
+    "name": "数据处理能力",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "数据处理能力，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_data_modeling",
+    "name": "数据建模能力",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "数据建模能力，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_ml_foundations",
+    "name": "机器学习基础",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "机器学习基础，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.14,
+      "required_floor": 0.35
+    }
+  },
+  {
+    "id": "ability_model_training",
+    "name": "模型训练能力",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "模型训练能力，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_devops_basics",
+    "name": "运维开发基础",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "运维开发基础，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_cloud_native",
+    "name": "云原生基础",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "云原生基础，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_test_automation",
+    "name": "测试自动化能力",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "测试自动化能力，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_security_basics",
+    "name": "安全分析基础",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "安全分析基础，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_network_analysis",
+    "name": "网络分析能力",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "网络分析能力，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_system_design",
+    "name": "系统设计能力",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "系统设计能力，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "ability_engineering_collaboration",
+    "name": "工程协作能力",
+    "layer": "ability",
+    "node_type": "ability_unit",
+    "aggregator": "weighted_sum_capped",
+    "description": "工程协作能力，由多种证据聚合而成。",
+    "params": {
+      "cap": 1.0
+    }
+  },
+  {
+    "id": "cap_backend_engineering",
+    "name": "后端工程能力",
+    "layer": "composite",
+    "node_type": "compound_capability",
+    "aggregator": "soft_and",
+    "description": "后端工程能力，用于连接基础能力与职业方向。",
+    "params": {
+      "min_support_count": 3,
+      "required_threshold": 0.08
+    }
+  },
+  {
+    "id": "cap_python_backend_engineering",
+    "name": "Python 后端工程能力",
+    "layer": "composite",
+    "node_type": "compound_capability",
+    "aggregator": "soft_and",
+    "description": "Python 后端工程能力，用于连接基础能力与职业方向。",
+    "params": {
+      "min_support_count": 2,
+      "required_threshold": 0.06
+    }
+  },
+  {
+    "id": "cap_java_backend_engineering",
+    "name": "Java 后端工程能力",
+    "layer": "composite",
+    "node_type": "compound_capability",
+    "aggregator": "soft_and",
+    "description": "Java 后端工程能力，用于连接基础能力与职业方向。",
+    "params": {
+      "min_support_count": 2,
+      "required_threshold": 0.06
+    }
+  },
+  {
+    "id": "cap_frontend_engineering",
+    "name": "前端工程能力",
+    "layer": "composite",
+    "node_type": "compound_capability",
+    "aggregator": "soft_and",
+    "description": "前端工程能力，用于连接基础能力与职业方向。",
+    "params": {
+      "min_support_count": 3,
+      "required_threshold": 0.08
+    }
+  },
+  {
+    "id": "cap_fullstack_engineering",
+    "name": "全栈工程能力",
+    "layer": "composite",
+    "node_type": "compound_capability",
+    "aggregator": "soft_and",
+    "description": "全栈工程能力，用于连接基础能力与职业方向。",
+    "params": {
+      "min_support_count": 3,
+      "required_threshold": 0.08
+    }
+  },
+  {
+    "id": "cap_data_engineering",
+    "name": "数据工程能力",
+    "layer": "composite",
+    "node_type": "compound_capability",
+    "aggregator": "soft_and",
+    "description": "数据工程能力，用于连接基础能力与职业方向。",
+    "params": {
+      "min_support_count": 3,
+      "required_threshold": 0.08
+    }
+  },
+  {
+    "id": "cap_data_analysis",
+    "name": "数据分析能力",
+    "layer": "composite",
+    "node_type": "compound_capability",
+    "aggregator": "soft_and",
+    "description": "数据分析能力，用于连接基础能力与职业方向。",
+    "params": {
+      "min_support_count": 3,
+      "required_threshold": 0.08
+    }
+  },
+  {
+    "id": "cap_ml_engineering",
+    "name": "机器学习工程能力",
+    "layer": "composite",
+    "node_type": "compound_capability",
+    "aggregator": "soft_and",
+    "description": "机器学习工程能力，用于连接基础能力与职业方向。",
+    "params": {
+      "min_support_count": 3,
+      "required_threshold": 0.08
+    }
+  },
+  {
+    "id": "cap_devops_engineering",
+    "name": "DevOps 工程能力",
+    "layer": "composite",
+    "node_type": "compound_capability",
+    "aggregator": "soft_and",
+    "description": "DevOps 工程能力，用于连接基础能力与职业方向。",
+    "params": {
+      "min_support_count": 3,
+      "required_threshold": 0.08
+    }
+  },
+  {
+    "id": "cap_qa_engineering",
+    "name": "测试开发能力",
+    "layer": "composite",
+    "node_type": "compound_capability",
+    "aggregator": "soft_and",
+    "description": "测试开发能力，用于连接基础能力与职业方向。",
+    "params": {
+      "min_support_count": 3,
+      "required_threshold": 0.08
+    }
+  },
+  {
+    "id": "cap_security_engineering",
+    "name": "安全工程能力",
+    "layer": "composite",
+    "node_type": "compound_capability",
+    "aggregator": "soft_and",
+    "description": "安全工程能力，用于连接基础能力与职业方向。",
+    "params": {
+      "min_support_count": 3,
+      "required_threshold": 0.08
+    }
+  },
+  {
+    "id": "cap_platform_engineering",
+    "name": "平台工程能力",
+    "layer": "composite",
+    "node_type": "compound_capability",
+    "aggregator": "soft_and",
+    "description": "平台工程能力，用于连接基础能力与职业方向。",
+    "params": {
+      "min_support_count": 3,
+      "required_threshold": 0.08
+    }
+  },
+  {
+    "id": "dir_web_backend",
+    "name": "Web 后端方向",
+    "layer": "direction",
+    "node_type": "career_direction",
+    "aggregator": "penalty_gate",
+    "description": "Web 后端方向，承接复合能力并汇入具体岗位。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.03,
+      "penalty_floor": 0.45
+    }
+  },
+  {
+    "id": "dir_frontend",
+    "name": "前端方向",
+    "layer": "direction",
+    "node_type": "career_direction",
+    "aggregator": "penalty_gate",
+    "description": "前端方向，承接复合能力并汇入具体岗位。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.03,
+      "penalty_floor": 0.45
+    }
+  },
+  {
+    "id": "dir_fullstack",
+    "name": "全栈方向",
+    "layer": "direction",
+    "node_type": "career_direction",
+    "aggregator": "penalty_gate",
+    "description": "全栈方向，承接复合能力并汇入具体岗位。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.03,
+      "penalty_floor": 0.45
+    }
+  },
+  {
+    "id": "dir_data",
+    "name": "数据方向",
+    "layer": "direction",
+    "node_type": "career_direction",
+    "aggregator": "penalty_gate",
+    "description": "数据方向，承接复合能力并汇入具体岗位。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.03,
+      "penalty_floor": 0.45
+    }
+  },
+  {
+    "id": "dir_machine_learning",
+    "name": "机器学习方向",
+    "layer": "direction",
+    "node_type": "career_direction",
+    "aggregator": "penalty_gate",
+    "description": "机器学习方向，承接复合能力并汇入具体岗位。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.03,
+      "penalty_floor": 0.45
+    }
+  },
+  {
+    "id": "dir_devops",
+    "name": "运维平台方向",
+    "layer": "direction",
+    "node_type": "career_direction",
+    "aggregator": "penalty_gate",
+    "description": "运维平台方向，承接复合能力并汇入具体岗位。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.03,
+      "penalty_floor": 0.45
+    }
+  },
+  {
+    "id": "dir_quality_assurance",
+    "name": "测试开发方向",
+    "layer": "direction",
+    "node_type": "career_direction",
+    "aggregator": "penalty_gate",
+    "description": "测试开发方向，承接复合能力并汇入具体岗位。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.03,
+      "penalty_floor": 0.45
+    }
+  },
+  {
+    "id": "dir_security",
+    "name": "安全方向",
+    "layer": "direction",
+    "node_type": "career_direction",
+    "aggregator": "penalty_gate",
+    "description": "安全方向，承接复合能力并汇入具体岗位。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.03,
+      "penalty_floor": 0.45
+    }
+  },
+  {
+    "id": "dir_platform",
+    "name": "平台工程方向",
+    "layer": "direction",
+    "node_type": "career_direction",
+    "aggregator": "penalty_gate",
+    "description": "平台工程方向，承接复合能力并汇入具体岗位。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.03,
+      "penalty_floor": 0.45
+    }
+  },
+  {
+    "id": "role_backend_engineer",
+    "name": "后端开发工程师",
+    "layer": "role",
+    "node_type": "career_role",
+    "aggregator": "hard_gate",
+    "description": "后端开发工程师，最终推荐岗位节点。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.025
+    }
+  },
+  {
+    "id": "role_python_backend_engineer",
+    "name": "Python 后端工程师",
+    "layer": "role",
+    "node_type": "career_role",
+    "aggregator": "hard_gate",
+    "description": "Python 后端工程师，最终推荐岗位节点。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.025
+    }
+  },
+  {
+    "id": "role_java_backend_engineer",
+    "name": "Java 后端工程师",
+    "layer": "role",
+    "node_type": "career_role",
+    "aggregator": "hard_gate",
+    "description": "Java 后端工程师，最终推荐岗位节点。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.025
+    }
+  },
+  {
+    "id": "role_frontend_engineer",
+    "name": "前端工程师",
+    "layer": "role",
+    "node_type": "career_role",
+    "aggregator": "hard_gate",
+    "description": "前端工程师，最终推荐岗位节点。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.025
+    }
+  },
+  {
+    "id": "role_fullstack_engineer",
+    "name": "全栈工程师",
+    "layer": "role",
+    "node_type": "career_role",
+    "aggregator": "hard_gate",
+    "description": "全栈工程师，最终推荐岗位节点。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.025
+    }
+  },
+  {
+    "id": "role_data_engineer",
+    "name": "数据工程师",
+    "layer": "role",
+    "node_type": "career_role",
+    "aggregator": "hard_gate",
+    "description": "数据工程师，最终推荐岗位节点。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.025
+    }
+  },
+  {
+    "id": "role_data_analyst",
+    "name": "数据分析师",
+    "layer": "role",
+    "node_type": "career_role",
+    "aggregator": "hard_gate",
+    "description": "数据分析师，最终推荐岗位节点。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.025
+    }
+  },
+  {
+    "id": "role_ml_engineer",
+    "name": "机器学习工程师",
+    "layer": "role",
+    "node_type": "career_role",
+    "aggregator": "hard_gate",
+    "description": "机器学习工程师，最终推荐岗位节点。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.025
+    }
+  },
+  {
+    "id": "role_devops_engineer",
+    "name": "DevOps 工程师",
+    "layer": "role",
+    "node_type": "career_role",
+    "aggregator": "hard_gate",
+    "description": "DevOps 工程师，最终推荐岗位节点。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.025
+    }
+  },
+  {
+    "id": "role_test_development_engineer",
+    "name": "测试开发工程师",
+    "layer": "role",
+    "node_type": "career_role",
+    "aggregator": "hard_gate",
+    "description": "测试开发工程师，最终推荐岗位节点。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.025
+    }
+  },
+  {
+    "id": "role_security_engineer",
+    "name": "安全工程师",
+    "layer": "role",
+    "node_type": "career_role",
+    "aggregator": "hard_gate",
+    "description": "安全工程师，最终推荐岗位节点。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.025
+    }
+  },
+  {
+    "id": "role_platform_engineer",
+    "name": "平台工程师",
+    "layer": "role",
+    "node_type": "career_role",
+    "aggregator": "hard_gate",
+    "description": "平台工程师，最终推荐岗位节点。",
+    "params": {
+      "cap": 1.0,
+      "required_threshold": 0.025
+    }
+  }
+]

@@ -1,0 +1,1927 @@
+[
+  {
+    "source": "skill_python",
+    "target": "ability_programming_fundamentals",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "主流编程语言和版本控制共同支撑编程基础。"
+  },
+  {
+    "source": "skill_java",
+    "target": "ability_programming_fundamentals",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "主流编程语言和版本控制共同支撑编程基础。"
+  },
+  {
+    "source": "skill_cpp",
+    "target": "ability_programming_fundamentals",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "主流编程语言和版本控制共同支撑编程基础。"
+  },
+  {
+    "source": "skill_c",
+    "target": "ability_programming_fundamentals",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "主流编程语言和版本控制共同支撑编程基础。"
+  },
+  {
+    "source": "skill_javascript",
+    "target": "ability_programming_fundamentals",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "主流编程语言和版本控制共同支撑编程基础。"
+  },
+  {
+    "source": "skill_typescript",
+    "target": "ability_programming_fundamentals",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "主流编程语言和版本控制共同支撑编程基础。"
+  },
+  {
+    "source": "skill_golang",
+    "target": "ability_programming_fundamentals",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "主流编程语言和版本控制共同支撑编程基础。"
+  },
+  {
+    "source": "skill_rust",
+    "target": "ability_programming_fundamentals",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "主流编程语言和版本控制共同支撑编程基础。"
+  },
+  {
+    "source": "skill_bash",
+    "target": "ability_programming_fundamentals",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "主流编程语言和版本控制共同支撑编程基础。"
+  },
+  {
+    "source": "tool_git",
+    "target": "ability_programming_fundamentals",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "主流编程语言和版本控制共同支撑编程基础。"
+  },
+  {
+    "source": "knowledge_oop",
+    "target": "ability_programming_fundamentals",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "主流编程语言和版本控制共同支撑编程基础。"
+  },
+  {
+    "source": "knowledge_data_structures",
+    "target": "ability_programming_fundamentals",
+    "relation": "requires",
+    "weight": 0.22,
+    "note": "数据结构与算法是编程基础的重要前置。"
+  },
+  {
+    "source": "knowledge_algorithms",
+    "target": "ability_programming_fundamentals",
+    "relation": "requires",
+    "weight": 0.22,
+    "note": "数据结构与算法是编程基础的重要前置。"
+  },
+  {
+    "source": "skill_sql",
+    "target": "ability_database_practice",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "数据库及缓存工具提升数据库实践能力。"
+  },
+  {
+    "source": "tool_mysql",
+    "target": "ability_database_practice",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "数据库及缓存工具提升数据库实践能力。"
+  },
+  {
+    "source": "tool_postgresql",
+    "target": "ability_database_practice",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "数据库及缓存工具提升数据库实践能力。"
+  },
+  {
+    "source": "tool_mongodb",
+    "target": "ability_database_practice",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "数据库及缓存工具提升数据库实践能力。"
+  },
+  {
+    "source": "tool_redis",
+    "target": "ability_database_practice",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "数据库及缓存工具提升数据库实践能力。"
+  },
+  {
+    "source": "knowledge_database_theory",
+    "target": "ability_database_practice",
+    "relation": "requires",
+    "weight": 0.25,
+    "note": "数据库原理支撑数据库实践。"
+  },
+  {
+    "source": "tool_flask",
+    "target": "ability_backend_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "常见服务端框架和接口项目支撑后端基础。"
+  },
+  {
+    "source": "tool_django",
+    "target": "ability_backend_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "常见服务端框架和接口项目支撑后端基础。"
+  },
+  {
+    "source": "tool_fastapi",
+    "target": "ability_backend_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "常见服务端框架和接口项目支撑后端基础。"
+  },
+  {
+    "source": "tool_spring_boot",
+    "target": "ability_backend_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "常见服务端框架和接口项目支撑后端基础。"
+  },
+  {
+    "source": "tool_nodejs",
+    "target": "ability_backend_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "常见服务端框架和接口项目支撑后端基础。"
+  },
+  {
+    "source": "project_backend_api",
+    "target": "ability_backend_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "常见服务端框架和接口项目支撑后端基础。"
+  },
+  {
+    "source": "ability_programming_fundamentals",
+    "target": "ability_backend_basics",
+    "relation": "requires",
+    "weight": 0.3,
+    "note": "后端基础依赖编程和数据库能力。"
+  },
+  {
+    "source": "ability_database_practice",
+    "target": "ability_backend_basics",
+    "relation": "requires",
+    "weight": 0.3,
+    "note": "后端基础依赖编程和数据库能力。"
+  },
+  {
+    "source": "tool_linux",
+    "target": "ability_backend_basics",
+    "relation": "supports",
+    "weight": 0.14,
+    "note": "Linux 使用经验能增强后端基础。"
+  },
+  {
+    "source": "skill_python",
+    "target": "ability_python_backend_stack",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "Python 及相关框架形成 Python 后端技术栈。"
+  },
+  {
+    "source": "tool_flask",
+    "target": "ability_python_backend_stack",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "Python 及相关框架形成 Python 后端技术栈。"
+  },
+  {
+    "source": "tool_django",
+    "target": "ability_python_backend_stack",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "Python 及相关框架形成 Python 后端技术栈。"
+  },
+  {
+    "source": "tool_fastapi",
+    "target": "ability_python_backend_stack",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "Python 及相关框架形成 Python 后端技术栈。"
+  },
+  {
+    "source": "tool_redis",
+    "target": "ability_python_backend_stack",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "Python 及相关框架形成 Python 后端技术栈。"
+  },
+  {
+    "source": "ability_backend_basics",
+    "target": "ability_python_backend_stack",
+    "relation": "requires",
+    "weight": 0.25,
+    "note": "Python 后端栈建立在后端基础上。"
+  },
+  {
+    "source": "skill_java",
+    "target": "ability_java_backend_stack",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "Java 与 Spring Boot 形成 Java 后端技术栈。"
+  },
+  {
+    "source": "tool_spring_boot",
+    "target": "ability_java_backend_stack",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "Java 与 Spring Boot 形成 Java 后端技术栈。"
+  },
+  {
+    "source": "tool_redis",
+    "target": "ability_java_backend_stack",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "Java 与 Spring Boot 形成 Java 后端技术栈。"
+  },
+  {
+    "source": "tool_mysql",
+    "target": "ability_java_backend_stack",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "Java 与 Spring Boot 形成 Java 后端技术栈。"
+  },
+  {
+    "source": "ability_backend_basics",
+    "target": "ability_java_backend_stack",
+    "relation": "requires",
+    "weight": 0.25,
+    "note": "Java 后端栈建立在后端基础上。"
+  },
+  {
+    "source": "skill_javascript",
+    "target": "ability_frontend_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "前端语言、框架和项目实践构成前端基础。"
+  },
+  {
+    "source": "skill_typescript",
+    "target": "ability_frontend_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "前端语言、框架和项目实践构成前端基础。"
+  },
+  {
+    "source": "tool_react",
+    "target": "ability_frontend_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "前端语言、框架和项目实践构成前端基础。"
+  },
+  {
+    "source": "tool_vue",
+    "target": "ability_frontend_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "前端语言、框架和项目实践构成前端基础。"
+  },
+  {
+    "source": "tool_nodejs",
+    "target": "ability_frontend_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "前端语言、框架和项目实践构成前端基础。"
+  },
+  {
+    "source": "project_web_ui",
+    "target": "ability_frontend_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "前端语言、框架和项目实践构成前端基础。"
+  },
+  {
+    "source": "ability_programming_fundamentals",
+    "target": "ability_frontend_basics",
+    "relation": "requires",
+    "weight": 0.22,
+    "note": "前端基础依赖通用编程基础。"
+  },
+  {
+    "source": "tool_react",
+    "target": "ability_ui_delivery",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "框架实践与可视化偏好支撑界面交付能力。"
+  },
+  {
+    "source": "tool_vue",
+    "target": "ability_ui_delivery",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "框架实践与可视化偏好支撑界面交付能力。"
+  },
+  {
+    "source": "project_web_ui",
+    "target": "ability_ui_delivery",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "框架实践与可视化偏好支撑界面交付能力。"
+  },
+  {
+    "source": "interest_visualization",
+    "target": "ability_ui_delivery",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "框架实践与可视化偏好支撑界面交付能力。"
+  },
+  {
+    "source": "soft_documentation",
+    "target": "ability_ui_delivery",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "框架实践与可视化偏好支撑界面交付能力。"
+  },
+  {
+    "source": "constraint_dislike_ui_polish",
+    "target": "ability_ui_delivery",
+    "relation": "inhibits",
+    "weight": 0.35,
+    "note": "不喜欢界面打磨会压低界面交付能力。"
+  },
+  {
+    "source": "skill_python",
+    "target": "ability_data_processing",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "脚本、SQL 和大数据工具共同构成数据处理能力。"
+  },
+  {
+    "source": "skill_sql",
+    "target": "ability_data_processing",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "脚本、SQL 和大数据工具共同构成数据处理能力。"
+  },
+  {
+    "source": "tool_pandas",
+    "target": "ability_data_processing",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "脚本、SQL 和大数据工具共同构成数据处理能力。"
+  },
+  {
+    "source": "tool_numpy",
+    "target": "ability_data_processing",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "脚本、SQL 和大数据工具共同构成数据处理能力。"
+  },
+  {
+    "source": "tool_spark",
+    "target": "ability_data_processing",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "脚本、SQL 和大数据工具共同构成数据处理能力。"
+  },
+  {
+    "source": "tool_hadoop",
+    "target": "ability_data_processing",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "脚本、SQL 和大数据工具共同构成数据处理能力。"
+  },
+  {
+    "source": "project_data_pipeline",
+    "target": "ability_data_processing",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "脚本、SQL 和大数据工具共同构成数据处理能力。"
+  },
+  {
+    "source": "ability_programming_fundamentals",
+    "target": "ability_data_processing",
+    "relation": "requires",
+    "weight": 0.22,
+    "note": "数据处理依赖编程基础。"
+  },
+  {
+    "source": "skill_sql",
+    "target": "ability_data_modeling",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "数据库与统计基础支撑数据建模能力。"
+  },
+  {
+    "source": "knowledge_database_theory",
+    "target": "ability_data_modeling",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "数据库与统计基础支撑数据建模能力。"
+  },
+  {
+    "source": "knowledge_statistics",
+    "target": "ability_data_modeling",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "数据库与统计基础支撑数据建模能力。"
+  },
+  {
+    "source": "project_dashboard",
+    "target": "ability_data_modeling",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "数据库与统计基础支撑数据建模能力。"
+  },
+  {
+    "source": "ability_database_practice",
+    "target": "ability_data_modeling",
+    "relation": "requires",
+    "weight": 0.25,
+    "note": "数据建模建立在数据库实践上。"
+  },
+  {
+    "source": "skill_python",
+    "target": "ability_ml_foundations",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "Python、统计和数学知识共同组成机器学习基础。"
+  },
+  {
+    "source": "tool_numpy",
+    "target": "ability_ml_foundations",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "Python、统计和数学知识共同组成机器学习基础。"
+  },
+  {
+    "source": "tool_scikit_learn",
+    "target": "ability_ml_foundations",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "Python、统计和数学知识共同组成机器学习基础。"
+  },
+  {
+    "source": "knowledge_statistics",
+    "target": "ability_ml_foundations",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "Python、统计和数学知识共同组成机器学习基础。"
+  },
+  {
+    "source": "knowledge_linear_algebra",
+    "target": "ability_ml_foundations",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "Python、统计和数学知识共同组成机器学习基础。"
+  },
+  {
+    "source": "knowledge_probability",
+    "target": "ability_ml_foundations",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "Python、统计和数学知识共同组成机器学习基础。"
+  },
+  {
+    "source": "knowledge_algorithms",
+    "target": "ability_ml_foundations",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "Python、统计和数学知识共同组成机器学习基础。"
+  },
+  {
+    "source": "knowledge_math_foundation",
+    "target": "ability_ml_foundations",
+    "relation": "requires",
+    "weight": 0.3,
+    "note": "机器学习基础要求数学基础。"
+  },
+  {
+    "source": "constraint_dislike_math_theory",
+    "target": "ability_ml_foundations",
+    "relation": "inhibits",
+    "weight": 0.28,
+    "note": "不喜欢数学理论会压低机器学习基础。"
+  },
+  {
+    "source": "tool_pytorch",
+    "target": "ability_model_training",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "训练框架与项目实践支撑模型训练能力。"
+  },
+  {
+    "source": "tool_tensorflow",
+    "target": "ability_model_training",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "训练框架与项目实践支撑模型训练能力。"
+  },
+  {
+    "source": "project_model_training",
+    "target": "ability_model_training",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "训练框架与项目实践支撑模型训练能力。"
+  },
+  {
+    "source": "project_ml_deployment",
+    "target": "ability_model_training",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "训练框架与项目实践支撑模型训练能力。"
+  },
+  {
+    "source": "ability_ml_foundations",
+    "target": "ability_model_training",
+    "relation": "requires",
+    "weight": 0.28,
+    "note": "模型训练能力建立在机器学习基础上。"
+  },
+  {
+    "source": "tool_linux",
+    "target": "ability_devops_basics",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "Linux、脚本、容器和自动化项目支撑运维开发基础。"
+  },
+  {
+    "source": "skill_bash",
+    "target": "ability_devops_basics",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "Linux、脚本、容器和自动化项目支撑运维开发基础。"
+  },
+  {
+    "source": "tool_docker",
+    "target": "ability_devops_basics",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "Linux、脚本、容器和自动化项目支撑运维开发基础。"
+  },
+  {
+    "source": "tool_git",
+    "target": "ability_devops_basics",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "Linux、脚本、容器和自动化项目支撑运维开发基础。"
+  },
+  {
+    "source": "project_devops_automation",
+    "target": "ability_devops_basics",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "Linux、脚本、容器和自动化项目支撑运维开发基础。"
+  },
+  {
+    "source": "tool_aws",
+    "target": "ability_devops_basics",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "Linux、脚本、容器和自动化项目支撑运维开发基础。"
+  },
+  {
+    "source": "tool_aliyun",
+    "target": "ability_devops_basics",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "Linux、脚本、容器和自动化项目支撑运维开发基础。"
+  },
+  {
+    "source": "constraint_dislike_oncall",
+    "target": "ability_devops_basics",
+    "relation": "inhibits",
+    "weight": 0.22,
+    "note": "抗拒 on-call 会压低运维开发基础。"
+  },
+  {
+    "source": "tool_docker",
+    "target": "ability_cloud_native",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "容器、编排和云平台经验构成云原生基础。"
+  },
+  {
+    "source": "tool_kubernetes",
+    "target": "ability_cloud_native",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "容器、编排和云平台经验构成云原生基础。"
+  },
+  {
+    "source": "tool_aws",
+    "target": "ability_cloud_native",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "容器、编排和云平台经验构成云原生基础。"
+  },
+  {
+    "source": "tool_aliyun",
+    "target": "ability_cloud_native",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "容器、编排和云平台经验构成云原生基础。"
+  },
+  {
+    "source": "tool_kafka",
+    "target": "ability_cloud_native",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "容器、编排和云平台经验构成云原生基础。"
+  },
+  {
+    "source": "tool_airflow",
+    "target": "ability_cloud_native",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "容器、编排和云平台经验构成云原生基础。"
+  },
+  {
+    "source": "tool_linux",
+    "target": "ability_cloud_native",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "容器、编排和云平台经验构成云原生基础。"
+  },
+  {
+    "source": "ability_devops_basics",
+    "target": "ability_cloud_native",
+    "relation": "requires",
+    "weight": 0.22,
+    "note": "云原生能力建立在运维开发基础上。"
+  },
+  {
+    "source": "tool_selenium",
+    "target": "ability_test_automation",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "测试工具与脚本能力支撑测试自动化能力。"
+  },
+  {
+    "source": "tool_pytest",
+    "target": "ability_test_automation",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "测试工具与脚本能力支撑测试自动化能力。"
+  },
+  {
+    "source": "project_test_automation",
+    "target": "ability_test_automation",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "测试工具与脚本能力支撑测试自动化能力。"
+  },
+  {
+    "source": "skill_python",
+    "target": "ability_test_automation",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "测试工具与脚本能力支撑测试自动化能力。"
+  },
+  {
+    "source": "skill_javascript",
+    "target": "ability_test_automation",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "测试工具与脚本能力支撑测试自动化能力。"
+  },
+  {
+    "source": "ability_programming_fundamentals",
+    "target": "ability_test_automation",
+    "relation": "requires",
+    "weight": 0.2,
+    "note": "测试自动化依赖编程基础。"
+  },
+  {
+    "source": "tool_linux",
+    "target": "ability_security_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "网络与安全工具实践构成安全分析基础。"
+  },
+  {
+    "source": "knowledge_networks",
+    "target": "ability_security_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "网络与安全工具实践构成安全分析基础。"
+  },
+  {
+    "source": "tool_wireshark",
+    "target": "ability_security_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "网络与安全工具实践构成安全分析基础。"
+  },
+  {
+    "source": "tool_nmap",
+    "target": "ability_security_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "网络与安全工具实践构成安全分析基础。"
+  },
+  {
+    "source": "tool_burp_suite",
+    "target": "ability_security_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "网络与安全工具实践构成安全分析基础。"
+  },
+  {
+    "source": "project_security_ctf",
+    "target": "ability_security_basics",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "网络与安全工具实践构成安全分析基础。"
+  },
+  {
+    "source": "ability_programming_fundamentals",
+    "target": "ability_security_basics",
+    "relation": "requires",
+    "weight": 0.18,
+    "note": "安全分析基础依赖编程理解。"
+  },
+  {
+    "source": "knowledge_networks",
+    "target": "ability_network_analysis",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "网络理论与抓包扫描工具支撑网络分析能力。"
+  },
+  {
+    "source": "tool_wireshark",
+    "target": "ability_network_analysis",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "网络理论与抓包扫描工具支撑网络分析能力。"
+  },
+  {
+    "source": "tool_nmap",
+    "target": "ability_network_analysis",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "网络理论与抓包扫描工具支撑网络分析能力。"
+  },
+  {
+    "source": "tool_linux",
+    "target": "ability_network_analysis",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "网络理论与抓包扫描工具支撑网络分析能力。"
+  },
+  {
+    "source": "ability_security_basics",
+    "target": "ability_network_analysis",
+    "relation": "requires",
+    "weight": 0.2,
+    "note": "网络分析常与安全基础联动。"
+  },
+  {
+    "source": "knowledge_system_design",
+    "target": "ability_system_design",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "系统设计、操作系统、网络和中间件共同构成系统设计能力。"
+  },
+  {
+    "source": "knowledge_operating_systems",
+    "target": "ability_system_design",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "系统设计、操作系统、网络和中间件共同构成系统设计能力。"
+  },
+  {
+    "source": "knowledge_networks",
+    "target": "ability_system_design",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "系统设计、操作系统、网络和中间件共同构成系统设计能力。"
+  },
+  {
+    "source": "tool_redis",
+    "target": "ability_system_design",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "系统设计、操作系统、网络和中间件共同构成系统设计能力。"
+  },
+  {
+    "source": "tool_kafka",
+    "target": "ability_system_design",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "系统设计、操作系统、网络和中间件共同构成系统设计能力。"
+  },
+  {
+    "source": "project_microservice",
+    "target": "ability_system_design",
+    "relation": "supports",
+    "weight": 0.16,
+    "note": "系统设计、操作系统、网络和中间件共同构成系统设计能力。"
+  },
+  {
+    "source": "ability_backend_basics",
+    "target": "ability_system_design",
+    "relation": "requires",
+    "weight": 0.2,
+    "note": "系统设计能力建立在后端基础上。"
+  },
+  {
+    "source": "soft_communication",
+    "target": "ability_engineering_collaboration",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "沟通、协作、文档和 Git 协作形成工程协作能力。"
+  },
+  {
+    "source": "soft_teamwork",
+    "target": "ability_engineering_collaboration",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "沟通、协作、文档和 Git 协作形成工程协作能力。"
+  },
+  {
+    "source": "soft_self_learning",
+    "target": "ability_engineering_collaboration",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "沟通、协作、文档和 Git 协作形成工程协作能力。"
+  },
+  {
+    "source": "soft_documentation",
+    "target": "ability_engineering_collaboration",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "沟通、协作、文档和 Git 协作形成工程协作能力。"
+  },
+  {
+    "source": "tool_git",
+    "target": "ability_engineering_collaboration",
+    "relation": "supports",
+    "weight": 0.18,
+    "note": "沟通、协作、文档和 Git 协作形成工程协作能力。"
+  },
+  {
+    "source": "project_backend_api",
+    "target": "ability_engineering_collaboration",
+    "relation": "evidences",
+    "weight": 0.12,
+    "note": "项目经历为工程协作提供额外证据。"
+  },
+  {
+    "source": "project_web_ui",
+    "target": "ability_engineering_collaboration",
+    "relation": "evidences",
+    "weight": 0.12,
+    "note": "项目经历为工程协作提供额外证据。"
+  },
+  {
+    "source": "project_data_pipeline",
+    "target": "ability_engineering_collaboration",
+    "relation": "evidences",
+    "weight": 0.12,
+    "note": "项目经历为工程协作提供额外证据。"
+  },
+  {
+    "source": "project_test_automation",
+    "target": "ability_engineering_collaboration",
+    "relation": "evidences",
+    "weight": 0.12,
+    "note": "项目经历为工程协作提供额外证据。"
+  },
+  {
+    "source": "project_devops_automation",
+    "target": "ability_engineering_collaboration",
+    "relation": "evidences",
+    "weight": 0.12,
+    "note": "项目经历为工程协作提供额外证据。"
+  },
+  {
+    "source": "ability_backend_basics",
+    "target": "cap_backend_engineering",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "后端工程能力来自基础后端、数据库、系统设计与协作能力。"
+  },
+  {
+    "source": "ability_database_practice",
+    "target": "cap_backend_engineering",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "后端工程能力来自基础后端、数据库、系统设计与协作能力。"
+  },
+  {
+    "source": "ability_system_design",
+    "target": "cap_backend_engineering",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "后端工程能力来自基础后端、数据库、系统设计与协作能力。"
+  },
+  {
+    "source": "ability_engineering_collaboration",
+    "target": "cap_backend_engineering",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "后端工程能力来自基础后端、数据库、系统设计与协作能力。"
+  },
+  {
+    "source": "project_backend_api",
+    "target": "cap_backend_engineering",
+    "relation": "evidences",
+    "weight": 0.2,
+    "note": "后端接口项目是后端工程能力的直接证据。"
+  },
+  {
+    "source": "interest_backend",
+    "target": "cap_backend_engineering",
+    "relation": "prefers",
+    "weight": 0.18,
+    "note": "偏好后端会提升后端工程方向。"
+  },
+  {
+    "source": "ability_python_backend_stack",
+    "target": "cap_python_backend_engineering",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "Python 后端工程能力由 Python 技术栈与通用后端工程能力共同组成。"
+  },
+  {
+    "source": "cap_backend_engineering",
+    "target": "cap_python_backend_engineering",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "Python 后端工程能力由 Python 技术栈与通用后端工程能力共同组成。"
+  },
+  {
+    "source": "ability_python_backend_stack",
+    "target": "cap_python_backend_engineering",
+    "relation": "requires",
+    "weight": 0.32,
+    "note": "Python 栈是该能力的关键前置。"
+  },
+  {
+    "source": "ability_java_backend_stack",
+    "target": "cap_java_backend_engineering",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "Java 后端工程能力由 Java 技术栈与通用后端工程能力共同组成。"
+  },
+  {
+    "source": "cap_backend_engineering",
+    "target": "cap_java_backend_engineering",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "Java 后端工程能力由 Java 技术栈与通用后端工程能力共同组成。"
+  },
+  {
+    "source": "ability_java_backend_stack",
+    "target": "cap_java_backend_engineering",
+    "relation": "requires",
+    "weight": 0.32,
+    "note": "Java 栈是该能力的关键前置。"
+  },
+  {
+    "source": "ability_frontend_basics",
+    "target": "cap_frontend_engineering",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "前端工程能力依赖前端基础、界面交付与协作能力。"
+  },
+  {
+    "source": "ability_ui_delivery",
+    "target": "cap_frontend_engineering",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "前端工程能力依赖前端基础、界面交付与协作能力。"
+  },
+  {
+    "source": "ability_engineering_collaboration",
+    "target": "cap_frontend_engineering",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "前端工程能力依赖前端基础、界面交付与协作能力。"
+  },
+  {
+    "source": "interest_frontend",
+    "target": "cap_frontend_engineering",
+    "relation": "prefers",
+    "weight": 0.2,
+    "note": "偏好前端会提升前端工程能力。"
+  },
+  {
+    "source": "constraint_dislike_ui_polish",
+    "target": "cap_frontend_engineering",
+    "relation": "inhibits",
+    "weight": 0.28,
+    "note": "不喜欢界面打磨会压低前端工程能力。"
+  },
+  {
+    "source": "cap_backend_engineering",
+    "target": "cap_fullstack_engineering",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "全栈工程能力需要前后端与系统设计共同支撑。"
+  },
+  {
+    "source": "cap_frontend_engineering",
+    "target": "cap_fullstack_engineering",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "全栈工程能力需要前后端与系统设计共同支撑。"
+  },
+  {
+    "source": "ability_system_design",
+    "target": "cap_fullstack_engineering",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "全栈工程能力需要前后端与系统设计共同支撑。"
+  },
+  {
+    "source": "interest_backend",
+    "target": "cap_fullstack_engineering",
+    "relation": "prefers",
+    "weight": 0.12,
+    "note": "同时偏好前后端会增强全栈倾向。"
+  },
+  {
+    "source": "interest_frontend",
+    "target": "cap_fullstack_engineering",
+    "relation": "prefers",
+    "weight": 0.12,
+    "note": "同时偏好前后端会增强全栈倾向。"
+  },
+  {
+    "source": "ability_data_processing",
+    "target": "cap_data_engineering",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "数据工程能力依赖数据处理、数据库、云原生与协作能力。"
+  },
+  {
+    "source": "ability_database_practice",
+    "target": "cap_data_engineering",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "数据工程能力依赖数据处理、数据库、云原生与协作能力。"
+  },
+  {
+    "source": "ability_cloud_native",
+    "target": "cap_data_engineering",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "数据工程能力依赖数据处理、数据库、云原生与协作能力。"
+  },
+  {
+    "source": "ability_engineering_collaboration",
+    "target": "cap_data_engineering",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "数据工程能力依赖数据处理、数据库、云原生与协作能力。"
+  },
+  {
+    "source": "project_data_pipeline",
+    "target": "cap_data_engineering",
+    "relation": "evidences",
+    "weight": 0.24,
+    "note": "数据管道项目是数据工程能力的核心证据。"
+  },
+  {
+    "source": "interest_data",
+    "target": "cap_data_engineering",
+    "relation": "prefers",
+    "weight": 0.18,
+    "note": "偏好数据会增强数据工程方向。"
+  },
+  {
+    "source": "ability_data_processing",
+    "target": "cap_data_analysis",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "数据分析能力依赖数据处理、建模和协作表达。"
+  },
+  {
+    "source": "ability_data_modeling",
+    "target": "cap_data_analysis",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "数据分析能力依赖数据处理、建模和协作表达。"
+  },
+  {
+    "source": "ability_engineering_collaboration",
+    "target": "cap_data_analysis",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "数据分析能力依赖数据处理、建模和协作表达。"
+  },
+  {
+    "source": "project_dashboard",
+    "target": "cap_data_analysis",
+    "relation": "evidences",
+    "weight": 0.24,
+    "note": "分析看板项目是数据分析能力的重要证据。"
+  },
+  {
+    "source": "interest_data",
+    "target": "cap_data_analysis",
+    "relation": "prefers",
+    "weight": 0.14,
+    "note": "偏好数据和可视化会增强分析方向。"
+  },
+  {
+    "source": "interest_visualization",
+    "target": "cap_data_analysis",
+    "relation": "prefers",
+    "weight": 0.14,
+    "note": "偏好数据和可视化会增强分析方向。"
+  },
+  {
+    "source": "ability_ml_foundations",
+    "target": "cap_ml_engineering",
+    "relation": "supports",
+    "weight": 0.19,
+    "note": "机器学习工程能力需要基础、训练、数据和部署能力协同。"
+  },
+  {
+    "source": "ability_model_training",
+    "target": "cap_ml_engineering",
+    "relation": "supports",
+    "weight": 0.19,
+    "note": "机器学习工程能力需要基础、训练、数据和部署能力协同。"
+  },
+  {
+    "source": "ability_data_processing",
+    "target": "cap_ml_engineering",
+    "relation": "supports",
+    "weight": 0.19,
+    "note": "机器学习工程能力需要基础、训练、数据和部署能力协同。"
+  },
+  {
+    "source": "ability_cloud_native",
+    "target": "cap_ml_engineering",
+    "relation": "supports",
+    "weight": 0.19,
+    "note": "机器学习工程能力需要基础、训练、数据和部署能力协同。"
+  },
+  {
+    "source": "ability_ml_foundations",
+    "target": "cap_ml_engineering",
+    "relation": "requires",
+    "weight": 0.3,
+    "note": "机器学习基础是该能力的硬前置。"
+  },
+  {
+    "source": "interest_ml",
+    "target": "cap_ml_engineering",
+    "relation": "prefers",
+    "weight": 0.18,
+    "note": "偏好机器学习会增强该方向。"
+  },
+  {
+    "source": "constraint_dislike_math_theory",
+    "target": "cap_ml_engineering",
+    "relation": "inhibits",
+    "weight": 0.3,
+    "note": "不喜欢数学理论会抑制机器学习方向。"
+  },
+  {
+    "source": "ability_devops_basics",
+    "target": "cap_devops_engineering",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "DevOps 能力需要运维基础、云原生、系统设计和协作能力。"
+  },
+  {
+    "source": "ability_cloud_native",
+    "target": "cap_devops_engineering",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "DevOps 能力需要运维基础、云原生、系统设计和协作能力。"
+  },
+  {
+    "source": "ability_system_design",
+    "target": "cap_devops_engineering",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "DevOps 能力需要运维基础、云原生、系统设计和协作能力。"
+  },
+  {
+    "source": "ability_engineering_collaboration",
+    "target": "cap_devops_engineering",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "DevOps 能力需要运维基础、云原生、系统设计和协作能力。"
+  },
+  {
+    "source": "interest_devops",
+    "target": "cap_devops_engineering",
+    "relation": "prefers",
+    "weight": 0.14,
+    "note": "偏好运维平台和稳定交付会增强 DevOps 能力。"
+  },
+  {
+    "source": "interest_stable_delivery",
+    "target": "cap_devops_engineering",
+    "relation": "prefers",
+    "weight": 0.14,
+    "note": "偏好运维平台和稳定交付会增强 DevOps 能力。"
+  },
+  {
+    "source": "constraint_dislike_oncall",
+    "target": "cap_devops_engineering",
+    "relation": "inhibits",
+    "weight": 0.3,
+    "note": "抗拒值班会抑制 DevOps 能力。"
+  },
+  {
+    "source": "ability_test_automation",
+    "target": "cap_qa_engineering",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "测试开发能力由测试自动化、编程基础和协作能力共同组成。"
+  },
+  {
+    "source": "ability_programming_fundamentals",
+    "target": "cap_qa_engineering",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "测试开发能力由测试自动化、编程基础和协作能力共同组成。"
+  },
+  {
+    "source": "ability_engineering_collaboration",
+    "target": "cap_qa_engineering",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "测试开发能力由测试自动化、编程基础和协作能力共同组成。"
+  },
+  {
+    "source": "project_test_automation",
+    "target": "cap_qa_engineering",
+    "relation": "evidences",
+    "weight": 0.24,
+    "note": "测试自动化项目是测试开发能力的直接证据。"
+  },
+  {
+    "source": "interest_stable_delivery",
+    "target": "cap_qa_engineering",
+    "relation": "prefers",
+    "weight": 0.16,
+    "note": "偏好稳定交付会增强测试开发方向。"
+  },
+  {
+    "source": "ability_security_basics",
+    "target": "cap_security_engineering",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "安全工程能力由安全基础、网络分析和编程能力共同组成。"
+  },
+  {
+    "source": "ability_network_analysis",
+    "target": "cap_security_engineering",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "安全工程能力由安全基础、网络分析和编程能力共同组成。"
+  },
+  {
+    "source": "ability_programming_fundamentals",
+    "target": "cap_security_engineering",
+    "relation": "supports",
+    "weight": 0.24,
+    "note": "安全工程能力由安全基础、网络分析和编程能力共同组成。"
+  },
+  {
+    "source": "project_security_ctf",
+    "target": "cap_security_engineering",
+    "relation": "evidences",
+    "weight": 0.26,
+    "note": "安全实战项目是安全方向的重要证据。"
+  },
+  {
+    "source": "interest_security",
+    "target": "cap_security_engineering",
+    "relation": "prefers",
+    "weight": 0.18,
+    "note": "偏好安全会增强安全工程能力。"
+  },
+  {
+    "source": "cap_backend_engineering",
+    "target": "cap_platform_engineering",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "平台工程能力需要后端、运维、云原生和系统设计协同。"
+  },
+  {
+    "source": "cap_devops_engineering",
+    "target": "cap_platform_engineering",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "平台工程能力需要后端、运维、云原生和系统设计协同。"
+  },
+  {
+    "source": "ability_cloud_native",
+    "target": "cap_platform_engineering",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "平台工程能力需要后端、运维、云原生和系统设计协同。"
+  },
+  {
+    "source": "ability_system_design",
+    "target": "cap_platform_engineering",
+    "relation": "supports",
+    "weight": 0.2,
+    "note": "平台工程能力需要后端、运维、云原生和系统设计协同。"
+  },
+  {
+    "source": "interest_stable_delivery",
+    "target": "cap_platform_engineering",
+    "relation": "prefers",
+    "weight": 0.16,
+    "note": "偏好稳定交付会增强平台工程方向。"
+  },
+  {
+    "source": "cap_backend_engineering",
+    "target": "dir_web_backend",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "多种后端能力簇共同支撑 Web 后端方向。"
+  },
+  {
+    "source": "cap_python_backend_engineering",
+    "target": "dir_web_backend",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "多种后端能力簇共同支撑 Web 后端方向。"
+  },
+  {
+    "source": "cap_java_backend_engineering",
+    "target": "dir_web_backend",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "多种后端能力簇共同支撑 Web 后端方向。"
+  },
+  {
+    "source": "cap_backend_engineering",
+    "target": "dir_web_backend",
+    "relation": "requires",
+    "weight": 0.3,
+    "note": "后端工程能力是 Web 后端方向的关键前置。"
+  },
+  {
+    "source": "interest_backend",
+    "target": "dir_web_backend",
+    "relation": "prefers",
+    "weight": 0.16,
+    "note": "偏好后端会增强 Web 后端方向。"
+  },
+  {
+    "source": "cap_frontend_engineering",
+    "target": "dir_frontend",
+    "relation": "supports",
+    "weight": 0.3,
+    "note": "前端工程能力直接支撑前端方向。"
+  },
+  {
+    "source": "cap_frontend_engineering",
+    "target": "dir_frontend",
+    "relation": "requires",
+    "weight": 0.32,
+    "note": "前端工程能力是前端方向的关键前置。"
+  },
+  {
+    "source": "interest_frontend",
+    "target": "dir_frontend",
+    "relation": "prefers",
+    "weight": 0.18,
+    "note": "偏好前端会增强前端方向。"
+  },
+  {
+    "source": "constraint_dislike_ui_polish",
+    "target": "dir_frontend",
+    "relation": "inhibits",
+    "weight": 0.28,
+    "note": "不喜欢界面打磨会抑制前端方向。"
+  },
+  {
+    "source": "cap_fullstack_engineering",
+    "target": "dir_fullstack",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "全栈方向需要前后端能力共同支撑。"
+  },
+  {
+    "source": "cap_backend_engineering",
+    "target": "dir_fullstack",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "全栈方向需要前后端能力共同支撑。"
+  },
+  {
+    "source": "cap_frontend_engineering",
+    "target": "dir_fullstack",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "全栈方向需要前后端能力共同支撑。"
+  },
+  {
+    "source": "cap_fullstack_engineering",
+    "target": "dir_fullstack",
+    "relation": "requires",
+    "weight": 0.3,
+    "note": "全栈工程能力是全栈方向的关键前置。"
+  },
+  {
+    "source": "cap_data_engineering",
+    "target": "dir_data",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "数据工程与数据分析共同支撑数据方向。"
+  },
+  {
+    "source": "cap_data_analysis",
+    "target": "dir_data",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "数据工程与数据分析共同支撑数据方向。"
+  },
+  {
+    "source": "cap_data_engineering",
+    "target": "dir_data",
+    "relation": "requires",
+    "weight": 0.18,
+    "note": "数据工程能力是数据方向的重要前置。"
+  },
+  {
+    "source": "interest_data",
+    "target": "dir_data",
+    "relation": "prefers",
+    "weight": 0.16,
+    "note": "偏好数据会增强数据方向。"
+  },
+  {
+    "source": "cap_ml_engineering",
+    "target": "dir_machine_learning",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "机器学习方向由工程能力、基础与训练能力共同支撑。"
+  },
+  {
+    "source": "ability_ml_foundations",
+    "target": "dir_machine_learning",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "机器学习方向由工程能力、基础与训练能力共同支撑。"
+  },
+  {
+    "source": "ability_model_training",
+    "target": "dir_machine_learning",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "机器学习方向由工程能力、基础与训练能力共同支撑。"
+  },
+  {
+    "source": "cap_ml_engineering",
+    "target": "dir_machine_learning",
+    "relation": "requires",
+    "weight": 0.32,
+    "note": "机器学习工程能力是机器学习方向的关键前置。"
+  },
+  {
+    "source": "interest_ml",
+    "target": "dir_machine_learning",
+    "relation": "prefers",
+    "weight": 0.18,
+    "note": "偏好机器学习会增强该方向。"
+  },
+  {
+    "source": "constraint_dislike_math_theory",
+    "target": "dir_machine_learning",
+    "relation": "inhibits",
+    "weight": 0.3,
+    "note": "不喜欢数学理论会抑制机器学习方向。"
+  },
+  {
+    "source": "cap_devops_engineering",
+    "target": "dir_devops",
+    "relation": "supports",
+    "weight": 0.26,
+    "note": "DevOps 与平台工程能力共同支撑运维平台方向。"
+  },
+  {
+    "source": "cap_platform_engineering",
+    "target": "dir_devops",
+    "relation": "supports",
+    "weight": 0.26,
+    "note": "DevOps 与平台工程能力共同支撑运维平台方向。"
+  },
+  {
+    "source": "cap_devops_engineering",
+    "target": "dir_devops",
+    "relation": "requires",
+    "weight": 0.3,
+    "note": "DevOps 工程能力是运维平台方向的关键前置。"
+  },
+  {
+    "source": "interest_devops",
+    "target": "dir_devops",
+    "relation": "prefers",
+    "weight": 0.18,
+    "note": "偏好运维平台会增强该方向。"
+  },
+  {
+    "source": "constraint_dislike_oncall",
+    "target": "dir_devops",
+    "relation": "inhibits",
+    "weight": 0.28,
+    "note": "抗拒值班会抑制运维平台方向。"
+  },
+  {
+    "source": "cap_qa_engineering",
+    "target": "dir_quality_assurance",
+    "relation": "supports",
+    "weight": 0.3,
+    "note": "测试开发能力直接支撑测试开发方向。"
+  },
+  {
+    "source": "cap_qa_engineering",
+    "target": "dir_quality_assurance",
+    "relation": "requires",
+    "weight": 0.3,
+    "note": "测试开发能力是测试开发方向的关键前置。"
+  },
+  {
+    "source": "interest_stable_delivery",
+    "target": "dir_quality_assurance",
+    "relation": "prefers",
+    "weight": 0.18,
+    "note": "偏好稳定交付会增强测试开发方向。"
+  },
+  {
+    "source": "cap_security_engineering",
+    "target": "dir_security",
+    "relation": "supports",
+    "weight": 0.3,
+    "note": "安全工程能力直接支撑安全方向。"
+  },
+  {
+    "source": "cap_security_engineering",
+    "target": "dir_security",
+    "relation": "requires",
+    "weight": 0.32,
+    "note": "安全工程能力是安全方向的关键前置。"
+  },
+  {
+    "source": "interest_security",
+    "target": "dir_security",
+    "relation": "prefers",
+    "weight": 0.18,
+    "note": "偏好安全会增强安全方向。"
+  },
+  {
+    "source": "cap_platform_engineering",
+    "target": "dir_platform",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "平台工程方向需要平台、DevOps 与后端能力协同。"
+  },
+  {
+    "source": "cap_devops_engineering",
+    "target": "dir_platform",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "平台工程方向需要平台、DevOps 与后端能力协同。"
+  },
+  {
+    "source": "cap_backend_engineering",
+    "target": "dir_platform",
+    "relation": "supports",
+    "weight": 0.22,
+    "note": "平台工程方向需要平台、DevOps 与后端能力协同。"
+  },
+  {
+    "source": "cap_platform_engineering",
+    "target": "dir_platform",
+    "relation": "requires",
+    "weight": 0.3,
+    "note": "平台工程能力是平台方向的关键前置。"
+  },
+  {
+    "source": "interest_stable_delivery",
+    "target": "dir_platform",
+    "relation": "prefers",
+    "weight": 0.16,
+    "note": "偏好稳定交付会增强平台方向。"
+  },
+  {
+    "source": "dir_web_backend",
+    "target": "role_backend_engineer",
+    "relation": "supports",
+    "weight": 0.26,
+    "note": "后端方向与后端工程能力共同支撑后端工程师岗位。"
+  },
+  {
+    "source": "cap_backend_engineering",
+    "target": "role_backend_engineer",
+    "relation": "supports",
+    "weight": 0.26,
+    "note": "后端方向与后端工程能力共同支撑后端工程师岗位。"
+  },
+  {
+    "source": "cap_backend_engineering",
+    "target": "role_backend_engineer",
+    "relation": "requires",
+    "weight": 0.32,
+    "note": "后端工程能力是后端工程师的关键前置。"
+  },
+  {
+    "source": "interest_backend",
+    "target": "role_backend_engineer",
+    "relation": "prefers",
+    "weight": 0.16,
+    "note": "偏好后端会增强岗位匹配度。"
+  },
+  {
+    "source": "dir_web_backend",
+    "target": "role_python_backend_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "Python 后端方向与能力共同支撑 Python 后端岗位。"
+  },
+  {
+    "source": "cap_python_backend_engineering",
+    "target": "role_python_backend_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "Python 后端方向与能力共同支撑 Python 后端岗位。"
+  },
+  {
+    "source": "cap_python_backend_engineering",
+    "target": "role_python_backend_engineer",
+    "relation": "requires",
+    "weight": 0.34,
+    "note": "Python 后端工程能力是该岗位的关键前置。"
+  },
+  {
+    "source": "dir_web_backend",
+    "target": "role_java_backend_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "Java 后端方向与能力共同支撑 Java 后端岗位。"
+  },
+  {
+    "source": "cap_java_backend_engineering",
+    "target": "role_java_backend_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "Java 后端方向与能力共同支撑 Java 后端岗位。"
+  },
+  {
+    "source": "cap_java_backend_engineering",
+    "target": "role_java_backend_engineer",
+    "relation": "requires",
+    "weight": 0.34,
+    "note": "Java 后端工程能力是该岗位的关键前置。"
+  },
+  {
+    "source": "dir_frontend",
+    "target": "role_frontend_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "前端方向与前端工程能力共同支撑前端岗位。"
+  },
+  {
+    "source": "cap_frontend_engineering",
+    "target": "role_frontend_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "前端方向与前端工程能力共同支撑前端岗位。"
+  },
+  {
+    "source": "cap_frontend_engineering",
+    "target": "role_frontend_engineer",
+    "relation": "requires",
+    "weight": 0.34,
+    "note": "前端工程能力是前端岗位的关键前置。"
+  },
+  {
+    "source": "constraint_dislike_ui_polish",
+    "target": "role_frontend_engineer",
+    "relation": "inhibits",
+    "weight": 0.34,
+    "note": "不喜欢界面打磨会压低前端岗位。"
+  },
+  {
+    "source": "dir_fullstack",
+    "target": "role_fullstack_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "全栈方向与全栈能力共同支撑全栈岗位。"
+  },
+  {
+    "source": "cap_fullstack_engineering",
+    "target": "role_fullstack_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "全栈方向与全栈能力共同支撑全栈岗位。"
+  },
+  {
+    "source": "cap_fullstack_engineering",
+    "target": "role_fullstack_engineer",
+    "relation": "requires",
+    "weight": 0.34,
+    "note": "全栈工程能力是全栈岗位的关键前置。"
+  },
+  {
+    "source": "dir_data",
+    "target": "role_data_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "数据方向与数据工程能力共同支撑数据工程师岗位。"
+  },
+  {
+    "source": "cap_data_engineering",
+    "target": "role_data_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "数据方向与数据工程能力共同支撑数据工程师岗位。"
+  },
+  {
+    "source": "cap_data_engineering",
+    "target": "role_data_engineer",
+    "relation": "requires",
+    "weight": 0.34,
+    "note": "数据工程能力是数据工程师的关键前置。"
+  },
+  {
+    "source": "interest_data",
+    "target": "role_data_engineer",
+    "relation": "prefers",
+    "weight": 0.16,
+    "note": "偏好数据会增强岗位匹配度。"
+  },
+  {
+    "source": "dir_data",
+    "target": "role_data_analyst",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "数据方向与数据分析能力共同支撑数据分析师岗位。"
+  },
+  {
+    "source": "cap_data_analysis",
+    "target": "role_data_analyst",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "数据方向与数据分析能力共同支撑数据分析师岗位。"
+  },
+  {
+    "source": "cap_data_analysis",
+    "target": "role_data_analyst",
+    "relation": "requires",
+    "weight": 0.3,
+    "note": "数据分析能力是数据分析师的关键前置。"
+  },
+  {
+    "source": "interest_visualization",
+    "target": "role_data_analyst",
+    "relation": "prefers",
+    "weight": 0.16,
+    "note": "偏好可视化会增强数据分析师匹配度。"
+  },
+  {
+    "source": "dir_machine_learning",
+    "target": "role_ml_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "机器学习方向与工程能力共同支撑机器学习工程师岗位。"
+  },
+  {
+    "source": "cap_ml_engineering",
+    "target": "role_ml_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "机器学习方向与工程能力共同支撑机器学习工程师岗位。"
+  },
+  {
+    "source": "cap_ml_engineering",
+    "target": "role_ml_engineer",
+    "relation": "requires",
+    "weight": 0.36,
+    "note": "机器学习工程能力是机器学习岗位的关键前置。"
+  },
+  {
+    "source": "constraint_dislike_math_theory",
+    "target": "role_ml_engineer",
+    "relation": "inhibits",
+    "weight": 0.34,
+    "note": "不喜欢数学理论会显著压低机器学习岗位。"
+  },
+  {
+    "source": "dir_devops",
+    "target": "role_devops_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "运维平台方向与 DevOps 能力共同支撑 DevOps 岗位。"
+  },
+  {
+    "source": "cap_devops_engineering",
+    "target": "role_devops_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "运维平台方向与 DevOps 能力共同支撑 DevOps 岗位。"
+  },
+  {
+    "source": "cap_devops_engineering",
+    "target": "role_devops_engineer",
+    "relation": "requires",
+    "weight": 0.34,
+    "note": "DevOps 工程能力是 DevOps 岗位的关键前置。"
+  },
+  {
+    "source": "constraint_dislike_oncall",
+    "target": "role_devops_engineer",
+    "relation": "inhibits",
+    "weight": 0.34,
+    "note": "抗拒值班会显著压低 DevOps 岗位。"
+  },
+  {
+    "source": "dir_quality_assurance",
+    "target": "role_test_development_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "测试开发方向与测试能力共同支撑测试开发岗位。"
+  },
+  {
+    "source": "cap_qa_engineering",
+    "target": "role_test_development_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "测试开发方向与测试能力共同支撑测试开发岗位。"
+  },
+  {
+    "source": "cap_qa_engineering",
+    "target": "role_test_development_engineer",
+    "relation": "requires",
+    "weight": 0.34,
+    "note": "测试开发能力是测试开发岗位的关键前置。"
+  },
+  {
+    "source": "dir_security",
+    "target": "role_security_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "安全方向与安全能力共同支撑安全岗位。"
+  },
+  {
+    "source": "cap_security_engineering",
+    "target": "role_security_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "安全方向与安全能力共同支撑安全岗位。"
+  },
+  {
+    "source": "cap_security_engineering",
+    "target": "role_security_engineer",
+    "relation": "requires",
+    "weight": 0.34,
+    "note": "安全工程能力是安全岗位的关键前置。"
+  },
+  {
+    "source": "dir_platform",
+    "target": "role_platform_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "平台方向与平台能力共同支撑平台工程岗位。"
+  },
+  {
+    "source": "cap_platform_engineering",
+    "target": "role_platform_engineer",
+    "relation": "supports",
+    "weight": 0.28,
+    "note": "平台方向与平台能力共同支撑平台工程岗位。"
+  },
+  {
+    "source": "cap_platform_engineering",
+    "target": "role_platform_engineer",
+    "relation": "requires",
+    "weight": 0.34,
+    "note": "平台工程能力是平台工程岗位的关键前置。"
+  },
+  {
+    "source": "interest_stable_delivery",
+    "target": "role_platform_engineer",
+    "relation": "prefers",
+    "weight": 0.16,
+    "note": "偏好稳定交付会增强平台工程岗位匹配度。"
+  }
+]

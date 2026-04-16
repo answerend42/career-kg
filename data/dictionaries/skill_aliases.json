@@ -1,0 +1,340 @@
+{
+  "skill_python": [
+    "py",
+    "python"
+  ],
+  "skill_java": [
+    "java"
+  ],
+  "skill_cpp": [
+    "c++",
+    "cpp"
+  ],
+  "skill_c": [
+    "c",
+    "c language",
+    "c语言"
+  ],
+  "skill_javascript": [
+    "javascript",
+    "js"
+  ],
+  "skill_typescript": [
+    "ts",
+    "typescript"
+  ],
+  "skill_golang": [
+    "go",
+    "golang"
+  ],
+  "skill_rust": [
+    "rust"
+  ],
+  "skill_sql": [
+    "sql"
+  ],
+  "skill_bash": [
+    "bash",
+    "shell",
+    "shell script"
+  ],
+  "tool_flask": [
+    "flask"
+  ],
+  "tool_django": [
+    "django"
+  ],
+  "tool_fastapi": [
+    "fastapi"
+  ],
+  "tool_spring_boot": [
+    "spring",
+    "spring boot"
+  ],
+  "tool_react": [
+    "react"
+  ],
+  "tool_vue": [
+    "vue",
+    "vue.js"
+  ],
+  "tool_nodejs": [
+    "node",
+    "node.js",
+    "nodejs"
+  ],
+  "tool_linux": [
+    "linux"
+  ],
+  "tool_docker": [
+    "docker"
+  ],
+  "tool_kubernetes": [
+    "k8s",
+    "kubernetes"
+  ],
+  "tool_git": [
+    "git"
+  ],
+  "tool_mysql": [
+    "mysql"
+  ],
+  "tool_postgresql": [
+    "postgres",
+    "postgresql"
+  ],
+  "tool_redis": [
+    "redis"
+  ],
+  "tool_mongodb": [
+    "mongo",
+    "mongodb"
+  ],
+  "tool_pandas": [
+    "pandas"
+  ],
+  "tool_numpy": [
+    "numpy"
+  ],
+  "tool_spark": [
+    "apache spark",
+    "spark"
+  ],
+  "tool_hadoop": [
+    "hadoop"
+  ],
+  "tool_kafka": [
+    "kafka"
+  ],
+  "tool_airflow": [
+    "airflow"
+  ],
+  "tool_pytorch": [
+    "pytorch",
+    "torch"
+  ],
+  "tool_tensorflow": [
+    "tensorflow",
+    "tf"
+  ],
+  "tool_scikit_learn": [
+    "scikit-learn",
+    "sklearn"
+  ],
+  "tool_selenium": [
+    "selenium"
+  ],
+  "tool_pytest": [
+    "pytest"
+  ],
+  "tool_wireshark": [
+    "wireshark"
+  ],
+  "tool_nmap": [
+    "nmap"
+  ],
+  "tool_burp_suite": [
+    "burp",
+    "burp suite"
+  ],
+  "tool_aws": [
+    "aws"
+  ],
+  "tool_aliyun": [
+    "aliyun",
+    "阿里云"
+  ],
+  "knowledge_data_structures": [
+    "data structures",
+    "数据结构"
+  ],
+  "knowledge_algorithms": [
+    "algorithms",
+    "算法"
+  ],
+  "knowledge_oop": [
+    "oop",
+    "面向对象"
+  ],
+  "knowledge_database_theory": [
+    "database theory",
+    "数据库原理"
+  ],
+  "knowledge_operating_systems": [
+    "os",
+    "操作系统"
+  ],
+  "knowledge_networks": [
+    "computer networks",
+    "networking",
+    "计算机网络"
+  ],
+  "knowledge_statistics": [
+    "statistics",
+    "统计基础",
+    "统计学"
+  ],
+  "knowledge_linear_algebra": [
+    "linear algebra",
+    "线性代数"
+  ],
+  "knowledge_probability": [
+    "probability",
+    "概率论"
+  ],
+  "knowledge_system_design": [
+    "system design",
+    "架构设计",
+    "系统设计"
+  ],
+  "knowledge_math_foundation": [
+    "math",
+    "数学",
+    "数学基础"
+  ],
+  "project_backend_api": [
+    "api项目",
+    "backend api",
+    "后端接口",
+    "后端接口项目"
+  ],
+  "project_microservice": [
+    "microservice",
+    "微服务",
+    "微服务项目"
+  ],
+  "project_web_ui": [
+    "web ui",
+    "web 前端项目",
+    "前端项目",
+    "网页项目"
+  ],
+  "project_data_pipeline": [
+    "data pipeline",
+    "数据管道",
+    "数据管道项目"
+  ],
+  "project_dashboard": [
+    "dashboard",
+    "分析看板项目",
+    "可视化项目",
+    "数据看板"
+  ],
+  "project_model_training": [
+    "model training",
+    "模型训练",
+    "模型训练项目"
+  ],
+  "project_ml_deployment": [
+    "ml deployment",
+    "模型部署",
+    "模型部署项目"
+  ],
+  "project_test_automation": [
+    "test automation",
+    "测试自动化",
+    "测试自动化项目"
+  ],
+  "project_devops_automation": [
+    "devops automation",
+    "运维自动化",
+    "运维自动化项目"
+  ],
+  "project_security_ctf": [
+    "ctf",
+    "安全实战项目",
+    "安全项目",
+    "渗透"
+  ],
+  "interest_backend": [
+    "backend",
+    "偏好后端",
+    "后端",
+    "后端接口"
+  ],
+  "interest_frontend": [
+    "frontend",
+    "偏好前端",
+    "前端",
+    "界面"
+  ],
+  "interest_data": [
+    "data",
+    "偏好数据",
+    "数据分析",
+    "数据工程",
+    "数据方向"
+  ],
+  "interest_ml": [
+    "ai",
+    "ml",
+    "偏好机器学习",
+    "机器学习",
+    "算法方向"
+  ],
+  "interest_devops": [
+    "devops",
+    "偏好运维平台",
+    "平台工程",
+    "运维"
+  ],
+  "interest_security": [
+    "security",
+    "偏好安全",
+    "安全"
+  ],
+  "interest_stable_delivery": [
+    "偏好稳定交付",
+    "可靠性",
+    "稳定交付",
+    "质量保障"
+  ],
+  "interest_visualization": [
+    "dashboard",
+    "偏好可视化表达",
+    "可视化",
+    "图表"
+  ],
+  "soft_communication": [
+    "communication",
+    "沟通",
+    "沟通表达"
+  ],
+  "soft_teamwork": [
+    "teamwork",
+    "协作",
+    "团队协作"
+  ],
+  "soft_self_learning": [
+    "self learning",
+    "自主学习",
+    "自学",
+    "自驱"
+  ],
+  "soft_documentation": [
+    "documentation",
+    "文档",
+    "文档习惯"
+  ],
+  "constraint_dislike_math_theory": [
+    "不喜欢数学",
+    "不喜欢高数学理论",
+    "不太擅长数学",
+    "怕数学",
+    "数学薄弱"
+  ],
+  "constraint_dislike_oncall": [
+    "不喜欢 oncall",
+    "不喜欢值班运维",
+    "不喜欢运维值班",
+    "不想值班",
+    "抗拒 oncall"
+  ],
+  "constraint_dislike_ui_polish": [
+    "不喜欢 ui",
+    "不喜欢前端细节",
+    "不喜欢界面",
+    "不喜欢界面打磨",
+    "不爱做样式"
+  ]
+}
