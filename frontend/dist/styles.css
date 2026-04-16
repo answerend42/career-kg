@@ -480,17 +480,23 @@ input[type="range"] {
   margin-top: 4px;
 }
 
+.roadmap-section,
 .scenario-section {
   display: grid;
   gap: 12px;
 }
 
+.roadmap-list,
 .scenario-list {
   display: grid;
   gap: 12px;
+}
+
+.scenario-list {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
+.roadmap-step-card,
 .scenario-card {
   padding: 16px;
   border-radius: var(--radius-md);
@@ -498,6 +504,7 @@ input[type="range"] {
   background: rgba(255, 252, 247, 0.88);
 }
 
+.roadmap-step-head,
 .scenario-headline {
   display: flex;
   align-items: flex-start;
@@ -505,6 +512,35 @@ input[type="range"] {
   gap: 12px;
 }
 
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.roadmap-chip-row {
+  margin-top: 4px;
+}
+
+.soft-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(17, 77, 81, 0.08);
+  color: var(--accent-deep);
+  font-size: 12px;
+  border: 1px solid rgba(17, 77, 81, 0.12);
+}
+
+.soft-chip.accent-chip {
+  background: rgba(196, 103, 46, 0.1);
+  color: #8f421f;
+  border-color: rgba(196, 103, 46, 0.16);
+}
+
+.score-chip,
 .delta-chip {
   display: inline-flex;
   align-items: center;

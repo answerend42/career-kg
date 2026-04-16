@@ -162,28 +162,17 @@ class RoleGapAnalyzer:
         base_score = states[target_role_id].score
         scenarios: list[SimulationScenario] = []
         for title, boost_candidates in scenario_specs[:limit]:
-            simulated_scores = dict(score_map)
-            boosts = self._build_boosts_for_suggestions(states, boost_candidates)
-            for boost in boosts:
-                simulated_scores[boost.node_id] = max(simulated_scores.get(boost.node_id, 0.0), boost.to_score)
-            if not boosts:
-                continue
-
-            simulated_states = self.engine.run(self.graph, simulated_scores)
-            predicted_score = simulated_states[target_role_id].score
-            delta_score = round(predicted_score - base_score, 4)
-            if delta_score <= 0:
-                continue
-
-            scenarios.append(
-                SimulationScenario(
-                    title=title,
-                    predicted_score=predicted_score,
-                    delta_score=delta_score,
-                    summary=self._build_scenario_summary(target_role_id, boosts, base_score, predicted_score),
-                    boosts=boosts,
-                )
+            boosts = self.build_simulation_boosts(states, boost_candidates)
+            scenario, _ = self.simulate_with_boosts(
+                score_map=score_map,
+                target_role_id=target_role_id,
+                boosts=boosts,
+                title=title,
+                base_score=base_score,
             )
+            if scenario is None:
+                continue
+            scenarios.append(scenario)
 
         scenarios.sort(key=lambda item: (item.delta_score, item.predicted_score, item.title), reverse=True)
         unique: list[SimulationScenario] = []
@@ -197,6 +186,50 @@ class RoleGapAnalyzer:
             if len(unique) >= limit:
                 break
         return unique
+
+    def build_simulation_boosts(
+        self,
+        states: dict[str, NodeState],
+        suggestions: list[GapSuggestion],
+        exclude_node_ids: set[str] | None = None,
+        max_boosts: int = 4,
+    ) -> list[SimulatedBoost]:
+        exclude_node_ids = exclude_node_ids or set()
+        boosts = self._build_boosts_for_suggestions(states, suggestions)
+        filtered = [boost for boost in boosts if boost.node_id not in exclude_node_ids]
+        return filtered[:max_boosts]
+
+    def simulate_with_boosts(
+        self,
+        score_map: dict[str, float],
+        target_role_id: str,
+        boosts: list[SimulatedBoost],
+        title: str,
+        base_score: float,
+    ) -> tuple[SimulationScenario | None, dict[str, NodeState]]:
+        if not boosts:
+            return None, self.engine.run(self.graph, score_map)
+
+        simulated_scores = dict(score_map)
+        for boost in boosts:
+            simulated_scores[boost.node_id] = max(simulated_scores.get(boost.node_id, 0.0), boost.to_score)
+
+        simulated_states = self.engine.run(self.graph, simulated_scores)
+        predicted_score = simulated_states[target_role_id].score
+        delta_score = round(predicted_score - base_score, 4)
+        if delta_score <= 0:
+            return None, simulated_states
+
+        return (
+            SimulationScenario(
+                title=title,
+                predicted_score=predicted_score,
+                delta_score=delta_score,
+                summary=self._build_scenario_summary(target_role_id, boosts, base_score, predicted_score),
+                boosts=boosts,
+            ),
+            simulated_states,
+        )
 
     def build_gap_tip(
         self,

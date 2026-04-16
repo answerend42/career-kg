@@ -2,7 +2,7 @@
 
 ## 目标
 
-`/api/role-gap` 让系统不只回答“推荐什么岗位”，还回答“如果我想冲某个岗位，还差什么、先补什么最值”。
+`/api/role-gap` 让系统不只回答“推荐什么岗位”，还回答“如果我想冲某个岗位，还差什么、先补什么最值、顺序怎么排”。
 
 ## 输入
 
@@ -25,8 +25,12 @@
    - `missing_requirements`
    - `parent_contributions`
 4. 从目标岗位的 `requires` 和弱 `supports` 父节点里生成 `priority_suggestions`。
-5. 对建议节点向上游追溯叶子证据节点，构造 what-if 候选。
-6. 对候选证据节点做轻量注入重算，得到 `what_if_scenarios`。
+5. 用同一批建议节点做多步成长路径编排：
+   - 优先硬前置
+   - 再看单步增益
+   - 避免重复复用同一批 boost 节点
+6. 对建议节点向上游追溯叶子证据节点，构造 what-if 候选。
+7. 对候选证据节点做轻量注入重算，得到 `what_if_scenarios`。
 
 ## 为什么模拟补“证据节点”
 
@@ -46,6 +50,7 @@
 - `target_role.gap_summary`
 - `target_role.missing_requirements`
 - `target_role.priority_suggestions`
+- `target_role.learning_path`
 - `target_role.what_if_scenarios`
 
 ## 前端使用方式
@@ -58,11 +63,12 @@
    - 当前分数
    - 关键缺口
    - 优先补齐建议
+   - 成长路径时间线
    - what-if 模拟卡片
 
 ## 当前边界
 
-- what-if 是启发式模拟，不是最优解搜索器。
+- 成长路径和 what-if 都是启发式规则，不是全局最优解搜索器。
 - 当前更适合作为课程展示和成长规划辅助，而不是严格的学习路径优化器。
 - 如果后续需要更强的规划能力，可以继续接：
   - case benchmark

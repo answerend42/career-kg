@@ -333,8 +333,8 @@ function renderTargetGapAnalysis() {
     const selectedRoleName = state.roleCatalog.find((item) => item.id === state.targetRoleId)?.name;
     elements.targetGapAnalysis.innerHTML = emptyState(
       selectedRoleName
-        ? `当前目标岗位是“${selectedRoleName}”，点击“分析目标岗位”后会展示缺口和 what-if 模拟。`
-        : "选择一个目标岗位后，可查看定向差距分析和 what-if 模拟。"
+        ? `当前目标岗位是“${selectedRoleName}”，点击“分析目标岗位”后会展示缺口、成长路径和 what-if 模拟。`
+        : "选择一个目标岗位后，可查看定向差距分析、成长路径和 what-if 模拟。"
     );
     return;
   }
@@ -342,6 +342,45 @@ function renderTargetGapAnalysis() {
   const target = state.targetGapResult.target_role;
   const leadPath = target.paths?.[0];
   const sourceBadges = renderSourceTypeBadges(target.source_types || []);
+  const roadmapMarkup = target.learning_path?.length
+    ? `<div class="roadmap-list">${target.learning_path
+        .map(
+          (step) => `
+            <article class="roadmap-step-card">
+              <div class="roadmap-step-head">
+                <div>
+                  <p class="signal-name">${escapeHtml(step.title)}</p>
+                  <p class="signal-meta">${escapeHtml(step.summary)}</p>
+                </div>
+                <div class="score-chip">+${Math.round((step.expected_score_delta || 0) * 100)} / ${Math.round((step.expected_total_score || 0) * 100)} 分</div>
+              </div>
+              ${
+                step.blocked_by?.length
+                  ? `<div class="chip-row roadmap-chip-row">${step.blocked_by
+                      .map((item) => `<span class="soft-chip">受限于 ${escapeHtml(item)}</span>`)
+                      .join("")}</div>`
+                  : ""
+              }
+              ${
+                step.unlock_nodes?.length
+                  ? `<div class="chip-row roadmap-chip-row">${step.unlock_nodes
+                      .map((item) => `<span class="soft-chip accent-chip">带动 ${escapeHtml(item)}</span>`)
+                      .join("")}</div>`
+                  : ""
+              }
+              <ul class="limit-list scenario-boost-list">
+                ${step.boosts
+                  .map(
+                    (boost) =>
+                      `<li>${escapeHtml(`${boost.node_name}：${Math.round((boost.from_score || 0) * 100)} → ${Math.round((boost.to_score || 0) * 100)} 分`)}</li>`
+                  )
+                  .join("")}
+              </ul>
+            </article>
+          `
+        )
+        .join("")}</div>`
+    : `<p class="soft-note">当前没有足够稳定的多步成长路径，优先参考缺口与 what-if 模拟。</p>`;
   elements.targetGapAnalysis.innerHTML = `
     <article class="detail-card accent-card target-analysis-card">
       <div class="detail-headline">
@@ -396,6 +435,13 @@ function renderTargetGapAnalysis() {
           }
         </div>
       </div>
+      <section class="roadmap-section">
+        <div class="subhead">
+          <h3>成长路径</h3>
+          <p class="soft-note">按前置约束和增益排序，把“先补什么、后补什么”拆成 2-4 步动作。</p>
+        </div>
+        ${roadmapMarkup}
+      </section>
       <section class="scenario-section">
         <div class="subhead">
           <h3>What-if 模拟</h3>

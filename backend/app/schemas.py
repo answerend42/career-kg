@@ -210,6 +210,26 @@ class SimulationScenario:
 
 
 @dataclass(slots=True)
+class LearningPathStep:
+    step: int
+    focus_node_id: str
+    focus_node_name: str
+    relation: str
+    title: str
+    summary: str
+    expected_score_delta: float
+    expected_total_score: float
+    blocked_by: list[str] = field(default_factory=list)
+    unlock_nodes: list[str] = field(default_factory=list)
+    boosts: list[SimulatedBoost] = field(default_factory=list)
+
+    def as_dict(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["boosts"] = [item.as_dict() for item in self.boosts]
+        return payload
+
+
+@dataclass(slots=True)
 class TargetRoleAnalysis:
     job_id: str
     job_name: str
@@ -220,6 +240,7 @@ class TargetRoleAnalysis:
     missing_requirements: list[str] = field(default_factory=list)
     priority_suggestions: list[GapSuggestion] = field(default_factory=list)
     what_if_scenarios: list[SimulationScenario] = field(default_factory=list)
+    learning_path: list[LearningPathStep] = field(default_factory=list)
     provenance_count: int = 0
     source_type_count: int = 0
     source_types: list[str] = field(default_factory=list)
@@ -230,4 +251,5 @@ class TargetRoleAnalysis:
         payload["paths"] = [path.as_dict() for path in self.paths]
         payload["priority_suggestions"] = [item.as_dict() for item in self.priority_suggestions]
         payload["what_if_scenarios"] = [item.as_dict() for item in self.what_if_scenarios]
+        payload["learning_path"] = [item.as_dict() for item in self.learning_path]
         return payload

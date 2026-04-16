@@ -9,6 +9,7 @@ from ..services.explainer import GraphExplainer
 from ..services.graph_loader import GraphLoader
 from ..services.inference_engine import InferenceEngine, NodeState
 from ..services.input_normalizer import InputNormalizer
+from ..services.learning_path_planner import LearningPathPlanner
 from ..services.nl_parser import LightweightNLParser
 from ..services.role_gap_analyzer import RoleGapAnalyzer
 
@@ -30,6 +31,7 @@ class RecommendationService:
         self.engine = InferenceEngine()
         self.explainer = GraphExplainer()
         self.role_gap_analyzer = RoleGapAnalyzer(self.graph, self.engine, self.explainer)
+        self.learning_path_planner = LearningPathPlanner(self.graph, self.role_gap_analyzer)
         self.sample_request_path = self.loader.base_dir / "data" / "demo" / "sample_request.json"
         self.provenance_summary = self._build_provenance_summary()
 
@@ -90,6 +92,11 @@ class RecommendationService:
             target_role_id=request.target_role_id,
             source_payload=self._role_source_payload(request.target_role_id),
             scenario_limit=request.scenario_limit,
+        )
+        analysis.learning_path = self.learning_path_planner.plan(
+            states=states,
+            score_map=score_map,
+            target_role_id=request.target_role_id,
         )
         return {
             "target_role": analysis.as_dict(),
