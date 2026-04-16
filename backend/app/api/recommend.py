@@ -4,18 +4,18 @@ import json
 from pathlib import Path
 from typing import Any
 
-from ..schemas import GapSuggestion, NearMissItem, RecommendationItem, RecommendationRequest
+from ..schemas import NearMissItem, RecommendationItem, RecommendationRequest, RoleGapRequest
 from ..services.explainer import GraphExplainer
 from ..services.graph_loader import GraphLoader
 from ..services.inference_engine import InferenceEngine, NodeState
 from ..services.input_normalizer import InputNormalizer
 from ..services.nl_parser import LightweightNLParser
+from ..services.role_gap_analyzer import RoleGapAnalyzer
 
 
 MIN_RECOMMENDATION_SCORE = 0.05
 MIN_NEAR_MISS_SCORE = 0.05
 MAX_NEAR_MISS_ITEMS = 4
-TARGET_PARENT_SCORE = 0.58
 
 
 class RecommendationService:
@@ -29,17 +29,16 @@ class RecommendationService:
         self.nl_parser = LightweightNLParser(self.graph, self.aliases, self.preference_patterns, self.parsing_patterns)
         self.engine = InferenceEngine()
         self.explainer = GraphExplainer()
+        self.role_gap_analyzer = RoleGapAnalyzer(self.graph, self.engine, self.explainer)
         self.sample_request_path = self.loader.base_dir / "data" / "demo" / "sample_request.json"
         self.provenance_summary = self._build_provenance_summary()
 
     def recommend(self, payload: dict[str, Any] | None) -> dict[str, Any]:
         request = RecommendationRequest.from_payload(payload)
-        structured_signals, unresolved = self.normalizer.normalize_signals(request.signals)
-        parse_result = self.nl_parser.parse_detailed(request.text)
-        merged_signals = self.normalizer.merge_signals(parse_result.signals, structured_signals)
-        score_map = self.normalizer.to_score_map(merged_signals)
-
-        states = self.engine.run(self.graph, score_map)
+        merged_signals, unresolved, parse_result, score_map, states = self._resolve_request_context(
+            request.text,
+            request.signals,
+        )
         ranked_roles = sorted(
             self.graph.role_ids,
             key=lambda node_id: (states[node_id].score, self.graph.nodes[node_id].name),
@@ -72,6 +71,32 @@ class RecommendationService:
                 "activated_node_count": sum(1 for state in states.values() if state.score >= 0.05),
                 **self.provenance_summary,
             },
+        }
+
+    def role_gap(self, payload: dict[str, Any] | None) -> dict[str, Any]:
+        request = RoleGapRequest.from_payload(payload)
+        if not request.target_role_id:
+            raise ValueError("target_role_id is required")
+        if request.target_role_id not in self.graph.role_ids:
+            raise ValueError(f"unknown target role: {request.target_role_id}")
+
+        merged_signals, unresolved, parse_result, score_map, states = self._resolve_request_context(
+            request.text,
+            request.signals,
+        )
+        analysis = self.role_gap_analyzer.analyze(
+            states=states,
+            score_map=score_map,
+            target_role_id=request.target_role_id,
+            source_payload=self._role_source_payload(request.target_role_id),
+            scenario_limit=request.scenario_limit,
+        )
+        return {
+            "target_role": analysis.as_dict(),
+            "normalized_inputs": [item.as_dict() for item in merged_signals],
+            "parsing_notes": parse_result.notes[:30],
+            "parsing_debug": parse_result.debug,
+            "unresolved_entities": unresolved,
         }
 
     def _build_recommendation_item(self, states: dict[str, NodeState], role_id: str) -> RecommendationItem:
@@ -108,7 +133,7 @@ class RecommendationService:
             key=lambda item: (item[0], item[1], self.graph.nodes[item[2]].name),
             reverse=True,
         )[:limit]:
-            suggestions = self._build_gap_suggestions(states, role_id)
+            suggestions = self.role_gap_analyzer.build_gap_suggestions(states, role_id)
             paths = self.explainer.top_paths(self.graph, states, role_id, limit=2)
             source_payload = self._role_source_payload(role_id)
             selected.append(
@@ -147,98 +172,6 @@ class RecommendationService:
             near_miss_score += 0.015
         return round(max(0.0, min(1.0, near_miss_score)), 4)
 
-    def _build_gap_suggestions(
-        self,
-        states: dict[str, NodeState],
-        role_id: str,
-        limit: int = 3,
-    ) -> list[GapSuggestion]:
-        state = states[role_id]
-        missing = set(str(name) for name in state.diagnostics.get("missing_requirements", []))
-        grouped: dict[str, dict[str, Any]] = {}
-
-        for contribution in state.parent_contributions:
-            if contribution.relation not in {"requires", "supports"}:
-                continue
-            entry = grouped.setdefault(
-                contribution.parent_id,
-                {
-                    "node_id": contribution.parent_id,
-                    "node_name": contribution.parent_name,
-                    "current_score": contribution.parent_score,
-                    "support_value": 0.0,
-                    "requires_value": 0.0,
-                    "has_requires": False,
-                },
-            )
-            if contribution.relation == "requires":
-                entry["has_requires"] = True
-                entry["requires_value"] = max(entry["requires_value"], contribution.value)
-            else:
-                entry["support_value"] = max(entry["support_value"], contribution.value)
-
-        ranked: list[tuple[float, GapSuggestion]] = []
-        for item in grouped.values():
-            is_missing = item["node_name"] in missing
-            current_score = float(item["current_score"] or 0.0)
-            if current_score >= 0.72 and not is_missing:
-                continue
-
-            priority = item["requires_value"] * 2.2 + item["support_value"] * 1.3
-            priority += max(0.0, TARGET_PARENT_SCORE - current_score)
-            if is_missing:
-                priority += 0.7
-            if priority < 0.35:
-                continue
-
-            ranked.append(
-                (
-                    priority,
-                    GapSuggestion(
-                        node_id=str(item["node_id"]),
-                        node_name=str(item["node_name"]),
-                        relation="requires" if item["has_requires"] else "supports",
-                        current_score=round(current_score, 4),
-                        tip=self._build_gap_tip(
-                            current_score=current_score,
-                            is_missing=is_missing,
-                            relation="requires" if item["has_requires"] else "supports",
-                        ),
-                    ),
-                )
-            )
-
-        return [
-            suggestion
-            for _, suggestion in sorted(
-                ranked,
-                key=lambda item: (item[0], item[1].current_score, item[1].node_name),
-                reverse=True,
-            )[:limit]
-        ]
-
-    def _build_gap_tip(
-        self,
-        current_score: float,
-        is_missing: bool,
-        relation: str,
-    ) -> str:
-        if relation == "requires":
-            if is_missing:
-                if current_score <= 0.08:
-                    return "补齐关键前置"
-                return "继续补强关键前置"
-            if current_score < 0.25:
-                return "继续补强关键前置"
-            return "继续巩固关键前置"
-        if is_missing:
-            if current_score <= 0.08:
-                return "补齐关键前置"
-            return "继续补强关键前置"
-        if current_score < 0.25:
-            return "补强核心支撑"
-        return "继续巩固核心支撑"
-
     def _role_source_payload(self, role_id: str) -> dict[str, Any]:
         return {
             "provenance_count": int(self.graph.nodes[role_id].metadata.get("provenance_count", 0) or 0),
@@ -266,8 +199,22 @@ class RecommendationService:
             )
             if node.layer == "evidence"
         ]
+        role_nodes = [
+            {
+                "id": node_id,
+                "name": node.name,
+                "node_type": node.node_type,
+                "description": node.description,
+            }
+            for node_id, node in sorted(
+                self.graph.nodes.items(),
+                key=lambda item: item[1].name,
+            )
+            if node.layer == "role"
+        ]
         return {
             "evidence_nodes": evidence_nodes,
+            "role_nodes": role_nodes,
             "graph_stats": {
                 "node_count": len(self.graph.nodes),
                 "edge_count": len(self.graph.edges),
@@ -280,6 +227,18 @@ class RecommendationService:
 
     def sample_request(self) -> dict[str, Any]:
         return json.loads(self.sample_request_path.read_text(encoding="utf-8"))
+
+    def _resolve_request_context(
+        self,
+        text: str,
+        signals: list[Any],
+    ) -> tuple[list[Any], list[str], Any, dict[str, float], dict[str, NodeState]]:
+        structured_signals, unresolved = self.normalizer.normalize_signals(signals)
+        parse_result = self.nl_parser.parse_detailed(text)
+        merged_signals = self.normalizer.merge_signals(parse_result.signals, structured_signals)
+        score_map = self.normalizer.to_score_map(merged_signals)
+        states = self.engine.run(self.graph, score_map)
+        return merged_signals, unresolved, parse_result, score_map, states
 
     def _build_provenance_summary(self) -> dict[str, Any]:
         unique_profiles: dict[str, dict[str, Any]] = {}

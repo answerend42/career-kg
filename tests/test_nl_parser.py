@@ -39,6 +39,16 @@ class NLParserTests(unittest.TestCase):
         self.assertIn("tool_react", normalized_ids)
         self.assertNotIn("interest_frontend", normalized_ids)
 
+    def test_goal_oriented_ml_sentence_captures_interest_but_not_negative_project_as_positive(self) -> None:
+        result = self.parser.parse_detailed("我想转机器学习，但数学基础很弱，也没做过训练项目。")
+        signal_map = {item.node_id: item.score for item in result.signals}
+
+        self.assertIn("interest_ml", signal_map)
+        self.assertIn("knowledge_math_foundation", signal_map)
+        self.assertLessEqual(signal_map["knowledge_math_foundation"], 0.22)
+        self.assertIn("constraint_dislike_math_theory", signal_map)
+        self.assertNotIn("project_model_training", signal_map)
+
     def test_demo_benchmark_expected_nodes_are_recalled(self) -> None:
         benchmark = json.loads((ROOT / "data" / "demo" / "nl_benchmark.json").read_text(encoding="utf-8"))
         for case in benchmark:

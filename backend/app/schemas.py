@@ -75,6 +75,39 @@ class RecommendationRequest:
 
 
 @dataclass(slots=True)
+class RoleGapRequest:
+    target_role_id: str
+    text: str = ""
+    signals: list[SignalInput] = field(default_factory=list)
+    scenario_limit: int = 3
+
+    @classmethod
+    def from_payload(cls, payload: Any | None) -> "RoleGapRequest":
+        if not isinstance(payload, dict):
+            payload = {}
+        raw_signals = payload.get("signals", [])
+        signals: list[SignalInput] = []
+        if isinstance(raw_signals, dict):
+            signals = [SignalInput(entity=str(key), score=clamp_score(value, default=0.7)) for key, value in raw_signals.items()]
+        elif isinstance(raw_signals, list):
+            signals = [SignalInput.from_payload(item) for item in raw_signals]
+
+        scenario_limit = payload.get("scenario_limit", 3)
+        try:
+            scenario_limit = int(scenario_limit)
+        except (TypeError, ValueError):
+            scenario_limit = 3
+        scenario_limit = max(1, min(5, scenario_limit))
+
+        return cls(
+            target_role_id=str(payload.get("target_role_id", "") or "").strip(),
+            text=str(payload.get("text", "") or ""),
+            signals=signals,
+            scenario_limit=scenario_limit,
+        )
+
+
+@dataclass(slots=True)
 class NormalizedSignal:
     node_id: str
     node_name: str
@@ -147,4 +180,54 @@ class NearMissItem:
         payload = asdict(self)
         payload["paths"] = [path.as_dict() for path in self.paths]
         payload["suggestions"] = [item.as_dict() for item in self.suggestions]
+        return payload
+
+
+@dataclass(slots=True)
+class SimulatedBoost:
+    node_id: str
+    node_name: str
+    from_score: float
+    to_score: float
+    tip: str
+
+    def as_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(slots=True)
+class SimulationScenario:
+    title: str
+    predicted_score: float
+    delta_score: float
+    summary: str
+    boosts: list[SimulatedBoost] = field(default_factory=list)
+
+    def as_dict(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["boosts"] = [item.as_dict() for item in self.boosts]
+        return payload
+
+
+@dataclass(slots=True)
+class TargetRoleAnalysis:
+    job_id: str
+    job_name: str
+    current_score: float
+    gap_summary: str
+    paths: list[PathExplanation]
+    limitations: list[str]
+    missing_requirements: list[str] = field(default_factory=list)
+    priority_suggestions: list[GapSuggestion] = field(default_factory=list)
+    what_if_scenarios: list[SimulationScenario] = field(default_factory=list)
+    provenance_count: int = 0
+    source_type_count: int = 0
+    source_types: list[str] = field(default_factory=list)
+    source_refs: list[dict[str, Any]] = field(default_factory=list)
+
+    def as_dict(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["paths"] = [path.as_dict() for path in self.paths]
+        payload["priority_suggestions"] = [item.as_dict() for item in self.priority_suggestions]
+        payload["what_if_scenarios"] = [item.as_dict() for item in self.what_if_scenarios]
         return payload

@@ -49,7 +49,8 @@ body::before {
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
 }
 
@@ -178,6 +179,11 @@ textarea {
   flex-wrap: wrap;
 }
 
+.target-role-controls {
+  display: grid;
+  gap: 12px;
+}
+
 .field {
   display: grid;
   gap: 8px;
@@ -190,7 +196,8 @@ textarea {
 }
 
 textarea,
-input {
+input,
+select {
   width: 100%;
   border: 1px solid rgba(28, 51, 43, 0.14);
   border-radius: var(--radius-md);
@@ -210,8 +217,13 @@ input {
   padding: 12px 14px;
 }
 
+select {
+  padding: 12px 14px;
+}
+
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   outline: none;
   border-color: rgba(15, 118, 110, 0.44);
   box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
@@ -362,6 +374,19 @@ input[type="range"] {
   line-height: 1.6;
 }
 
+.signal-name,
+.scenario-score {
+  margin: 0;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.signal-meta {
+  margin: 6px 0 0;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
 .node-description,
 .source-inline,
 .source-snippet,
@@ -444,6 +469,56 @@ input[type="range"] {
   color: #8f421f;
   font-size: 12px;
   border: 1px solid rgba(196, 103, 46, 0.16);
+}
+
+.target-analysis-card {
+  display: grid;
+  gap: 16px;
+}
+
+.target-source-row {
+  margin-top: 4px;
+}
+
+.scenario-section {
+  display: grid;
+  gap: 12px;
+}
+
+.scenario-list {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.scenario-card {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(196, 103, 46, 0.16);
+  background: rgba(255, 252, 247, 0.88);
+}
+
+.scenario-headline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.delta-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(15, 118, 110, 0.12);
+  color: var(--accent-deep);
+  font-weight: 700;
+}
+
+.scenario-boost-list {
+  margin-top: 10px;
 }
 
 .detail-card {

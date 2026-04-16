@@ -90,7 +90,7 @@ def serve(host: str, port: int) -> None:
 
         def do_POST(self) -> None:  # noqa: N802
             url_path = urlparse(self.path).path
-            if url_path not in {"/recommend", "/api/recommend"}:
+            if url_path not in {"/recommend", "/api/recommend", "/role-gap", "/api/role-gap"}:
                 self._send_json({"error": "not found"}, status=HTTPStatus.NOT_FOUND)
                 return
             try:
@@ -102,7 +102,13 @@ def serve(host: str, port: int) -> None:
             if not isinstance(payload, dict):
                 self._send_json({"error": "request body must be a JSON object"}, status=HTTPStatus.BAD_REQUEST)
                 return
-            self._send_json(service.recommend(payload))
+            try:
+                if url_path in {"/role-gap", "/api/role-gap"}:
+                    self._send_json(service.role_gap(payload))
+                    return
+                self._send_json(service.recommend(payload))
+            except ValueError as error:
+                self._send_json({"error": str(error)}, status=HTTPStatus.BAD_REQUEST)
 
         def log_message(self, format: str, *args: object) -> None:
             return

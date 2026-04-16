@@ -176,9 +176,12 @@ class LightweightNLParser:
             matched_phrase = next((phrase for phrase, pattern in zip(rule.phrases, rule.patterns) if pattern.search(segment.text)), None)
             if matched_phrase is None:
                 continue
-            signal_specs = rule.negative_signals if has_negative and rule.negative_signals else rule.signals
-            if has_negative and not signal_specs:
-                continue
+            if has_negative:
+                if not rule.negative_signals:
+                    continue
+                signal_specs = rule.negative_signals
+            else:
+                signal_specs = rule.signals
             for signal in signal_specs:
                 node = self.graph.nodes.get(signal.node_id)
                 if node is None:

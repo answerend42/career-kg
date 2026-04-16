@@ -66,6 +66,7 @@ class RecommendationApiTests(unittest.TestCase):
     def test_catalog_exposes_evidence_nodes_and_sample_request(self) -> None:
         catalog = self.service.catalog()
         self.assertGreaterEqual(len(catalog["evidence_nodes"]), 150)
+        self.assertGreaterEqual(len(catalog["role_nodes"]), 40)
         self.assertIn("graph_stats", catalog)
         self.assertIn("sample_request", catalog)
         self.assertIn("text", catalog["sample_request"])
@@ -78,6 +79,9 @@ class RecommendationApiTests(unittest.TestCase):
         python_node = next((item for item in catalog["evidence_nodes"] if item["id"] == "skill_python"), None)
         self.assertIsNotNone(python_node)
         self.assertIn("python", python_node["aliases"])
+        backend_role = next((item for item in catalog["role_nodes"] if item["id"] == "role_backend_engineer"), None)
+        self.assertIsNotNone(backend_role)
+        self.assertEqual(backend_role["name"], "后端开发工程师")
 
     def test_sample_request_filters_out_zero_score_roles(self) -> None:
         payload = self.service.sample_request()

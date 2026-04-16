@@ -35,6 +35,15 @@
 3. 输出 2-3 条最具代表性的路径。
 4. 同时返回门槛、短板和抑制因素。
 
+## 目标岗位分析
+
+`POST /role-gap` 会在同样的输入归一化与图推理结果上，额外执行一层目标导向分析：
+
+1. 用户指定 `target_role_id`
+2. 基于该岗位当前 `paths / limitations / missing_requirements` 做定向诊断
+3. 从 `requires` 和弱 `supports` 父节点里提炼优先补齐建议
+4. 对建议节点做轻量注入重算，生成 1-3 个 what-if 模拟场景
+
 ## 响应结构
 
 `POST /recommend` 返回以下关键字段：
@@ -52,3 +61,19 @@
 
 - `parsing_debug` 会返回规则命中、alias 命中、未充分解析的句段和候选信号，方便前端提示与回归调试。
 - `near_miss_roles` 会返回“差一点匹配”的岗位、关键缺口和补齐建议，用于 why-not 展示。
+
+`POST /role-gap` 返回以下关键字段：
+
+- `target_role`
+- `normalized_inputs`
+- `parsing_notes`
+- `parsing_debug`
+- `unresolved_entities`
+
+其中 `target_role` 里会包含：
+
+- `current_score`
+- `gap_summary`
+- `missing_requirements`
+- `priority_suggestions`
+- `what_if_scenarios`

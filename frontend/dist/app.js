@@ -27,6 +27,7 @@ const SOURCE_TYPE_LABELS = {
 
 const state = {
   catalog: [],
+  roleCatalog: [],
   sampleRequest: null,
   input: {
     text: "",
@@ -34,6 +35,8 @@ const state = {
   },
   confirmedSignals: [],
   result: null,
+  targetRoleId: "",
+  targetGapResult: null,
   selectedJobId: null,
   selectedPathIndex: 0,
   selectedNodeId: null,
@@ -49,11 +52,14 @@ const elements = {
   submitBtn: document.querySelector("#submit-btn"),
   recomputeBtn: document.querySelector("#recompute-btn"),
   loadSampleBtn: document.querySelector("#load-sample-btn"),
+  analyzeTargetBtn: document.querySelector("#analyze-target-btn"),
   addStructuredRowBtn: document.querySelector("#add-structured-row-btn"),
   addConfirmedRowBtn: document.querySelector("#add-confirmed-row-btn"),
   structuredRows: document.querySelector("#structured-rows"),
   requestNotes: document.querySelector("#request-notes"),
   signalList: document.querySelector("#normalized-signals"),
+  targetRoleSelect: document.querySelector("#target-role-select"),
+  targetGapAnalysis: document.querySelector("#target-gap-analysis"),
   recommendationList: document.querySelector("#recommendation-list"),
   nearMissList: document.querySelector("#near-miss-list"),
   pathInspector: document.querySelector("#path-inspector"),
@@ -74,6 +80,7 @@ function bindEvents() {
   elements.submitBtn.addEventListener("click", () => submitInitialRecommendation());
   elements.recomputeBtn.addEventListener("click", () => recomputeFromConfirmedSignals());
   elements.loadSampleBtn.addEventListener("click", () => applySampleRequest());
+  elements.analyzeTargetBtn.addEventListener("click", () => analyzeTargetRole());
   elements.addStructuredRowBtn.addEventListener("click", () => {
     state.input.structured.push(createStructuredRow());
     renderStructuredRows();
@@ -84,6 +91,11 @@ function bindEvents() {
   });
   elements.textInput.addEventListener("input", (event) => {
     state.input.text = event.target.value;
+  });
+  elements.targetRoleSelect.addEventListener("change", (event) => {
+    state.targetRoleId = event.target.value;
+    state.targetGapResult = null;
+    renderTargetGapAnalysis();
   });
 }
 
@@ -100,6 +112,13 @@ async function loadCatalog() {
   try {
     const payload = await fetchJSON("/api/catalog");
     state.catalog = payload.evidence_nodes || [];
+    state.roleCatalog = payload.role_nodes || [];
+    if (!state.targetRoleId) {
+      state.targetRoleId =
+        state.roleCatalog.find((item) => item.id === "role_backend_engineer")?.id ||
+        state.roleCatalog[0]?.id ||
+        "";
+    }
     state.sampleRequest = payload.sample_request || null;
     const graphStats = payload.graph_stats || {};
     elements.graphSize.textContent =
@@ -110,6 +129,7 @@ async function loadCatalog() {
       state.input.structured.push(createStructuredRow());
     }
     renderCatalogOptions();
+    renderTargetRoleOptions();
     renderAll();
     setBusy(false, "图谱目录已加载");
   } catch (error) {
@@ -122,6 +142,7 @@ function applySampleRequest() {
     setError("示例请求尚未加载完成。");
     return;
   }
+  state.targetGapResult = null;
   state.input.text = state.sampleRequest.text || "";
   elements.textInput.value = state.input.text;
   state.input.structured = (state.sampleRequest.signals || []).map((signal) => ({
@@ -137,14 +158,7 @@ function applySampleRequest() {
 }
 
 async function submitInitialRecommendation() {
-  const payload = {
-    text: state.input.text.trim(),
-    signals: state.input.structured
-      .map((row) => ({ entity: row.entity.trim(), score: clampScore(row.score) }))
-      .filter((row) => row.entity),
-    top_k: 6,
-    include_snapshot: true,
-  };
+  const payload = buildInitialRecommendationPayload();
   if (!payload.text && payload.signals.length === 0) {
     setError("请至少提供一条自然语言描述或结构化信号，再生成推荐。");
     return;
@@ -154,6 +168,7 @@ async function submitInitialRecommendation() {
   try {
     const result = await postJSON("/api/recommend", payload);
     state.result = result;
+    state.targetGapResult = null;
     state.confirmedSignals = (result.normalized_inputs || []).map((item) => ({
       id: uid(),
       nodeId: item.node_id,
@@ -172,12 +187,7 @@ async function submitInitialRecommendation() {
 }
 
 async function recomputeFromConfirmedSignals() {
-  const signals = state.confirmedSignals
-    .map((item) => ({
-      entity: item.nodeId || item.nodeName,
-      score: clampScore(item.score),
-    }))
-    .filter((item) => item.entity);
+  const signals = buildConfirmedSignalPayload();
 
   if (signals.length === 0) {
     setError("请先保留至少一个确认后的节点。");
@@ -193,6 +203,7 @@ async function recomputeFromConfirmedSignals() {
       include_snapshot: true,
     });
     state.result = result;
+    state.targetGapResult = null;
     state.confirmedSignals = (result.normalized_inputs || []).map((item) => ({
       id: uid(),
       nodeId: item.node_id,
@@ -208,6 +219,27 @@ async function recomputeFromConfirmedSignals() {
     renderAll();
   } catch (error) {
     setError(`重算失败：${error.message}`);
+  }
+}
+
+async function analyzeTargetRole() {
+  if (!state.targetRoleId) {
+    setError("请先选择一个目标岗位。");
+    return;
+  }
+  const payload = buildRoleGapPayload();
+  if (!payload.text && payload.signals.length === 0) {
+    setError("请先输入或确认至少一组能力信号，再分析目标岗位。");
+    return;
+  }
+
+  setBusy(true, "正在分析目标岗位差距与模拟收益…");
+  try {
+    state.targetGapResult = await postJSON("/api/role-gap", payload);
+    setBusy(false, "目标岗位分析已更新。");
+    renderAll();
+  } catch (error) {
+    setError(`目标岗位分析失败：${error.message}`);
   }
 }
 
@@ -229,8 +261,10 @@ function setError(message) {
 
 function renderAll() {
   renderCatalogOptions();
+  renderTargetRoleOptions();
   renderStructuredRows();
   renderConfirmedSignals();
+  renderTargetGapAnalysis();
   renderRecommendations();
   renderNearMisses();
   renderPathInspector();
@@ -242,6 +276,162 @@ function renderCatalogOptions() {
   elements.catalogOptions.innerHTML = state.catalog
     .map((node) => `<option value="${escapeHtml(node.name)}"></option>`)
     .join("");
+}
+
+function renderTargetRoleOptions() {
+  elements.targetRoleSelect.innerHTML = state.roleCatalog
+    .map(
+      (node) => `
+        <option value="${node.id}" ${node.id === state.targetRoleId ? "selected" : ""}>${escapeHtml(node.name)}</option>
+      `
+    )
+    .join("");
+}
+
+function buildInitialRecommendationPayload() {
+  return {
+    text: state.input.text.trim(),
+    signals: state.input.structured
+      .map((row) => ({ entity: row.entity.trim(), score: clampScore(row.score) }))
+      .filter((row) => row.entity),
+    top_k: 6,
+    include_snapshot: true,
+  };
+}
+
+function buildConfirmedSignalPayload() {
+  return state.confirmedSignals
+    .map((item) => ({
+      entity: item.nodeId || item.nodeName,
+      score: clampScore(item.score),
+    }))
+    .filter((item) => item.entity);
+}
+
+function buildRoleGapPayload() {
+  const confirmedSignals = buildConfirmedSignalPayload();
+  if (confirmedSignals.length) {
+    return {
+      text: "",
+      signals: confirmedSignals,
+      target_role_id: state.targetRoleId,
+      scenario_limit: 3,
+    };
+  }
+
+  const initialPayload = buildInitialRecommendationPayload();
+  return {
+    text: initialPayload.text,
+    signals: initialPayload.signals,
+    target_role_id: state.targetRoleId,
+    scenario_limit: 3,
+  };
+}
+
+function renderTargetGapAnalysis() {
+  if (!state.targetGapResult?.target_role) {
+    const selectedRoleName = state.roleCatalog.find((item) => item.id === state.targetRoleId)?.name;
+    elements.targetGapAnalysis.innerHTML = emptyState(
+      selectedRoleName
+        ? `当前目标岗位是“${selectedRoleName}”，点击“分析目标岗位”后会展示缺口和 what-if 模拟。`
+        : "选择一个目标岗位后，可查看定向差距分析和 what-if 模拟。"
+    );
+    return;
+  }
+
+  const target = state.targetGapResult.target_role;
+  const leadPath = target.paths?.[0];
+  const sourceBadges = renderSourceTypeBadges(target.source_types || []);
+  elements.targetGapAnalysis.innerHTML = `
+    <article class="detail-card accent-card target-analysis-card">
+      <div class="detail-headline">
+        <div>
+          <p class="panel-kicker">目标岗位</p>
+          <h3>${escapeHtml(target.job_name)}</h3>
+        </div>
+        <div class="score-pill">${Math.round((target.current_score || 0) * 100)} 分</div>
+      </div>
+      <p class="reason-text">${escapeHtml(target.gap_summary)}</p>
+      ${sourceBadges ? `<div class="source-chip-row target-source-row">${sourceBadges}</div>` : ""}
+      ${
+        leadPath?.labels?.length
+          ? `
+            <div class="path-track">
+              ${leadPath.labels
+                .map(
+                  (label, index) => `
+                    <div class="path-node">
+                      <span>${escapeHtml(label)}</span>
+                      ${index < leadPath.labels.length - 1 ? '<i>→</i>' : ""}
+                    </div>
+                  `
+                )
+                .join("")}
+            </div>
+          `
+          : `<p class="soft-note">当前目标岗位暂无足够长的路径可展示。</p>`
+      }
+      <div class="detail-grid">
+        <div class="detail-card">
+          <h4>关键缺口</h4>
+          ${
+            target.missing_requirements?.length
+              ? `<ul class="limit-list">${target.missing_requirements.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+              : target.limitations?.length
+                ? `<ul class="limit-list">${target.limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+                : `<p class="soft-note">当前没有明显的硬门槛缺口。</p>`
+          }
+        </div>
+        <div class="detail-card">
+          <h4>优先补齐建议</h4>
+          ${
+            target.priority_suggestions?.length
+              ? `<ul class="limit-list">${target.priority_suggestions
+                  .map(
+                    (item) =>
+                      `<li>${escapeHtml(`${item.tip}：${item.node_name}（当前 ${Math.round((item.current_score || 0) * 100)} 分）`)}</li>`
+                  )
+                  .join("")}</ul>`
+              : `<p class="soft-note">当前没有额外建议，说明该岗位已接近现有能力上限。</p>`
+          }
+        </div>
+      </div>
+      <section class="scenario-section">
+        <div class="subhead">
+          <h3>What-if 模拟</h3>
+          <p class="soft-note">轻量注入建议节点后，估算目标岗位分数会怎么变。</p>
+        </div>
+        ${
+          target.what_if_scenarios?.length
+            ? `<div class="scenario-list">${target.what_if_scenarios
+                .map(
+                  (scenario) => `
+                    <article class="scenario-card">
+                      <div class="scenario-headline">
+                        <div>
+                          <p class="signal-name">${escapeHtml(scenario.title)}</p>
+                          <p class="signal-meta">${escapeHtml(scenario.summary)}</p>
+                        </div>
+                        <div class="delta-chip">+${Math.round((scenario.delta_score || 0) * 100)}</div>
+                      </div>
+                      <p class="scenario-score">预计得分 ${Math.round((scenario.predicted_score || 0) * 100)} 分</p>
+                      <ul class="limit-list scenario-boost-list">
+                        ${scenario.boosts
+                          .map(
+                            (boost) =>
+                              `<li>${escapeHtml(`${boost.node_name}：${Math.round((boost.from_score || 0) * 100)} → ${Math.round((boost.to_score || 0) * 100)} 分`)}</li>`
+                          )
+                          .join("")}
+                      </ul>
+                    </article>
+                  `
+                )
+                .join("")}</div>`
+            : `<p class="soft-note">当前还没有能稳定抬升该岗位分数的模拟方案。</p>`
+        }
+      </section>
+    </article>
+  `;
 }
 
 function renderStructuredRows() {

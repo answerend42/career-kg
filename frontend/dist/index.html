@@ -87,6 +87,26 @@
           <div class="panel-head">
             <div>
               <p class="panel-kicker">Step 3</p>
+              <h2>目标岗位分析</h2>
+            </div>
+            <div class="panel-actions">
+              <button class="primary-btn" id="analyze-target-btn" type="button">分析目标岗位</button>
+            </div>
+          </div>
+          <div class="target-role-controls">
+            <label class="field compact">
+              <span>目标岗位</span>
+              <select id="target-role-select" name="target_role_select"></select>
+            </label>
+            <p class="soft-note">选择你想冲的岗位，系统会给出当前差距、优先补齐建议和 what-if 模拟。</p>
+          </div>
+          <div id="target-gap-analysis"></div>
+        </section>
+
+        <section class="panel panel-results">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Step 4</p>
               <h2>职业排序与解释</h2>
             </div>
           </div>
@@ -97,7 +117,7 @@
         <section class="panel panel-paths">
           <div class="panel-head">
             <div>
-              <p class="panel-kicker">Step 4</p>
+              <p class="panel-kicker">Step 5</p>
               <h2>关键路径与限制</h2>
             </div>
           </div>
@@ -107,7 +127,7 @@
         <section class="panel panel-graph">
           <div class="panel-head">
             <div>
-              <p class="panel-kicker">Step 5</p>
+              <p class="panel-kicker">Step 6</p>
               <h2>传播可视化</h2>
             </div>
             <div class="legend-inline">

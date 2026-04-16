@@ -12,22 +12,28 @@
 2. 节点确认
    - 后端返回 `normalized_inputs`
    - 用户可调整分值、删除节点、补充节点
-3. 二次重算
+3. 目标岗位分析
+   - 用户选择任意目标岗位
+   - 前端调用 `/api/role-gap`
+   - 展示当前差距、优先补齐建议和 what-if 模拟
+4. 二次重算
    - 前端使用确认后的节点再次调用 `/api/recommend`
    - 避免用户每次微调都重新依赖自然语言解析
-4. 推荐与解释
+5. 推荐与解释
    - 展示职业排序、分数、限制项
    - 点击某个职业查看关键路径
-5. 传播图查看
+6. 传播图查看
    - 按 `evidence -> ability -> composite -> direction -> role` 分层布局
    - 点击节点可查看聚合器和诊断信息
 
 ## 使用的接口
 
 - `GET /api/catalog`
-  - 返回 evidence 节点目录和示例请求
+  - 返回 evidence 节点目录、role 节点目录和示例请求
 - `POST /api/recommend`
   - 返回标准化输入、推荐结果和传播快照
+- `POST /api/role-gap`
+  - 返回目标岗位分析、优先补齐建议和 what-if 模拟结果
 
 ## 交互设计取舍
 
