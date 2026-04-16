@@ -55,6 +55,7 @@ const elements = {
   requestNotes: document.querySelector("#request-notes"),
   signalList: document.querySelector("#normalized-signals"),
   recommendationList: document.querySelector("#recommendation-list"),
+  nearMissList: document.querySelector("#near-miss-list"),
   pathInspector: document.querySelector("#path-inspector"),
   graphArea: document.querySelector("#graph-area"),
   graphDetail: document.querySelector("#graph-detail"),
@@ -160,10 +161,9 @@ async function submitInitialRecommendation() {
       score: clampScore(item.score),
       source: item.source,
     }));
-    const firstRecommendation = result.recommendations?.[0];
-    state.selectedJobId = firstRecommendation ? firstRecommendation.job_id : null;
+    state.selectedJobId = pickInitialJobId(result);
     state.selectedPathIndex = 0;
-    state.selectedNodeId = firstRecommendation?.job_id || null;
+    state.selectedNodeId = state.selectedJobId;
     setBusy(false, "推荐结果已更新，可继续微调节点后重算。");
     renderAll();
   } catch (error) {
@@ -200,8 +200,8 @@ async function recomputeFromConfirmedSignals() {
       score: clampScore(item.score),
       source: "confirmed",
     }));
-    const stillSelected = result.recommendations?.find((item) => item.job_id === state.selectedJobId);
-    state.selectedJobId = stillSelected ? stillSelected.job_id : result.recommendations?.[0]?.job_id || null;
+    const stillSelected = findJobById(result, state.selectedJobId);
+    state.selectedJobId = stillSelected ? stillSelected.job_id : pickInitialJobId(result);
     state.selectedPathIndex = 0;
     state.selectedNodeId = state.selectedJobId;
     setBusy(false, "已基于确认节点重新计算。");
@@ -232,6 +232,7 @@ function renderAll() {
   renderStructuredRows();
   renderConfirmedSignals();
   renderRecommendations();
+  renderNearMisses();
   renderPathInspector();
   renderGraph();
   renderNotice();
@@ -375,15 +376,89 @@ function renderRecommendations() {
       state.selectedPathIndex = 0;
       state.selectedNodeId = card.dataset.jobId;
       renderRecommendations();
+      renderNearMisses();
       renderPathInspector();
       renderGraph();
     });
   });
 }
 
+function renderNearMisses() {
+  if (!state.result?.near_miss_roles?.length) {
+    elements.nearMissList.innerHTML = "";
+    return;
+  }
+
+  elements.nearMissList.innerHTML = `
+    <div class="near-miss-section">
+      <div class="subhead">
+        <h3>差一点匹配的岗位</h3>
+        <p class="soft-note">这些岗位已经被当前信号部分激活，但还缺关键前置或核心支撑。</p>
+      </div>
+      <div class="near-miss-grid">
+        ${state.result.near_miss_roles
+          .map((item) => {
+            const active = item.job_id === state.selectedJobId;
+            return `
+              <article class="recommend-card near-miss-card ${active ? "is-active" : ""}" data-near-miss-job-id="${item.job_id}">
+                <div class="recommend-topline">
+                  <div>
+                    <p class="rank-chip warm">Near Miss</p>
+                    <h3>${escapeHtml(item.job_name)}</h3>
+                  </div>
+                  <div class="score-badge">${Math.round((item.near_miss_score || 0) * 100)}</div>
+                </div>
+                <div class="score-track warm"><span style="width: ${Math.min(100, (item.near_miss_score || 0) * 100)}%"></span></div>
+                <p class="reason-text">${escapeHtml(item.gap_summary)}</p>
+                ${
+                  item.missing_requirements?.length
+                    ? `<p class="soft-note">关键缺口：${escapeHtml(item.missing_requirements.slice(0, 3).join("、"))}</p>`
+                    : ""
+                }
+                ${renderNearMissSuggestions(item)}
+              </article>
+            `;
+          })
+          .join("")}
+      </div>
+    </div>
+  `;
+
+  elements.nearMissList.querySelectorAll("[data-near-miss-job-id]").forEach((card) => {
+    card.addEventListener("click", () => {
+      state.selectedJobId = card.dataset.nearMissJobId;
+      state.selectedPathIndex = 0;
+      state.selectedNodeId = card.dataset.nearMissJobId;
+      renderRecommendations();
+      renderNearMisses();
+      renderPathInspector();
+      renderGraph();
+    });
+  });
+}
+
+function renderNearMissSuggestions(item) {
+  if (!item.suggestions?.length) {
+    return `<p class="soft-note">当前还没有可直接展示的补齐节点。</p>`;
+  }
+  return `
+    <div class="suggestion-row">
+      ${item.suggestions
+        .map(
+          (suggestion) => `
+            <span class="suggestion-chip" title="${escapeHtml(`${suggestion.tip} · 当前激活 ${Math.round((suggestion.current_score || 0) * 100)} 分`)}">
+              ${escapeHtml(suggestion.tip)} · ${escapeHtml(suggestion.node_name)}
+            </span>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
 function renderPathInspector() {
-  const selectedRecommendation = getSelectedRecommendation();
-  if (!selectedRecommendation) {
+  const selectedJob = getSelectedJobItem();
+  if (!selectedJob) {
     elements.pathInspector.innerHTML = emptyState(
       state.result
         ? "当前还没有可展开的职业路径，请先补充输入或调整确认节点。"
@@ -392,19 +467,21 @@ function renderPathInspector() {
     return;
   }
 
-  const activePath = selectedRecommendation.paths?.[state.selectedPathIndex] || selectedRecommendation.paths?.[0];
+  const isNearMiss = !Object.prototype.hasOwnProperty.call(selectedJob, "reason");
+  const activePath = selectedJob.paths?.[state.selectedPathIndex] || selectedJob.paths?.[0];
+  const headerScore = isNearMiss ? selectedJob.near_miss_score || 0 : selectedJob.score || 0;
   elements.pathInspector.innerHTML = `
     <div class="path-head">
       <div>
         <p class="panel-kicker">当前查看</p>
-        <h3>${escapeHtml(selectedRecommendation.job_name)}</h3>
+        <h3>${escapeHtml(selectedJob.job_name)}</h3>
       </div>
-      <div class="score-pill">${Math.round(selectedRecommendation.score * 100)} 分</div>
+      <div class="score-pill">${Math.round(headerScore * 100)} ${isNearMiss ? "接近度" : "分"}</div>
     </div>
     <div class="path-list">
       ${
-        selectedRecommendation.paths?.length
-          ? selectedRecommendation.paths
+        selectedJob.paths?.length
+          ? selectedJob.paths
               .map(
                 (path, index) => `
                   <button class="path-chip ${index === state.selectedPathIndex ? "is-active" : ""}" type="button" data-path-index="${index}">
@@ -436,15 +513,30 @@ function renderPathInspector() {
     }
     <div class="detail-grid">
       <div class="detail-card">
-        <h4>推荐理由</h4>
-        <p>${escapeHtml(selectedRecommendation.reason)}</p>
+        <h4>${isNearMiss ? "差距判断" : "推荐理由"}</h4>
+        <p>${escapeHtml(selectedJob.gap_summary || selectedJob.reason)}</p>
       </div>
       <div class="detail-card">
-        <h4>限制因素</h4>
+        <h4>${selectedJob.missing_requirements?.length ? "关键缺口" : "限制因素"}</h4>
         ${
-          selectedRecommendation.limitations?.length
-            ? `<ul class="limit-list">${selectedRecommendation.limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
-            : `<p class="soft-note">当前未触发明显限制。</p>`
+          selectedJob.missing_requirements?.length
+            ? `<ul class="limit-list">${selectedJob.missing_requirements.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+            : selectedJob.limitations?.length
+              ? `<ul class="limit-list">${selectedJob.limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+              : `<p class="soft-note">当前未触发明显限制。</p>`
+        }
+      </div>
+      <div class="detail-card">
+        <h4>补齐建议</h4>
+        ${
+          selectedJob.suggestions?.length
+            ? `<ul class="limit-list">${selectedJob.suggestions
+                .map(
+                  (item) =>
+                    `<li>${escapeHtml(`${item.tip}：${item.node_name}（当前 ${Math.round((item.current_score || 0) * 100)} 分）`)}</li>`
+                )
+                .join("")}</ul>`
+            : `<p class="soft-note">当前没有额外补齐建议。</p>`
         }
       </div>
     </div>
@@ -643,22 +735,34 @@ function buildGraphLayout(nodes) {
   return layout;
 }
 
-function getSelectedRecommendation() {
-  if (!state.result?.recommendations?.length) {
+function findJobById(result, jobId) {
+  if (!result || !jobId) {
     return null;
   }
   return (
-    state.result.recommendations.find((item) => item.job_id === state.selectedJobId) ||
-    state.result.recommendations[0]
+    result.recommendations?.find((item) => item.job_id === jobId) ||
+    result.near_miss_roles?.find((item) => item.job_id === jobId) ||
+    null
   );
 }
 
-function getSelectedPath() {
-  const recommendation = getSelectedRecommendation();
-  if (!recommendation?.paths?.length) {
+function pickInitialJobId(result) {
+  return result?.recommendations?.[0]?.job_id || result?.near_miss_roles?.[0]?.job_id || null;
+}
+
+function getSelectedJobItem() {
+  if (!state.result) {
     return null;
   }
-  return recommendation.paths[state.selectedPathIndex] || recommendation.paths[0];
+  return findJobById(state.result, state.selectedJobId) || state.result.recommendations?.[0] || state.result.near_miss_roles?.[0] || null;
+}
+
+function getSelectedPath() {
+  const item = getSelectedJobItem();
+  if (!item?.paths?.length) {
+    return null;
+  }
+  return item.paths[state.selectedPathIndex] || item.paths[0];
 }
 
 function renderRecommendationProvenance(item) {

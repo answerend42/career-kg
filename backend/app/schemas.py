@@ -113,3 +113,38 @@ class RecommendationItem:
         payload = asdict(self)
         payload["paths"] = [path.as_dict() for path in self.paths]
         return payload
+
+
+@dataclass(slots=True)
+class GapSuggestion:
+    node_id: str
+    node_name: str
+    relation: str
+    current_score: float
+    tip: str
+
+    def as_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(slots=True)
+class NearMissItem:
+    job_id: str
+    job_name: str
+    near_miss_score: float
+    score: float
+    gap_summary: str
+    paths: list[PathExplanation]
+    limitations: list[str]
+    missing_requirements: list[str] = field(default_factory=list)
+    suggestions: list[GapSuggestion] = field(default_factory=list)
+    provenance_count: int = 0
+    source_type_count: int = 0
+    source_types: list[str] = field(default_factory=list)
+    source_refs: list[dict[str, Any]] = field(default_factory=list)
+
+    def as_dict(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["paths"] = [path.as_dict() for path in self.paths]
+        payload["suggestions"] = [item.as_dict() for item in self.suggestions]
+        return payload

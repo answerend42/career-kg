@@ -41,10 +41,14 @@
 
 - `normalized_inputs`
 - `recommendations`
+- `near_miss_roles`
 - `propagation_snapshot`
 - `parsing_notes`
 - `parsing_debug`
 - `unresolved_entities`
 - `graph_stats`
 
-其中 `parsing_debug` 会返回规则命中、alias 命中、未充分解析的句段和候选信号，方便前端提示与回归调试。
+其中：
+
+- `parsing_debug` 会返回规则命中、alias 命中、未充分解析的句段和候选信号，方便前端提示与回归调试。
+- `near_miss_roles` 会返回“差一点匹配”的岗位、关键缺口和补齐建议，用于 why-not 展示。

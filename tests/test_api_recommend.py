@@ -106,6 +106,41 @@ class RecommendationApiTests(unittest.TestCase):
         result = self.service.recommend({"text": "", "signals": [], "top_k": 6})
         self.assertEqual(result["normalized_inputs"], [])
         self.assertEqual(result["recommendations"], [])
+        self.assertEqual(result["near_miss_roles"], [])
+
+    def test_near_miss_roles_expose_gap_suggestions_without_formal_recommendations(self) -> None:
+        result = self.service.recommend(
+            {
+                "signals": [
+                    {"entity": "偏好后端", "score": 0.9},
+                ],
+                "top_k": 6,
+            }
+        )
+        self.assertEqual(result["recommendations"], [])
+        self.assertGreater(len(result["near_miss_roles"]), 0)
+        near_miss_ids = {item["job_id"] for item in result["near_miss_roles"]}
+        self.assertIn("role_backend_engineer", near_miss_ids)
+        backend_near_miss = next(item for item in result["near_miss_roles"] if item["job_id"] == "role_backend_engineer")
+        self.assertGreater(backend_near_miss["near_miss_score"], 0.05)
+        self.assertIn("后端工程能力", backend_near_miss["missing_requirements"])
+        self.assertGreater(len(backend_near_miss["suggestions"]), 0)
+        self.assertEqual(backend_near_miss["suggestions"][0]["relation"], "requires")
+        self.assertIn("补", backend_near_miss["suggestions"][0]["tip"])
+
+    def test_near_miss_required_suggestions_do_not_claim_missing_when_requirement_is_present(self) -> None:
+        result = self.service.recommend(
+            {
+                "text": "我熟悉 Python 和 MySQL，做过 Flask 项目，会一点 Linux，更喜欢后端接口开发。",
+                "top_k": 6,
+            }
+        )
+        java_near_miss = next(item for item in result["near_miss_roles"] if item["job_id"] == "role_java_backend_engineer")
+        self.assertEqual(java_near_miss["missing_requirements"], [])
+        self.assertGreater(len(java_near_miss["suggestions"]), 0)
+        self.assertEqual(java_near_miss["suggestions"][0]["relation"], "requires")
+        self.assertNotIn("补齐关键前置", java_near_miss["suggestions"][0]["tip"])
+        self.assertIn("补强", java_near_miss["suggestions"][0]["tip"])
 
 
 if __name__ == "__main__":

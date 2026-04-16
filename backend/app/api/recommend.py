@@ -4,15 +4,18 @@ import json
 from pathlib import Path
 from typing import Any
 
-from ..schemas import RecommendationItem, RecommendationRequest
+from ..schemas import GapSuggestion, NearMissItem, RecommendationItem, RecommendationRequest
 from ..services.explainer import GraphExplainer
 from ..services.graph_loader import GraphLoader
-from ..services.inference_engine import InferenceEngine
+from ..services.inference_engine import InferenceEngine, NodeState
 from ..services.input_normalizer import InputNormalizer
 from ..services.nl_parser import LightweightNLParser
 
 
 MIN_RECOMMENDATION_SCORE = 0.05
+MIN_NEAR_MISS_SCORE = 0.05
+MAX_NEAR_MISS_ITEMS = 4
+TARGET_PARENT_SCORE = 0.58
 
 
 class RecommendationService:
@@ -43,32 +46,22 @@ class RecommendationService:
             reverse=True,
         )
         ranked_roles = [role_id for role_id in ranked_roles if states[role_id].score >= MIN_RECOMMENDATION_SCORE]
+        selected_role_ids = ranked_roles[: request.top_k]
 
         recommendations: list[RecommendationItem] = []
-        for role_id in ranked_roles[: request.top_k]:
-            paths = self.explainer.top_paths(self.graph, states, role_id, limit=3)
-            recommendations.append(
-                RecommendationItem(
-                    job_id=role_id,
-                    job_name=self.graph.nodes[role_id].name,
-                    score=states[role_id].score,
-                    reason=self.explainer.summarize_reason(self.graph, states, role_id, paths),
-                    paths=paths,
-                    limitations=self.explainer.limitations(states, role_id),
-                    provenance_count=int(self.graph.nodes[role_id].metadata.get("provenance_count", 0) or 0),
-                    source_type_count=int(self.graph.nodes[role_id].metadata.get("source_type_count", 0) or 0),
-                    source_types=[
-                        str(source_type)
-                        for source_type in self.graph.nodes[role_id].metadata.get("source_types", [])
-                        if str(source_type).strip()
-                    ],
-                    source_refs=self._normalize_source_refs(self.graph.nodes[role_id].metadata.get("source_refs", [])),
-                )
-            )
+        for role_id in selected_role_ids:
+            recommendations.append(self._build_recommendation_item(states, role_id))
+
+        near_miss_roles = self._build_near_miss_items(
+            states,
+            excluded_role_ids=set(selected_role_ids),
+            limit=min(MAX_NEAR_MISS_ITEMS, max(2, request.top_k)),
+        )
 
         return {
             "normalized_inputs": [item.as_dict() for item in merged_signals],
             "recommendations": [item.as_dict() for item in recommendations],
+            "near_miss_roles": [item.as_dict() for item in near_miss_roles],
             "propagation_snapshot": self._build_snapshot(states) if request.include_snapshot else None,
             "parsing_notes": parse_result.notes[:30],
             "parsing_debug": parse_result.debug,
@@ -79,6 +72,183 @@ class RecommendationService:
                 "activated_node_count": sum(1 for state in states.values() if state.score >= 0.05),
                 **self.provenance_summary,
             },
+        }
+
+    def _build_recommendation_item(self, states: dict[str, NodeState], role_id: str) -> RecommendationItem:
+        paths = self.explainer.top_paths(self.graph, states, role_id, limit=3)
+        source_payload = self._role_source_payload(role_id)
+        return RecommendationItem(
+            job_id=role_id,
+            job_name=self.graph.nodes[role_id].name,
+            score=states[role_id].score,
+            reason=self.explainer.summarize_reason(self.graph, states, role_id, paths),
+            paths=paths,
+            limitations=self.explainer.limitations(states, role_id),
+            **source_payload,
+        )
+
+    def _build_near_miss_items(
+        self,
+        states: dict[str, NodeState],
+        excluded_role_ids: set[str],
+        limit: int,
+    ) -> list[NearMissItem]:
+        candidates: list[tuple[float, float, str]] = []
+        for role_id in self.graph.role_ids:
+            if role_id in excluded_role_ids:
+                continue
+            near_miss_score = self._estimate_near_miss_score(states[role_id])
+            if near_miss_score < MIN_NEAR_MISS_SCORE:
+                continue
+            candidates.append((near_miss_score, states[role_id].score, role_id))
+
+        selected: list[NearMissItem] = []
+        for near_miss_score, _, role_id in sorted(
+            candidates,
+            key=lambda item: (item[0], item[1], self.graph.nodes[item[2]].name),
+            reverse=True,
+        )[:limit]:
+            suggestions = self._build_gap_suggestions(states, role_id)
+            paths = self.explainer.top_paths(self.graph, states, role_id, limit=2)
+            source_payload = self._role_source_payload(role_id)
+            selected.append(
+                NearMissItem(
+                    job_id=role_id,
+                    job_name=self.graph.nodes[role_id].name,
+                    near_miss_score=near_miss_score,
+                    score=states[role_id].score,
+                    gap_summary=self.explainer.summarize_gap(
+                        self.graph,
+                        states,
+                        role_id,
+                        paths,
+                        [item.node_name for item in suggestions],
+                    ),
+                    paths=paths,
+                    limitations=self.explainer.limitations(states, role_id),
+                    missing_requirements=list(states[role_id].diagnostics.get("missing_requirements", [])),
+                    suggestions=suggestions,
+                    **source_payload,
+                )
+            )
+        return selected
+
+    def _estimate_near_miss_score(self, state: NodeState) -> float:
+        diagnostics = state.diagnostics
+        support_total = float(diagnostics.get("support_total", 0.0) or 0.0)
+        require_total = float(diagnostics.get("require_total", 0.0) or 0.0)
+        prefer_total = float(diagnostics.get("prefer_total", 0.0) or 0.0)
+        inhibit_total = float(diagnostics.get("inhibit_total", 0.0) or 0.0)
+        near_miss_score = max(
+            state.score,
+            support_total + require_total + prefer_total * 0.6 - inhibit_total * 0.25,
+        )
+        if diagnostics.get("missing_requirements"):
+            near_miss_score += 0.015
+        return round(max(0.0, min(1.0, near_miss_score)), 4)
+
+    def _build_gap_suggestions(
+        self,
+        states: dict[str, NodeState],
+        role_id: str,
+        limit: int = 3,
+    ) -> list[GapSuggestion]:
+        state = states[role_id]
+        missing = set(str(name) for name in state.diagnostics.get("missing_requirements", []))
+        grouped: dict[str, dict[str, Any]] = {}
+
+        for contribution in state.parent_contributions:
+            if contribution.relation not in {"requires", "supports"}:
+                continue
+            entry = grouped.setdefault(
+                contribution.parent_id,
+                {
+                    "node_id": contribution.parent_id,
+                    "node_name": contribution.parent_name,
+                    "current_score": contribution.parent_score,
+                    "support_value": 0.0,
+                    "requires_value": 0.0,
+                    "has_requires": False,
+                },
+            )
+            if contribution.relation == "requires":
+                entry["has_requires"] = True
+                entry["requires_value"] = max(entry["requires_value"], contribution.value)
+            else:
+                entry["support_value"] = max(entry["support_value"], contribution.value)
+
+        ranked: list[tuple[float, GapSuggestion]] = []
+        for item in grouped.values():
+            is_missing = item["node_name"] in missing
+            current_score = float(item["current_score"] or 0.0)
+            if current_score >= 0.72 and not is_missing:
+                continue
+
+            priority = item["requires_value"] * 2.2 + item["support_value"] * 1.3
+            priority += max(0.0, TARGET_PARENT_SCORE - current_score)
+            if is_missing:
+                priority += 0.7
+            if priority < 0.35:
+                continue
+
+            ranked.append(
+                (
+                    priority,
+                    GapSuggestion(
+                        node_id=str(item["node_id"]),
+                        node_name=str(item["node_name"]),
+                        relation="requires" if item["has_requires"] else "supports",
+                        current_score=round(current_score, 4),
+                        tip=self._build_gap_tip(
+                            current_score=current_score,
+                            is_missing=is_missing,
+                            relation="requires" if item["has_requires"] else "supports",
+                        ),
+                    ),
+                )
+            )
+
+        return [
+            suggestion
+            for _, suggestion in sorted(
+                ranked,
+                key=lambda item: (item[0], item[1].current_score, item[1].node_name),
+                reverse=True,
+            )[:limit]
+        ]
+
+    def _build_gap_tip(
+        self,
+        current_score: float,
+        is_missing: bool,
+        relation: str,
+    ) -> str:
+        if relation == "requires":
+            if is_missing:
+                if current_score <= 0.08:
+                    return "补齐关键前置"
+                return "继续补强关键前置"
+            if current_score < 0.25:
+                return "继续补强关键前置"
+            return "继续巩固关键前置"
+        if is_missing:
+            if current_score <= 0.08:
+                return "补齐关键前置"
+            return "继续补强关键前置"
+        if current_score < 0.25:
+            return "补强核心支撑"
+        return "继续巩固核心支撑"
+
+    def _role_source_payload(self, role_id: str) -> dict[str, Any]:
+        return {
+            "provenance_count": int(self.graph.nodes[role_id].metadata.get("provenance_count", 0) or 0),
+            "source_type_count": int(self.graph.nodes[role_id].metadata.get("source_type_count", 0) or 0),
+            "source_types": [
+                str(source_type)
+                for source_type in self.graph.nodes[role_id].metadata.get("source_types", [])
+                if str(source_type).strip()
+            ],
+            "source_refs": self._normalize_source_refs(self.graph.nodes[role_id].metadata.get("source_refs", [])),
         }
 
     def catalog(self) -> dict[str, Any]:
