@@ -84,6 +84,12 @@ python3 -m unittest discover -s tests -v
 python3 scripts/run_nl_benchmark.py
 ```
 
+8. 运行 recommendation benchmark
+
+```bash
+python3 scripts/run_recommendation_benchmark.py
+```
+
 ## 接口
 
 `POST /api/recommend` 与 `POST /recommend` 都可用，请求体支持这些字段：
@@ -155,6 +161,24 @@ python3 scripts/validate_graph.py
 
 前端工作台会在推荐卡片和传播图节点详情中展示这些来源锚点，便于课程演示时说明“为什么这些岗位和节点被建进图谱”。
 当前推荐卡片还会展示来源类型 badge，例如 `O*NET` 和 `roadmap.sh`，让“多来源融合”在 UI 上可直接感知。
+
+## 评测
+
+当前仓库包含两套质量护栏：
+
+- `python3 scripts/run_nl_benchmark.py`
+  - 验证自然语言解析与候选岗位召回
+- `python3 scripts/run_recommendation_benchmark.py`
+  - 验证端到端推荐质量、解释覆盖和 provenance 覆盖
+
+运行 recommendation benchmark 后会生成：
+
+- `data/demo/recommendation_benchmark_report.json`
+- `data/demo/recommendation_benchmark_report.md`
+
+Markdown 报告会直接列出每条 case 的匹配岗位名、Top 推荐摘要和失败原因，便于课堂展示和回归排查。
+
+更详细的指标说明见 [docs/evaluation.md](/Users/ans42/Code/auto-evol-project/projects/career-kg/docs/evaluation.md)。
 
 ## 推荐链路
 
