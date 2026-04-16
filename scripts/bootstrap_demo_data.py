@@ -305,7 +305,7 @@ def build_skills() -> dict[str, list[dict[str, Any]]]:
         evidence("interest_infra_automation", "偏好基础设施自动化", ["基础设施自动化", "infra automation"], "基础设施自动化偏好。"),
         evidence("interest_research", "偏好研究探索", ["研究", "research", "探索"], "研究探索偏好。"),
         evidence("interest_low_level_systems", "偏好底层系统", ["底层系统", "系统编程", "low level"], "底层系统偏好。"),
-        evidence("interest_product_delivery", "偏好产品落地", ["产品落地", "业务落地", "交付"], "产品落地偏好。"),
+        evidence("interest_product_delivery", "偏好产品落地", ["产品落地", "业务落地", "产品交付", "业务交付"], "产品落地偏好。"),
         evidence("interest_reliability", "偏好可靠性工程", ["可靠性", "reliability", "sre"], "可靠性方向偏好。"),
     ]
 
@@ -1837,12 +1837,12 @@ def build_relations() -> dict[str, Any]:
             "role": {"aggregator": "hard_gate", "params": {"cap": 1.0, "required_threshold": 0.025}},
         },
         "preference_patterns": {
-            "strong_positive": ["精通", "熟练", "擅长", "扎实"],
-            "medium_positive": ["熟悉", "做过", "写过", "使用过", "实践过", "经验"],
-            "light_positive": ["会", "了解", "接触过", "用过"],
+            "strong_positive": ["精通", "熟练", "擅长", "扎实", "主攻"],
+            "medium_positive": ["熟悉", "做过", "写过", "使用过", "实践过", "经验", "常用", "用得多", "比较多", "平时会"],
+            "light_positive": ["会", "了解", "接触过", "用过", "还行", "能接受"],
             "weak_positive": ["一点", "入门", "略懂", "会一点"],
-            "negative": ["不擅长", "不太擅长", "薄弱", "不会", "不喜欢", "讨厌", "抗拒", "不想", "不想做", "不想写", "不愿", "没兴趣"],
-            "preference": ["喜欢", "更喜欢", "偏好", "倾向", "想做", "希望做", "热爱"],
+            "negative": ["不擅长", "不太擅长", "薄弱", "不会", "不喜欢", "讨厌", "抗拒", "不想", "不想做", "不想写", "不太想", "不太想做", "不太想写", "不愿", "没兴趣", "不考虑"],
+            "preference": ["喜欢", "更喜欢", "偏好", "倾向", "偏向", "想做", "希望做", "热爱", "主攻"],
         },
     }
 
@@ -1874,6 +1874,159 @@ def build_sample_request() -> dict[str, Any]:
     }
 
 
+def build_parsing_patterns() -> dict[str, Any]:
+    return {
+        "project_keywords": ["项目", "做过", "实践", "负责", "写过", "经历", "开发", "搭建", "上线", "部署", "清洗", "分析", "排查", "测试"],
+        "phrase_rules": [
+            {
+                "label": "接口开发",
+                "phrases": ["接口开发", "服务端接口", "服务端开发", "做接口", "写接口"],
+                "signals": [
+                    {"node_id": "interest_backend", "score": 0.86},
+                    {"node_id": "project_backend_api", "score": 0.76},
+                ],
+            },
+            {
+                "label": "数据清洗",
+                "phrases": ["清洗数据", "脚本清洗数据", "数据清洗", "处理数据"],
+                "signals": [
+                    {"node_id": "project_data_pipeline", "score": 0.8},
+                    {"node_id": "interest_data", "score": 0.72},
+                ],
+            },
+            {
+                "label": "Linux 环境",
+                "phrases": ["linux 环境", "linux 服务器", "接受 linux 环境", "能接受 linux"],
+                "signals": [{"node_id": "tool_linux", "score": 0.64}],
+            },
+            {
+                "label": "前端页面倾向",
+                "phrases": ["纯前端页面", "前端页面", "做页面", "写页面"],
+                "signals": [{"node_id": "interest_frontend", "score": 0.78}],
+                "negative_signals": [{"node_id": "constraint_dislike_ui_polish", "score": 0.84}],
+            },
+            {
+                "label": "模型训练",
+                "phrases": ["模型训出来", "训模型", "训练模型", "模型训练"],
+                "signals": [
+                    {"node_id": "project_model_training", "score": 0.82},
+                    {"node_id": "interest_ml", "score": 0.74},
+                ],
+            },
+            {
+                "label": "模型部署",
+                "phrases": ["部署上线", "模型部署", "部署模型", "上线模型"],
+                "signals": [
+                    {"node_id": "project_ml_deployment", "score": 0.82},
+                    {"node_id": "interest_ml", "score": 0.72},
+                ],
+            },
+            {
+                "label": "埋点分析",
+                "phrases": ["埋点分析", "指标分析", "埋点"],
+                "signals": [
+                    {"node_id": "interest_data", "score": 0.76},
+                    {"node_id": "project_dashboard", "score": 0.72},
+                ],
+            },
+            {
+                "label": "可视化报表",
+                "phrases": ["可视化报表", "数据报表", "分析报表", "报表看板"],
+                "signals": [
+                    {"node_id": "project_dashboard", "score": 0.8},
+                    {"node_id": "interest_visualization", "score": 0.84},
+                ],
+            },
+            {
+                "label": "业务沟通",
+                "phrases": ["业务沟通需求", "跟业务沟通", "沟通需求", "对需求"],
+                "signals": [
+                    {"node_id": "soft_communication", "score": 0.78},
+                    {"node_id": "soft_business_understanding", "score": 0.74},
+                ],
+            },
+            {
+                "label": "稳定交付",
+                "phrases": ["稳定交付", "质量保障", "保障质量", "质量稳定"],
+                "signals": [{"node_id": "interest_stable_delivery", "score": 0.86}],
+            },
+            {
+                "label": "自动化测试",
+                "phrases": ["自动化测试", "写自动化测试", "测试脚本"],
+                "signals": [
+                    {"node_id": "project_test_automation", "score": 0.82},
+                    {"node_id": "interest_stable_delivery", "score": 0.72},
+                ],
+            },
+            {
+                "label": "数据库表设计",
+                "phrases": ["数据库表设计", "表设计", "数据库设计"],
+                "signals": [
+                    {"node_id": "knowledge_database_theory", "score": 0.76},
+                    {"node_id": "skill_sql", "score": 0.74},
+                ],
+            },
+            {
+                "label": "线上排障",
+                "phrases": ["排查线上问题", "线上排障", "故障排查", "排查问题"],
+                "signals": [
+                    {"node_id": "interest_reliability", "score": 0.74},
+                    {"node_id": "project_devops_automation", "score": 0.7},
+                    {"node_id": "tool_linux", "score": 0.64},
+                ],
+            },
+        ],
+    }
+
+
+def build_nl_benchmark() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "backend_data_mix",
+            "text": "我主攻接口开发，平时会写脚本清洗数据，也能接受 Linux 环境，不想做纯前端页面。",
+            "expected_nodes": ["interest_backend", "project_data_pipeline", "tool_linux", "constraint_dislike_ui_polish"],
+            "expected_roles_any": ["role_backend_engineer", "role_python_backend_engineer", "role_data_engineer"],
+            "min_signal_count": 4,
+        },
+        {
+            "id": "ml_train_deploy",
+            "text": "我更喜欢把模型训出来再部署上线，数学还行，平时用 PyTorch 比较多。",
+            "expected_nodes": ["interest_ml", "project_model_training", "project_ml_deployment", "tool_pytorch", "knowledge_math_foundation"],
+            "expected_roles_any": ["role_ml_engineer", "role_ai_application_engineer", "role_ml_platform_engineer"],
+            "min_signal_count": 5,
+        },
+        {
+            "id": "analytics_reporting",
+            "text": "我做过埋点分析和可视化报表，SQL 用得多，也常跟业务沟通需求。",
+            "expected_nodes": ["interest_data", "project_dashboard", "interest_visualization", "skill_sql", "soft_communication"],
+            "expected_roles_any": ["role_data_analyst", "role_analytics_engineer", "role_bi_engineer"],
+            "min_signal_count": 5,
+        },
+        {
+            "id": "quality_delivery",
+            "text": "我偏向稳定交付和质量保障，写过自动化测试，也会一点 Python。",
+            "expected_nodes": ["interest_stable_delivery", "project_test_automation", "skill_python"],
+            "unexpected_nodes": ["interest_product_delivery"],
+            "expected_roles_any": ["role_test_development_engineer", "role_qa_platform_engineer", "role_performance_test_engineer"],
+            "min_signal_count": 3,
+        },
+        {
+            "id": "negative_ui_preference",
+            "text": "我不太想写页面，但会一点 React。",
+            "expected_nodes": ["constraint_dislike_ui_polish", "tool_react"],
+            "unexpected_nodes": ["interest_frontend"],
+            "min_signal_count": 2,
+        },
+        {
+            "id": "backend_ops_design",
+            "text": "我比较擅长做服务端接口、数据库表设计和排查线上问题，也熟悉 Docker 和 Redis。",
+            "expected_nodes": ["interest_backend", "knowledge_database_theory", "project_devops_automation", "tool_docker", "tool_redis"],
+            "expected_roles_any": ["role_backend_engineer", "role_api_platform_engineer", "role_platform_engineer"],
+            "min_signal_count": 5,
+        },
+    ]
+
+
 def build_source_dataset() -> dict[str, Any]:
     return {
         "skills": build_skills(),
@@ -1881,6 +2034,8 @@ def build_source_dataset() -> dict[str, Any]:
         "roles": build_roles(),
         "relations": build_relations(),
         "aliases": build_aliases(),
+        "parsing_patterns": build_parsing_patterns(),
+        "nl_benchmark": build_nl_benchmark(),
         "sample_request": build_sample_request(),
     }
 
@@ -1893,6 +2048,8 @@ def write_sources(dataset: dict[str, Any]) -> None:
     write_json(sources_dir / "roles.json", dataset["roles"])
     write_json(sources_dir / "relations.json", dataset["relations"])
     write_json(sources_dir / "aliases.json", dataset["aliases"])
+    write_json(sources_dir / "parsing_patterns.json", dataset["parsing_patterns"])
+    write_json(sources_dir / "nl_benchmark.json", dataset["nl_benchmark"])
     write_json(sources_dir / "sample_request.json", dataset["sample_request"])
 
 

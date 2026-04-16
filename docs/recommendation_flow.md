@@ -5,7 +5,11 @@
 系统支持两种入口：
 
 - 自然语言输入
-  - 通过 `backend/app/services/nl_parser.py` 使用别名词典与上下文模式抽取节点
+  - 通过 `backend/app/services/nl_parser.py` 进行多阶段解析：
+    - 句段切分
+    - 短语规则命中
+    - alias/实体匹配
+    - 强度、偏好、否定范围判定
 - 结构化输入
   - 通过 `backend/app/services/input_normalizer.py` 直接映射到标准节点
 
@@ -39,7 +43,8 @@
 - `recommendations`
 - `propagation_snapshot`
 - `parsing_notes`
+- `parsing_debug`
 - `unresolved_entities`
 - `graph_stats`
 
-这使得后续前端既能展示结果列表，也能展示传播路径和节点热度。
+其中 `parsing_debug` 会返回规则命中、alias 命中、未充分解析的句段和候选信号，方便前端提示与回归调试。

@@ -24,9 +24,10 @@
 - `data/sources`: 可编辑的图谱源数据、模板和别名
 - `data/ontology`: 节点类型与边类型本体
 - `data/seeds`: 生成后的图谱节点与边
-- `data/dictionaries`: 别名词典和自然语言模式词典
+- `data/dictionaries`: 别名词典、自然语言模式词典和解析短语规则
 - `scripts/bootstrap_demo_data.py`: 生成 demo source 数据并编译图谱
 - `scripts/build_graph.py`: 从 source 数据编译图谱 seed 与词典
+- `scripts/run_nl_benchmark.py`: 回归口语化自然语言 benchmark
 - `scripts/validate_graph.py`: 校验 DAG 和图谱规模
 - `docs/data_pipeline.md`: 图谱数据流水线说明
 - `tests`: 单元测试
@@ -75,6 +76,12 @@ python3 -m backend.app.main --input-file data/demo/sample_request.json
 
 ```bash
 python3 -m unittest discover -s tests -v
+```
+
+7. 运行自然语言 benchmark
+
+```bash
+python3 scripts/run_nl_benchmark.py
 ```
 
 ## 接口

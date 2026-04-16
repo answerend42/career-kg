@@ -67,6 +67,22 @@ class RecommendationApiTests(unittest.TestCase):
         self.assertGreater(len(result["recommendations"]), 0)
         self.assertTrue(all(item["score"] >= 0.05 for item in result["recommendations"]))
 
+    def test_colloquial_sentence_returns_debug_and_nonempty_recommendations(self) -> None:
+        payload = {
+            "text": "我主攻接口开发，平时会写脚本清洗数据，也能接受 Linux 环境，不想做纯前端页面。",
+            "top_k": 6,
+        }
+        result = self.service.recommend(payload)
+        normalized_ids = {item["node_id"] for item in result["normalized_inputs"]}
+        self.assertIn("interest_backend", normalized_ids)
+        self.assertIn("project_data_pipeline", normalized_ids)
+        self.assertIn("constraint_dislike_ui_polish", normalized_ids)
+        self.assertGreater(len(result["recommendations"]), 0)
+        self.assertIn("parsing_debug", result)
+        self.assertGreater(len(result["parsing_debug"]["rule_hits"]), 0)
+        top_ids = [item["job_id"] for item in result["recommendations"][:3]]
+        self.assertNotIn("role_frontend_engineer", top_ids)
+
     def test_empty_input_does_not_return_zero_score_pseudo_recommendations(self) -> None:
         result = self.service.recommend({"text": "", "signals": [], "top_k": 6})
         self.assertEqual(result["normalized_inputs"], [])

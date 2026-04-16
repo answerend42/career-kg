@@ -118,3 +118,6 @@ class GraphLoader:
 
     def load_preference_patterns(self) -> dict[str, list[str]]:
         return self._load_json("data/dictionaries/preference_patterns.json")  # type: ignore[return-value]
+
+    def load_parsing_patterns(self) -> dict:
+        return self._load_json("data/dictionaries/parsing_patterns.json")  # type: ignore[return-value]

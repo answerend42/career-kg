@@ -21,8 +21,9 @@ class RecommendationService:
         self.graph = self.loader.load_graph()
         self.aliases = self.loader.load_aliases()
         self.preference_patterns = self.loader.load_preference_patterns()
+        self.parsing_patterns = self.loader.load_parsing_patterns()
         self.normalizer = InputNormalizer(self.graph, self.aliases)
-        self.nl_parser = LightweightNLParser(self.graph, self.aliases, self.preference_patterns)
+        self.nl_parser = LightweightNLParser(self.graph, self.aliases, self.preference_patterns, self.parsing_patterns)
         self.engine = InferenceEngine()
         self.explainer = GraphExplainer()
         self.sample_request_path = self.loader.base_dir / "data" / "demo" / "sample_request.json"
@@ -30,8 +31,8 @@ class RecommendationService:
     def recommend(self, payload: dict[str, Any] | None) -> dict[str, Any]:
         request = RecommendationRequest.from_payload(payload)
         structured_signals, unresolved = self.normalizer.normalize_signals(request.signals)
-        parsed_signals, parsing_notes = self.nl_parser.parse(request.text)
-        merged_signals = self.normalizer.merge_signals(parsed_signals, structured_signals)
+        parse_result = self.nl_parser.parse_detailed(request.text)
+        merged_signals = self.normalizer.merge_signals(parse_result.signals, structured_signals)
         score_map = self.normalizer.to_score_map(merged_signals)
 
         states = self.engine.run(self.graph, score_map)
@@ -60,7 +61,8 @@ class RecommendationService:
             "normalized_inputs": [item.as_dict() for item in merged_signals],
             "recommendations": [item.as_dict() for item in recommendations],
             "propagation_snapshot": self._build_snapshot(states) if request.include_snapshot else None,
-            "parsing_notes": parsing_notes[:30],
+            "parsing_notes": parse_result.notes[:30],
+            "parsing_debug": parse_result.debug,
             "unresolved_entities": unresolved,
             "graph_stats": {
                 "node_count": len(self.graph.nodes),

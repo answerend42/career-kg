@@ -565,6 +565,16 @@ function renderNotice() {
   if (state.result?.parsing_notes?.length) {
     notes.push(`<span class="badge neutral">解析命中：${escapeHtml(state.result.parsing_notes.slice(0, 4).join(" · "))}</span>`);
   }
+  if (state.result?.parsing_debug?.rule_hits?.length) {
+    notes.push(`<span class="badge neutral">规则命中：${state.result.parsing_debug.rule_hits.length}</span>`);
+  }
+  if (state.result?.parsing_debug?.unmatched_segments?.length) {
+    notes.push(
+      `<span class="badge neutral">未充分解析：${escapeHtml(
+        state.result.parsing_debug.unmatched_segments.slice(0, 3).join(" / ")
+      )}</span>`
+    );
+  }
   if (state.result?.unresolved_entities?.length) {
     notes.push(`<span class="badge neutral">未识别：${escapeHtml(state.result.unresolved_entities.join("、"))}</span>`);
   }

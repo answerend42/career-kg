@@ -161,6 +161,8 @@ class GraphBuilder:
         relations = load_json(self.sources_dir / "relations.json")
         alias_overrides = load_json(self.sources_dir / "aliases.json")
         sample_request = load_json(self.sources_dir / "sample_request.json")
+        parsing_patterns = load_json(self.sources_dir / "parsing_patterns.json")
+        nl_benchmark = load_json(self.sources_dir / "nl_benchmark.json")
 
         for path in [self.ontology_dir, self.seeds_dir, self.dictionaries_dir, self.demo_dir]:
             ensure_dir(path)
@@ -180,7 +182,9 @@ class GraphBuilder:
             {node_id: sorted(values) for node_id, values in sorted(self.aliases.items())},
         )
         write_json(self.dictionaries_dir / "preference_patterns.json", relations["preference_patterns"])
+        write_json(self.dictionaries_dir / "parsing_patterns.json", parsing_patterns)
         write_json(self.demo_dir / "sample_request.json", sample_request)
+        write_json(self.demo_dir / "nl_benchmark.json", nl_benchmark)
 
         return {
             "nodes": len(self.nodes),
