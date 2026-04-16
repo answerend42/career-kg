@@ -2937,9 +2937,29 @@
             "Developer",
             "DevOps Engineer (Development Operations Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3057,9 +3077,29 @@
             "Web Design Specialist",
             "Web Developer"
           ]
+        },
+        {
+          "profile_id": "roadmap_frontend",
+          "source_type": "roadmap_sh",
+          "source_id": "frontend",
+          "source_title": "Frontend Developer Roadmap: What is Frontend Development?",
+          "source_url": "https://roadmap.sh/frontend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Do frontend developers really code? The answer is yes, absolutely. The fact that frontend developers are full-time developers who produce an output that is visually appealing (thanks to the designs provided by others) sometimes confuses others, making them believe that frontend developers aren’t really coding. However, that couldn’t be further from the truth. As a frontend developer, you’ll be coding all the time. While in some companies, the frontend developer is also a skilled designer or UX engineer, those are not the typical profiles. As a frontend dev, your learning focus should be coding-related (i.e coding best practices, software design patterns, frontend architecture, etc).",
+          "sample_job_titles": [
+            "Frontend Engineer",
+            "React Engineer",
+            "Vue Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3108,9 +3148,30 @@
       "required_threshold": 0.08
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_full_stack",
+          "source_type": "roadmap_sh",
+          "source_id": "full-stack",
+          "source_title": "Full Stack Developer Roadmap",
+          "source_url": "https://roadmap.sh/full-stack",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "You can learn full stack development in 3 months, but only if you are already proficient in either front-end or back-end development, and you just need to pick up the missing half. Otherwise, expecting to learn the ins and outs of web development (both front and back end) in such a short amount of time is too much for a single developer. Usually mastering full stack development takes more time and a lot of hands-on experience. If you only have a 3-month span of time to learn the skill and assuming you already have programming experience, the best thing you can do is to quickly run through [the full stack developer roadmap](https://roadmap.sh/full-stack). While you won't learn everything you need to be a proficient full stack developer, you'll have a basic notion of everything that entails the role.",
+          "sample_job_titles": [
+            "Full Stack Engineer",
+            "Web Application Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3145,7 +3206,12 @@
           ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 1,
+      "source_types": [
+        "onet_online"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3190,9 +3256,29 @@
           "snapshot_date": "2026-04-17",
           "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
           "sample_job_titles": []
+        },
+        {
+          "profile_id": "roadmap_data_analyst",
+          "source_type": "roadmap_sh",
+          "source_id": "data-analyst",
+          "source_title": "Data Analyst Roadmap",
+          "source_url": "https://roadmap.sh/data-analyst",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Data analysis is a good career choice, in fact, it's a great career choice if you think about how technology is at the core of every company, and by definition, company operations produce data that can later be used to gather insights. Using these insights to drive decisions, and innovation and decide the future of the company, helps ensure these decisions are based on reality. With organizations increasingly relying on data to support decision-making, the demand for professionals who can analyze data, interpret data, and identify future trends is exceptionally high. This field not only offers the opportunity to work as a data analyst and develop your findings using different analysis and mining techniques, but also allows you to be a key player in making strategic business decisions. The field of data analytics is continuously growing and advancing with new techniques, AI-driven analysis or even new visualization tools, ensuring that a career as a data analyst is both challenging and rewarding for those who want to stay competitive and solve problems with actionable knowledge.",
+          "sample_job_titles": [
+            "Data Analyst",
+            "Analytics Engineer",
+            "BI Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3220,9 +3306,29 @@
           "snapshot_date": "2026-04-17",
           "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
           "sample_job_titles": []
+        },
+        {
+          "profile_id": "roadmap_mlops",
+          "source_type": "roadmap_sh",
+          "source_id": "mlops",
+          "source_title": "MLOps Roadmap",
+          "source_url": "https://roadmap.sh/mlops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to learn MLOps in 2026",
+          "sample_job_titles": [
+            "MLOps Engineer",
+            "ML Platform Engineer",
+            "Machine Learning Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3237,9 +3343,31 @@
       "required_threshold": 0.08
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_mlops",
+          "source_type": "roadmap_sh",
+          "source_id": "mlops",
+          "source_title": "MLOps Roadmap",
+          "source_url": "https://roadmap.sh/mlops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to learn MLOps in 2026",
+          "sample_job_titles": [
+            "MLOps Engineer",
+            "ML Platform Engineer",
+            "Machine Learning Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3254,9 +3382,31 @@
       "required_threshold": 0.08
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_ai_engineer",
+          "source_type": "roadmap_sh",
+          "source_id": "ai-engineer",
+          "source_title": "AI Engineer Roadmap",
+          "source_url": "https://roadmap.sh/ai-engineer",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Yes, becoming an AI engineer is a great career choice. AI is transforming nearly every industry, from healthcare and finance to transportation and entertainment. As companies increasingly adopt AI-driven solutions, the demand for skilled AI engineers continues to grow. This role offers opportunities to work on cutting-edge technologies like machine learning, natural language processing, and computer vision, making it a highly innovative field",
+          "sample_job_titles": [
+            "AI Engineer",
+            "LLM Application Engineer",
+            "NLP Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3289,9 +3439,29 @@
             "LAN Specialist (Local Area Network Specialist)",
             "Local Area Network Administrator (LAN Administrator)"
           ]
+        },
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3306,9 +3476,31 @@
       "required_threshold": 0.08
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3341,9 +3533,28 @@
             "Quality Assurance Analyst (QA Analyst)",
             "Quality Assurance Engineer (QA Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_qa",
+          "source_type": "roadmap_sh",
+          "source_id": "qa",
+          "source_title": "QA Roadmap: Learn to become a modern QA engineer",
+          "source_url": "https://roadmap.sh/qa",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Steps to follow in order to become a modern QA Engineer in 2026",
+          "sample_job_titles": [
+            "QA Engineer",
+            "Test Development Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3376,9 +3587,29 @@
             "Information Systems Security Analyst",
             "Information Systems Security Officer (ISSO)"
           ]
+        },
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3393,9 +3624,31 @@
       "required_threshold": 0.08
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3410,9 +3663,31 @@
       "required_threshold": 0.08
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3445,9 +3720,29 @@
             "LAN Specialist (Local Area Network Specialist)",
             "Local Area Network Administrator (LAN Administrator)"
           ]
+        },
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3462,9 +3757,43 @@
       "required_threshold": 0.08
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_android",
+          "source_type": "roadmap_sh",
+          "source_id": "android",
+          "source_title": "Android Developer Roadmap: Learn to become an Android developer",
+          "source_url": "https://roadmap.sh/android",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming an Android developer in 2026",
+          "sample_job_titles": [
+            "Android Engineer",
+            "Mobile Engineer"
+          ]
+        },
+        {
+          "profile_id": "roadmap_ios",
+          "source_type": "roadmap_sh",
+          "source_id": "ios",
+          "source_title": "iOS Developer Roadmap: Learn to become an iOS developer",
+          "source_url": "https://roadmap.sh/ios",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming an iOS developer in 2026",
+          "sample_job_titles": [
+            "iOS Engineer",
+            "Mobile Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 2,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3479,9 +3808,30 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_android",
+          "source_type": "roadmap_sh",
+          "source_id": "android",
+          "source_title": "Android Developer Roadmap: Learn to become an Android developer",
+          "source_url": "https://roadmap.sh/android",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming an Android developer in 2026",
+          "sample_job_titles": [
+            "Android Engineer",
+            "Mobile Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3496,9 +3846,30 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_ios",
+          "source_type": "roadmap_sh",
+          "source_id": "ios",
+          "source_title": "iOS Developer Roadmap: Learn to become an iOS developer",
+          "source_url": "https://roadmap.sh/ios",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming an iOS developer in 2026",
+          "sample_job_titles": [
+            "iOS Engineer",
+            "Mobile Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3547,9 +3918,31 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3583,9 +3976,29 @@
             "Developer",
             "DevOps Engineer (Development Operations Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3619,9 +4032,29 @@
             "Web Design Specialist",
             "Web Developer"
           ]
+        },
+        {
+          "profile_id": "roadmap_frontend",
+          "source_type": "roadmap_sh",
+          "source_id": "frontend",
+          "source_title": "Frontend Developer Roadmap: What is Frontend Development?",
+          "source_url": "https://roadmap.sh/frontend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Do frontend developers really code? The answer is yes, absolutely. The fact that frontend developers are full-time developers who produce an output that is visually appealing (thanks to the designs provided by others) sometimes confuses others, making them believe that frontend developers aren’t really coding. However, that couldn’t be further from the truth. As a frontend developer, you’ll be coding all the time. While in some companies, the frontend developer is also a skilled designer or UX engineer, those are not the typical profiles. As a frontend dev, your learning focus should be coding-related (i.e coding best practices, software design patterns, frontend architecture, etc).",
+          "sample_job_titles": [
+            "Frontend Engineer",
+            "React Engineer",
+            "Vue Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3655,9 +4088,28 @@
             "Developer",
             "DevOps Engineer (Development Operations Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_full_stack",
+          "source_type": "roadmap_sh",
+          "source_id": "full-stack",
+          "source_title": "Full Stack Developer Roadmap",
+          "source_url": "https://roadmap.sh/full-stack",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "You can learn full stack development in 3 months, but only if you are already proficient in either front-end or back-end development, and you just need to pick up the missing half. Otherwise, expecting to learn the ins and outs of web development (both front and back end) in such a short amount of time is too much for a single developer. Usually mastering full stack development takes more time and a lot of hands-on experience. If you only have a 3-month span of time to learn the skill and assuming you already have programming experience, the best thing you can do is to quickly run through [the full stack developer roadmap](https://roadmap.sh/full-stack). While you won't learn everything you need to be a proficient full stack developer, you'll have a basic notion of everything that entails the role.",
+          "sample_job_titles": [
+            "Full Stack Engineer",
+            "Web Application Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3691,9 +4143,29 @@
             "Database Analyst",
             "Database Coordinator"
           ]
+        },
+        {
+          "profile_id": "roadmap_data_analyst",
+          "source_type": "roadmap_sh",
+          "source_id": "data-analyst",
+          "source_title": "Data Analyst Roadmap",
+          "source_url": "https://roadmap.sh/data-analyst",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Data analysis is a good career choice, in fact, it's a great career choice if you think about how technology is at the core of every company, and by definition, company operations produce data that can later be used to gather insights. Using these insights to drive decisions, and innovation and decide the future of the company, helps ensure these decisions are based on reality. With organizations increasingly relying on data to support decision-making, the demand for professionals who can analyze data, interpret data, and identify future trends is exceptionally high. This field not only offers the opportunity to work as a data analyst and develop your findings using different analysis and mining techniques, but also allows you to be a key player in making strategic business decisions. The field of data analytics is continuously growing and advancing with new techniques, AI-driven analysis or even new visualization tools, ensuring that a career as a data analyst is both challenging and rewarding for those who want to stay competitive and solve problems with actionable knowledge.",
+          "sample_job_titles": [
+            "Data Analyst",
+            "Analytics Engineer",
+            "BI Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3722,9 +4194,29 @@
           "snapshot_date": "2026-04-17",
           "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
           "sample_job_titles": []
+        },
+        {
+          "profile_id": "roadmap_data_analyst",
+          "source_type": "roadmap_sh",
+          "source_id": "data-analyst",
+          "source_title": "Data Analyst Roadmap",
+          "source_url": "https://roadmap.sh/data-analyst",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Data analysis is a good career choice, in fact, it's a great career choice if you think about how technology is at the core of every company, and by definition, company operations produce data that can later be used to gather insights. Using these insights to drive decisions, and innovation and decide the future of the company, helps ensure these decisions are based on reality. With organizations increasingly relying on data to support decision-making, the demand for professionals who can analyze data, interpret data, and identify future trends is exceptionally high. This field not only offers the opportunity to work as a data analyst and develop your findings using different analysis and mining techniques, but also allows you to be a key player in making strategic business decisions. The field of data analytics is continuously growing and advancing with new techniques, AI-driven analysis or even new visualization tools, ensuring that a career as a data analyst is both challenging and rewarding for those who want to stay competitive and solve problems with actionable knowledge.",
+          "sample_job_titles": [
+            "Data Analyst",
+            "Analytics Engineer",
+            "BI Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3753,9 +4245,29 @@
           "snapshot_date": "2026-04-17",
           "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
           "sample_job_titles": []
+        },
+        {
+          "profile_id": "roadmap_mlops",
+          "source_type": "roadmap_sh",
+          "source_id": "mlops",
+          "source_title": "MLOps Roadmap",
+          "source_url": "https://roadmap.sh/mlops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to learn MLOps in 2026",
+          "sample_job_titles": [
+            "MLOps Engineer",
+            "ML Platform Engineer",
+            "Machine Learning Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3771,9 +4283,31 @@
       "penalty_floor": 0.45
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_ai_engineer",
+          "source_type": "roadmap_sh",
+          "source_id": "ai-engineer",
+          "source_title": "AI Engineer Roadmap",
+          "source_url": "https://roadmap.sh/ai-engineer",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Yes, becoming an AI engineer is a great career choice. AI is transforming nearly every industry, from healthcare and finance to transportation and entertainment. As companies increasingly adopt AI-driven solutions, the demand for skilled AI engineers continues to grow. This role offers opportunities to work on cutting-edge technologies like machine learning, natural language processing, and computer vision, making it a highly innovative field",
+          "sample_job_titles": [
+            "AI Engineer",
+            "LLM Application Engineer",
+            "NLP Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3807,9 +4341,29 @@
             "LAN Specialist (Local Area Network Specialist)",
             "Local Area Network Administrator (LAN Administrator)"
           ]
+        },
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3843,9 +4397,29 @@
             "LAN Specialist (Local Area Network Specialist)",
             "Local Area Network Administrator (LAN Administrator)"
           ]
+        },
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3879,9 +4453,28 @@
             "Quality Assurance Analyst (QA Analyst)",
             "Quality Assurance Engineer (QA Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_qa",
+          "source_type": "roadmap_sh",
+          "source_id": "qa",
+          "source_title": "QA Roadmap: Learn to become a modern QA engineer",
+          "source_url": "https://roadmap.sh/qa",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Steps to follow in order to become a modern QA Engineer in 2026",
+          "sample_job_titles": [
+            "QA Engineer",
+            "Test Development Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3915,9 +4508,29 @@
             "Information Systems Security Analyst",
             "Information Systems Security Officer (ISSO)"
           ]
+        },
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3951,9 +4564,29 @@
             "LAN Specialist (Local Area Network Specialist)",
             "Local Area Network Administrator (LAN Administrator)"
           ]
+        },
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -3969,9 +4602,43 @@
       "penalty_floor": 0.45
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_android",
+          "source_type": "roadmap_sh",
+          "source_id": "android",
+          "source_title": "Android Developer Roadmap: Learn to become an Android developer",
+          "source_url": "https://roadmap.sh/android",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming an Android developer in 2026",
+          "sample_job_titles": [
+            "Android Engineer",
+            "Mobile Engineer"
+          ]
+        },
+        {
+          "profile_id": "roadmap_ios",
+          "source_type": "roadmap_sh",
+          "source_id": "ios",
+          "source_title": "iOS Developer Roadmap: Learn to become an iOS developer",
+          "source_url": "https://roadmap.sh/ios",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming an iOS developer in 2026",
+          "sample_job_titles": [
+            "iOS Engineer",
+            "Mobile Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 2,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4023,9 +4690,29 @@
             "Developer",
             "DevOps Engineer (Development Operations Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4059,9 +4746,29 @@
             "Developer",
             "DevOps Engineer (Development Operations Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4095,9 +4802,29 @@
             "Developer",
             "DevOps Engineer (Development Operations Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4131,9 +4858,29 @@
             "Web Design Specialist",
             "Web Developer"
           ]
+        },
+        {
+          "profile_id": "roadmap_frontend",
+          "source_type": "roadmap_sh",
+          "source_id": "frontend",
+          "source_title": "Frontend Developer Roadmap: What is Frontend Development?",
+          "source_url": "https://roadmap.sh/frontend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Do frontend developers really code? The answer is yes, absolutely. The fact that frontend developers are full-time developers who produce an output that is visually appealing (thanks to the designs provided by others) sometimes confuses others, making them believe that frontend developers aren’t really coding. However, that couldn’t be further from the truth. As a frontend developer, you’ll be coding all the time. While in some companies, the frontend developer is also a skilled designer or UX engineer, those are not the typical profiles. As a frontend dev, your learning focus should be coding-related (i.e coding best practices, software design patterns, frontend architecture, etc).",
+          "sample_job_titles": [
+            "Frontend Engineer",
+            "React Engineer",
+            "Vue Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4167,9 +4914,28 @@
             "Developer",
             "DevOps Engineer (Development Operations Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_full_stack",
+          "source_type": "roadmap_sh",
+          "source_id": "full-stack",
+          "source_title": "Full Stack Developer Roadmap",
+          "source_url": "https://roadmap.sh/full-stack",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "You can learn full stack development in 3 months, but only if you are already proficient in either front-end or back-end development, and you just need to pick up the missing half. Otherwise, expecting to learn the ins and outs of web development (both front and back end) in such a short amount of time is too much for a single developer. Usually mastering full stack development takes more time and a lot of hands-on experience. If you only have a 3-month span of time to learn the skill and assuming you already have programming experience, the best thing you can do is to quickly run through [the full stack developer roadmap](https://roadmap.sh/full-stack). While you won't learn everything you need to be a proficient full stack developer, you'll have a basic notion of everything that entails the role.",
+          "sample_job_titles": [
+            "Full Stack Engineer",
+            "Web Application Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4205,7 +4971,12 @@
           ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 1,
+      "source_types": [
+        "onet_online"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4234,9 +5005,29 @@
           "snapshot_date": "2026-04-17",
           "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
           "sample_job_titles": []
+        },
+        {
+          "profile_id": "roadmap_data_analyst",
+          "source_type": "roadmap_sh",
+          "source_id": "data-analyst",
+          "source_title": "Data Analyst Roadmap",
+          "source_url": "https://roadmap.sh/data-analyst",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Data analysis is a good career choice, in fact, it's a great career choice if you think about how technology is at the core of every company, and by definition, company operations produce data that can later be used to gather insights. Using these insights to drive decisions, and innovation and decide the future of the company, helps ensure these decisions are based on reality. With organizations increasingly relying on data to support decision-making, the demand for professionals who can analyze data, interpret data, and identify future trends is exceptionally high. This field not only offers the opportunity to work as a data analyst and develop your findings using different analysis and mining techniques, but also allows you to be a key player in making strategic business decisions. The field of data analytics is continuously growing and advancing with new techniques, AI-driven analysis or even new visualization tools, ensuring that a career as a data analyst is both challenging and rewarding for those who want to stay competitive and solve problems with actionable knowledge.",
+          "sample_job_titles": [
+            "Data Analyst",
+            "Analytics Engineer",
+            "BI Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4265,9 +5056,29 @@
           "snapshot_date": "2026-04-17",
           "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
           "sample_job_titles": []
+        },
+        {
+          "profile_id": "roadmap_mlops",
+          "source_type": "roadmap_sh",
+          "source_id": "mlops",
+          "source_title": "MLOps Roadmap",
+          "source_url": "https://roadmap.sh/mlops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to learn MLOps in 2026",
+          "sample_job_titles": [
+            "MLOps Engineer",
+            "ML Platform Engineer",
+            "Machine Learning Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4282,10 +5093,32 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "ml"
+      "family": "ml",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_ai_engineer",
+          "source_type": "roadmap_sh",
+          "source_id": "ai-engineer",
+          "source_title": "AI Engineer Roadmap",
+          "source_url": "https://roadmap.sh/ai-engineer",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Yes, becoming an AI engineer is a great career choice. AI is transforming nearly every industry, from healthcare and finance to transportation and entertainment. As companies increasingly adopt AI-driven solutions, the demand for skilled AI engineers continues to grow. This role offers opportunities to work on cutting-edge technologies like machine learning, natural language processing, and computer vision, making it a highly innovative field",
+          "sample_job_titles": [
+            "AI Engineer",
+            "LLM Application Engineer",
+            "NLP Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4319,9 +5152,29 @@
             "LAN Specialist (Local Area Network Specialist)",
             "Local Area Network Administrator (LAN Administrator)"
           ]
+        },
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4355,9 +5208,29 @@
             "LAN Specialist (Local Area Network Specialist)",
             "Local Area Network Administrator (LAN Administrator)"
           ]
+        },
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4391,9 +5264,28 @@
             "Quality Assurance Analyst (QA Analyst)",
             "Quality Assurance Engineer (QA Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_qa",
+          "source_type": "roadmap_sh",
+          "source_id": "qa",
+          "source_title": "QA Roadmap: Learn to become a modern QA engineer",
+          "source_url": "https://roadmap.sh/qa",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Steps to follow in order to become a modern QA Engineer in 2026",
+          "sample_job_titles": [
+            "QA Engineer",
+            "Test Development Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4427,9 +5319,29 @@
             "Information Systems Security Analyst",
             "Information Systems Security Officer (ISSO)"
           ]
+        },
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4463,9 +5375,29 @@
             "LAN Specialist (Local Area Network Specialist)",
             "Local Area Network Administrator (LAN Administrator)"
           ]
+        },
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4480,10 +5412,44 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "mobile"
+      "family": "mobile",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_android",
+          "source_type": "roadmap_sh",
+          "source_id": "android",
+          "source_title": "Android Developer Roadmap: Learn to become an Android developer",
+          "source_url": "https://roadmap.sh/android",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming an Android developer in 2026",
+          "sample_job_titles": [
+            "Android Engineer",
+            "Mobile Engineer"
+          ]
+        },
+        {
+          "profile_id": "roadmap_ios",
+          "source_type": "roadmap_sh",
+          "source_id": "ios",
+          "source_title": "iOS Developer Roadmap: Learn to become an iOS developer",
+          "source_url": "https://roadmap.sh/ios",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming an iOS developer in 2026",
+          "sample_job_titles": [
+            "iOS Engineer",
+            "Mobile Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 2,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4573,9 +5539,29 @@
             "Developer",
             "DevOps Engineer (Development Operations Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4647,9 +5633,29 @@
             "Developer",
             "DevOps Engineer (Development Operations Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4682,11 +5688,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4701,11 +5729,33 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4738,11 +5788,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4757,11 +5829,33 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4794,11 +5888,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4813,11 +5929,33 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4850,11 +5988,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4869,11 +6029,33 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4906,11 +6088,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "frontend",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_frontend",
+          "source_type": "roadmap_sh",
+          "source_id": "frontend",
+          "source_title": "Frontend Developer Roadmap: What is Frontend Development?",
+          "source_url": "https://roadmap.sh/frontend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Do frontend developers really code? The answer is yes, absolutely. The fact that frontend developers are full-time developers who produce an output that is visually appealing (thanks to the designs provided by others) sometimes confuses others, making them believe that frontend developers aren’t really coding. However, that couldn’t be further from the truth. As a frontend developer, you’ll be coding all the time. While in some companies, the frontend developer is also a skilled designer or UX engineer, those are not the typical profiles. As a frontend dev, your learning focus should be coding-related (i.e coding best practices, software design patterns, frontend architecture, etc).",
+          "sample_job_titles": [
+            "Frontend Engineer",
+            "React Engineer",
+            "Vue Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4945,9 +6149,29 @@
             "Web Design Specialist",
             "Web Developer"
           ]
+        },
+        {
+          "profile_id": "roadmap_frontend",
+          "source_type": "roadmap_sh",
+          "source_id": "frontend",
+          "source_title": "Frontend Developer Roadmap: What is Frontend Development?",
+          "source_url": "https://roadmap.sh/frontend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Do frontend developers really code? The answer is yes, absolutely. The fact that frontend developers are full-time developers who produce an output that is visually appealing (thanks to the designs provided by others) sometimes confuses others, making them believe that frontend developers aren’t really coding. However, that couldn’t be further from the truth. As a frontend developer, you’ll be coding all the time. While in some companies, the frontend developer is also a skilled designer or UX engineer, those are not the typical profiles. As a frontend dev, your learning focus should be coding-related (i.e coding best practices, software design patterns, frontend architecture, etc).",
+          "sample_job_titles": [
+            "Frontend Engineer",
+            "React Engineer",
+            "Vue Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -4980,11 +6204,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "frontend",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_frontend",
+          "source_type": "roadmap_sh",
+          "source_id": "frontend",
+          "source_title": "Frontend Developer Roadmap: What is Frontend Development?",
+          "source_url": "https://roadmap.sh/frontend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Do frontend developers really code? The answer is yes, absolutely. The fact that frontend developers are full-time developers who produce an output that is visually appealing (thanks to the designs provided by others) sometimes confuses others, making them believe that frontend developers aren’t really coding. However, that couldn’t be further from the truth. As a frontend developer, you’ll be coding all the time. While in some companies, the frontend developer is also a skilled designer or UX engineer, those are not the typical profiles. As a frontend dev, your learning focus should be coding-related (i.e coding best practices, software design patterns, frontend architecture, etc).",
+          "sample_job_titles": [
+            "Frontend Engineer",
+            "React Engineer",
+            "Vue Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5019,9 +6265,29 @@
             "Web Design Specialist",
             "Web Developer"
           ]
+        },
+        {
+          "profile_id": "roadmap_frontend",
+          "source_type": "roadmap_sh",
+          "source_id": "frontend",
+          "source_title": "Frontend Developer Roadmap: What is Frontend Development?",
+          "source_url": "https://roadmap.sh/frontend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Do frontend developers really code? The answer is yes, absolutely. The fact that frontend developers are full-time developers who produce an output that is visually appealing (thanks to the designs provided by others) sometimes confuses others, making them believe that frontend developers aren’t really coding. However, that couldn’t be further from the truth. As a frontend developer, you’ll be coding all the time. While in some companies, the frontend developer is also a skilled designer or UX engineer, those are not the typical profiles. As a frontend dev, your learning focus should be coding-related (i.e coding best practices, software design patterns, frontend architecture, etc).",
+          "sample_job_titles": [
+            "Frontend Engineer",
+            "React Engineer",
+            "Vue Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5054,11 +6320,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "frontend",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_frontend",
+          "source_type": "roadmap_sh",
+          "source_id": "frontend",
+          "source_title": "Frontend Developer Roadmap: What is Frontend Development?",
+          "source_url": "https://roadmap.sh/frontend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Do frontend developers really code? The answer is yes, absolutely. The fact that frontend developers are full-time developers who produce an output that is visually appealing (thanks to the designs provided by others) sometimes confuses others, making them believe that frontend developers aren’t really coding. However, that couldn’t be further from the truth. As a frontend developer, you’ll be coding all the time. While in some companies, the frontend developer is also a skilled designer or UX engineer, those are not the typical profiles. As a frontend dev, your learning focus should be coding-related (i.e coding best practices, software design patterns, frontend architecture, etc).",
+          "sample_job_titles": [
+            "Frontend Engineer",
+            "React Engineer",
+            "Vue Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5093,9 +6381,29 @@
             "Web Design Specialist",
             "Web Developer"
           ]
+        },
+        {
+          "profile_id": "roadmap_frontend",
+          "source_type": "roadmap_sh",
+          "source_id": "frontend",
+          "source_title": "Frontend Developer Roadmap: What is Frontend Development?",
+          "source_url": "https://roadmap.sh/frontend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Do frontend developers really code? The answer is yes, absolutely. The fact that frontend developers are full-time developers who produce an output that is visually appealing (thanks to the designs provided by others) sometimes confuses others, making them believe that frontend developers aren’t really coding. However, that couldn’t be further from the truth. As a frontend developer, you’ll be coding all the time. While in some companies, the frontend developer is also a skilled designer or UX engineer, those are not the typical profiles. As a frontend dev, your learning focus should be coding-related (i.e coding best practices, software design patterns, frontend architecture, etc).",
+          "sample_job_titles": [
+            "Frontend Engineer",
+            "React Engineer",
+            "Vue Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5128,11 +6436,32 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_android",
+          "source_type": "roadmap_sh",
+          "source_id": "android",
+          "source_title": "Android Developer Roadmap: Learn to become an Android developer",
+          "source_url": "https://roadmap.sh/android",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming an Android developer in 2026",
+          "sample_job_titles": [
+            "Android Engineer",
+            "Mobile Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5147,11 +6476,32 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_android",
+          "source_type": "roadmap_sh",
+          "source_id": "android",
+          "source_title": "Android Developer Roadmap: Learn to become an Android developer",
+          "source_url": "https://roadmap.sh/android",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming an Android developer in 2026",
+          "sample_job_titles": [
+            "Android Engineer",
+            "Mobile Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5184,11 +6534,32 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_ios",
+          "source_type": "roadmap_sh",
+          "source_id": "ios",
+          "source_title": "iOS Developer Roadmap: Learn to become an iOS developer",
+          "source_url": "https://roadmap.sh/ios",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming an iOS developer in 2026",
+          "sample_job_titles": [
+            "iOS Engineer",
+            "Mobile Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5203,11 +6574,32 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_ios",
+          "source_type": "roadmap_sh",
+          "source_id": "ios",
+          "source_title": "iOS Developer Roadmap: Learn to become an iOS developer",
+          "source_url": "https://roadmap.sh/ios",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming an iOS developer in 2026",
+          "sample_job_titles": [
+            "iOS Engineer",
+            "Mobile Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5337,7 +6729,12 @@
           ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 1,
+      "source_types": [
+        "onet_online"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5467,7 +6864,12 @@
           ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 1,
+      "source_types": [
+        "onet_online"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5500,11 +6902,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_data_analyst",
+          "source_type": "roadmap_sh",
+          "source_id": "data-analyst",
+          "source_title": "Data Analyst Roadmap",
+          "source_url": "https://roadmap.sh/data-analyst",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Data analysis is a good career choice, in fact, it's a great career choice if you think about how technology is at the core of every company, and by definition, company operations produce data that can later be used to gather insights. Using these insights to drive decisions, and innovation and decide the future of the company, helps ensure these decisions are based on reality. With organizations increasingly relying on data to support decision-making, the demand for professionals who can analyze data, interpret data, and identify future trends is exceptionally high. This field not only offers the opportunity to work as a data analyst and develop your findings using different analysis and mining techniques, but also allows you to be a key player in making strategic business decisions. The field of data analytics is continuously growing and advancing with new techniques, AI-driven analysis or even new visualization tools, ensuring that a career as a data analyst is both challenging and rewarding for those who want to stay competitive and solve problems with actionable knowledge.",
+          "sample_job_titles": [
+            "Data Analyst",
+            "Analytics Engineer",
+            "BI Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5519,11 +6943,33 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_data_analyst",
+          "source_type": "roadmap_sh",
+          "source_id": "data-analyst",
+          "source_title": "Data Analyst Roadmap",
+          "source_url": "https://roadmap.sh/data-analyst",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Data analysis is a good career choice, in fact, it's a great career choice if you think about how technology is at the core of every company, and by definition, company operations produce data that can later be used to gather insights. Using these insights to drive decisions, and innovation and decide the future of the company, helps ensure these decisions are based on reality. With organizations increasingly relying on data to support decision-making, the demand for professionals who can analyze data, interpret data, and identify future trends is exceptionally high. This field not only offers the opportunity to work as a data analyst and develop your findings using different analysis and mining techniques, but also allows you to be a key player in making strategic business decisions. The field of data analytics is continuously growing and advancing with new techniques, AI-driven analysis or even new visualization tools, ensuring that a career as a data analyst is both challenging and rewarding for those who want to stay competitive and solve problems with actionable knowledge.",
+          "sample_job_titles": [
+            "Data Analyst",
+            "Analytics Engineer",
+            "BI Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5556,11 +7002,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_data_analyst",
+          "source_type": "roadmap_sh",
+          "source_id": "data-analyst",
+          "source_title": "Data Analyst Roadmap",
+          "source_url": "https://roadmap.sh/data-analyst",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Data analysis is a good career choice, in fact, it's a great career choice if you think about how technology is at the core of every company, and by definition, company operations produce data that can later be used to gather insights. Using these insights to drive decisions, and innovation and decide the future of the company, helps ensure these decisions are based on reality. With organizations increasingly relying on data to support decision-making, the demand for professionals who can analyze data, interpret data, and identify future trends is exceptionally high. This field not only offers the opportunity to work as a data analyst and develop your findings using different analysis and mining techniques, but also allows you to be a key player in making strategic business decisions. The field of data analytics is continuously growing and advancing with new techniques, AI-driven analysis or even new visualization tools, ensuring that a career as a data analyst is both challenging and rewarding for those who want to stay competitive and solve problems with actionable knowledge.",
+          "sample_job_titles": [
+            "Data Analyst",
+            "Analytics Engineer",
+            "BI Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5575,11 +7043,33 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_data_analyst",
+          "source_type": "roadmap_sh",
+          "source_id": "data-analyst",
+          "source_title": "Data Analyst Roadmap",
+          "source_url": "https://roadmap.sh/data-analyst",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Data analysis is a good career choice, in fact, it's a great career choice if you think about how technology is at the core of every company, and by definition, company operations produce data that can later be used to gather insights. Using these insights to drive decisions, and innovation and decide the future of the company, helps ensure these decisions are based on reality. With organizations increasingly relying on data to support decision-making, the demand for professionals who can analyze data, interpret data, and identify future trends is exceptionally high. This field not only offers the opportunity to work as a data analyst and develop your findings using different analysis and mining techniques, but also allows you to be a key player in making strategic business decisions. The field of data analytics is continuously growing and advancing with new techniques, AI-driven analysis or even new visualization tools, ensuring that a career as a data analyst is both challenging and rewarding for those who want to stay competitive and solve problems with actionable knowledge.",
+          "sample_job_titles": [
+            "Data Analyst",
+            "Analytics Engineer",
+            "BI Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5612,11 +7102,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_mlops",
+          "source_type": "roadmap_sh",
+          "source_id": "mlops",
+          "source_title": "MLOps Roadmap",
+          "source_url": "https://roadmap.sh/mlops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to learn MLOps in 2026",
+          "sample_job_titles": [
+            "MLOps Engineer",
+            "ML Platform Engineer",
+            "Machine Learning Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5631,11 +7143,33 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_mlops",
+          "source_type": "roadmap_sh",
+          "source_id": "mlops",
+          "source_title": "MLOps Roadmap",
+          "source_url": "https://roadmap.sh/mlops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to learn MLOps in 2026",
+          "sample_job_titles": [
+            "MLOps Engineer",
+            "ML Platform Engineer",
+            "Machine Learning Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5668,11 +7202,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_mlops",
+          "source_type": "roadmap_sh",
+          "source_id": "mlops",
+          "source_title": "MLOps Roadmap",
+          "source_url": "https://roadmap.sh/mlops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to learn MLOps in 2026",
+          "sample_job_titles": [
+            "MLOps Engineer",
+            "ML Platform Engineer",
+            "Machine Learning Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5687,11 +7243,33 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_mlops",
+          "source_type": "roadmap_sh",
+          "source_id": "mlops",
+          "source_title": "MLOps Roadmap",
+          "source_url": "https://roadmap.sh/mlops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to learn MLOps in 2026",
+          "sample_job_titles": [
+            "MLOps Engineer",
+            "ML Platform Engineer",
+            "Machine Learning Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5760,7 +7338,12 @@
           "sample_job_titles": []
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 1,
+      "source_types": [
+        "onet_online"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5793,11 +7376,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_ai_engineer",
+          "source_type": "roadmap_sh",
+          "source_id": "ai-engineer",
+          "source_title": "AI Engineer Roadmap",
+          "source_url": "https://roadmap.sh/ai-engineer",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Yes, becoming an AI engineer is a great career choice. AI is transforming nearly every industry, from healthcare and finance to transportation and entertainment. As companies increasingly adopt AI-driven solutions, the demand for skilled AI engineers continues to grow. This role offers opportunities to work on cutting-edge technologies like machine learning, natural language processing, and computer vision, making it a highly innovative field",
+          "sample_job_titles": [
+            "AI Engineer",
+            "LLM Application Engineer",
+            "NLP Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5827,9 +7432,29 @@
           "snapshot_date": "2026-04-17",
           "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
           "sample_job_titles": []
+        },
+        {
+          "profile_id": "roadmap_ai_engineer",
+          "source_type": "roadmap_sh",
+          "source_id": "ai-engineer",
+          "source_title": "AI Engineer Roadmap",
+          "source_url": "https://roadmap.sh/ai-engineer",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Yes, becoming an AI engineer is a great career choice. AI is transforming nearly every industry, from healthcare and finance to transportation and entertainment. As companies increasingly adopt AI-driven solutions, the demand for skilled AI engineers continues to grow. This role offers opportunities to work on cutting-edge technologies like machine learning, natural language processing, and computer vision, making it a highly innovative field",
+          "sample_job_titles": [
+            "AI Engineer",
+            "LLM Application Engineer",
+            "NLP Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5862,11 +7487,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_ai_engineer",
+          "source_type": "roadmap_sh",
+          "source_id": "ai-engineer",
+          "source_title": "AI Engineer Roadmap",
+          "source_url": "https://roadmap.sh/ai-engineer",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Yes, becoming an AI engineer is a great career choice. AI is transforming nearly every industry, from healthcare and finance to transportation and entertainment. As companies increasingly adopt AI-driven solutions, the demand for skilled AI engineers continues to grow. This role offers opportunities to work on cutting-edge technologies like machine learning, natural language processing, and computer vision, making it a highly innovative field",
+          "sample_job_titles": [
+            "AI Engineer",
+            "LLM Application Engineer",
+            "NLP Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5896,9 +7543,29 @@
           "snapshot_date": "2026-04-17",
           "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
           "sample_job_titles": []
+        },
+        {
+          "profile_id": "roadmap_ai_engineer",
+          "source_type": "roadmap_sh",
+          "source_id": "ai-engineer",
+          "source_title": "AI Engineer Roadmap",
+          "source_url": "https://roadmap.sh/ai-engineer",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Yes, becoming an AI engineer is a great career choice. AI is transforming nearly every industry, from healthcare and finance to transportation and entertainment. As companies increasingly adopt AI-driven solutions, the demand for skilled AI engineers continues to grow. This role offers opportunities to work on cutting-edge technologies like machine learning, natural language processing, and computer vision, making it a highly innovative field",
+          "sample_job_titles": [
+            "AI Engineer",
+            "LLM Application Engineer",
+            "NLP Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5931,11 +7598,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_ai_engineer",
+          "source_type": "roadmap_sh",
+          "source_id": "ai-engineer",
+          "source_title": "AI Engineer Roadmap",
+          "source_url": "https://roadmap.sh/ai-engineer",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Yes, becoming an AI engineer is a great career choice. AI is transforming nearly every industry, from healthcare and finance to transportation and entertainment. As companies increasingly adopt AI-driven solutions, the demand for skilled AI engineers continues to grow. This role offers opportunities to work on cutting-edge technologies like machine learning, natural language processing, and computer vision, making it a highly innovative field",
+          "sample_job_titles": [
+            "AI Engineer",
+            "LLM Application Engineer",
+            "NLP Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5950,11 +7639,33 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_ai_engineer",
+          "source_type": "roadmap_sh",
+          "source_id": "ai-engineer",
+          "source_title": "AI Engineer Roadmap",
+          "source_url": "https://roadmap.sh/ai-engineer",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Yes, becoming an AI engineer is a great career choice. AI is transforming nearly every industry, from healthcare and finance to transportation and entertainment. As companies increasingly adopt AI-driven solutions, the demand for skilled AI engineers continues to grow. This role offers opportunities to work on cutting-edge technologies like machine learning, natural language processing, and computer vision, making it a highly innovative field",
+          "sample_job_titles": [
+            "AI Engineer",
+            "LLM Application Engineer",
+            "NLP Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -5987,11 +7698,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6026,9 +7759,29 @@
             "LAN Specialist (Local Area Network Specialist)",
             "Local Area Network Administrator (LAN Administrator)"
           ]
+        },
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6061,11 +7814,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6080,11 +7855,33 @@
       "required_threshold": 0.025
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6117,11 +7914,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6156,9 +7975,29 @@
             "LAN Specialist (Local Area Network Specialist)",
             "Local Area Network Administrator (LAN Administrator)"
           ]
+        },
+        {
+          "profile_id": "roadmap_devops",
+          "source_type": "roadmap_sh",
+          "source_id": "devops",
+          "source_title": "DevOps Roadmap: Learn to become a DevOps Engineer or SRE",
+          "source_url": "https://roadmap.sh/devops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "To become a DevOps Engineer, you need to have a combination of technical and soft skills. Technical skills include knowledge of programming languages, [automation tools](https://roadmap.sh/devops/automation-tools), containerization, cloud platforms, CI/CD pipelines, configuration management tools, and monitoring and logging tools. Soft skills include communication, collaboration, problem-solving, and adaptability. After all, you'll be dealing with multiple actors, both from the different dev teams you interact with and from ops teams looking to ensure smooth operations and robust performance. Gain experience by working on DevOps projects, develop a DevOps mindset, get certified, and apply for DevOps Engineer positions by highlighting your [DevOps skills](https://roadmap.sh/devops/skills) and experience in your resume.",
+          "sample_job_titles": [
+            "DevOps Engineer",
+            "SRE",
+            "Platform Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6191,11 +8030,32 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "qa",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_qa",
+          "source_type": "roadmap_sh",
+          "source_id": "qa",
+          "source_title": "QA Roadmap: Learn to become a modern QA engineer",
+          "source_url": "https://roadmap.sh/qa",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Steps to follow in order to become a modern QA Engineer in 2026",
+          "sample_job_titles": [
+            "QA Engineer",
+            "Test Development Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6230,9 +8090,28 @@
             "Quality Assurance Analyst (QA Analyst)",
             "Quality Assurance Engineer (QA Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_qa",
+          "source_type": "roadmap_sh",
+          "source_id": "qa",
+          "source_title": "QA Roadmap: Learn to become a modern QA engineer",
+          "source_url": "https://roadmap.sh/qa",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Steps to follow in order to become a modern QA Engineer in 2026",
+          "sample_job_titles": [
+            "QA Engineer",
+            "Test Development Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6265,11 +8144,32 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "qa",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_qa",
+          "source_type": "roadmap_sh",
+          "source_id": "qa",
+          "source_title": "QA Roadmap: Learn to become a modern QA engineer",
+          "source_url": "https://roadmap.sh/qa",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Steps to follow in order to become a modern QA Engineer in 2026",
+          "sample_job_titles": [
+            "QA Engineer",
+            "Test Development Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6304,9 +8204,28 @@
             "Quality Assurance Analyst (QA Analyst)",
             "Quality Assurance Engineer (QA Engineer)"
           ]
+        },
+        {
+          "profile_id": "roadmap_qa",
+          "source_type": "roadmap_sh",
+          "source_id": "qa",
+          "source_title": "QA Roadmap: Learn to become a modern QA engineer",
+          "source_url": "https://roadmap.sh/qa",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Steps to follow in order to become a modern QA Engineer in 2026",
+          "sample_job_titles": [
+            "QA Engineer",
+            "Test Development Engineer"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6339,11 +8258,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6378,9 +8319,29 @@
             "Information Systems Security Analyst",
             "Information Systems Security Officer (ISSO)"
           ]
+        },
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6413,11 +8374,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6452,9 +8435,29 @@
             "Information Systems Security Analyst",
             "Information Systems Security Officer (ISSO)"
           ]
+        },
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6487,11 +8490,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6526,9 +8551,29 @@
             "Information Systems Security Analyst",
             "Information Systems Security Officer (ISSO)"
           ]
+        },
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6561,11 +8606,33 @@
       "required_threshold": 0.06
     },
     "metadata": {
-      "origin": "curated",
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
-      "stage": "capability"
+      "stage": "capability",
+      "source_refs": [
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
+        }
+      ],
+      "provenance_count": 1,
+      "source_types": [
+        "roadmap_sh"
+      ],
+      "source_type_count": 1,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {
@@ -6600,9 +8667,29 @@
             "Information Systems Security Analyst",
             "Information Systems Security Officer (ISSO)"
           ]
+        },
+        {
+          "profile_id": "roadmap_cyber_security",
+          "source_type": "roadmap_sh",
+          "source_id": "cyber-security",
+          "source_title": "Cyber Security Roadmap: Learn to become a Cyber Security Expert",
+          "source_url": "https://roadmap.sh/cyber-security",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to becoming a Cyber Security Expert in 2026",
+          "sample_job_titles": [
+            "Security Engineer",
+            "AppSec Engineer",
+            "SOC Analyst"
+          ]
         }
       ],
-      "provenance_count": 1
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
     }
   },
   {

@@ -417,6 +417,15 @@ input[type="range"] {
   border-top: 1px dashed rgba(17, 77, 81, 0.14);
 }
 
+.source-headline,
+.source-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .source-note {
   margin: 0 0 8px;
   font-size: 12px;
@@ -429,6 +438,27 @@ input[type="range"] {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.source-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.source-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15, 118, 110, 0.08);
+  color: var(--accent-deep);
+  font-size: 12px;
+  border: 1px solid rgba(15, 118, 110, 0.14);
+}
+
+.source-group {
+  margin-top: 14px;
 }
 
 .source-jobs,

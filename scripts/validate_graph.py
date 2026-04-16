@@ -21,8 +21,9 @@ MIN_EDGES = 700
 MIN_EVIDENCE_NODES = 120
 MIN_ROLE_NODES = 25
 MIN_ROLE_FAMILIES = 8
-MIN_IMPORTED_PROFILES = 5
-MIN_PROVENANCE_NODES = 40
+MIN_IMPORTED_PROFILES = 15
+MIN_PROVENANCE_NODES = 80
+MIN_SOURCE_TYPES = 2
 REQUIRED_IMPORTED_PROFILE_KEYS = {
     "profile_id",
     "source_type",
@@ -59,14 +60,22 @@ def load_seed_payloads() -> tuple[list[dict], list[dict]]:
 
 def load_imported_payloads() -> tuple[list[dict], list[dict]]:
     imported_path = ROOT / "data" / "sources" / "imported_profiles.json"
-    raw_snapshot_path = ROOT / "data" / "sources" / "raw" / "onet_profiles.json"
     if not imported_path.exists():
         raise SystemExit("imported profile dataset is missing: data/sources/imported_profiles.json")
-    if not raw_snapshot_path.exists():
-        raise SystemExit("raw source snapshot is missing: data/sources/raw/onet_profiles.json")
+    raw_snapshot_dir = ROOT / "data" / "sources" / "raw"
+    raw_snapshot_paths = sorted(path for path in raw_snapshot_dir.glob("*_profiles.json"))
+    if not raw_snapshot_paths:
+        raise SystemExit("raw source snapshot files are missing under data/sources/raw/")
+
+    raw_profiles: list[dict] = []
+    for raw_snapshot_path in raw_snapshot_paths:
+        payload = json.loads(raw_snapshot_path.read_text(encoding="utf-8"))
+        if not isinstance(payload, list):
+            raise SystemExit(f"raw source snapshot is not a list: {raw_snapshot_path.relative_to(ROOT)}")
+        raw_profiles.extend(payload)
     return (
         json.loads(imported_path.read_text(encoding="utf-8")),
-        json.loads(raw_snapshot_path.read_text(encoding="utf-8")),
+        raw_profiles,
     )
 
 
@@ -163,6 +172,10 @@ def main() -> None:
     if invalid_imported_profiles:
         raise SystemExit(f"invalid imported profiles: {invalid_imported_profiles[:5]}")
 
+    imported_source_types = sorted({str(profile.get("source_type", "")) for profile in imported_profiles if profile.get("source_type")})
+    if len(imported_source_types) < MIN_SOURCE_TYPES:
+        raise SystemExit(f"imported profile source diversity is too low: {imported_source_types}")
+
     placeholder_profiles = [
         str(profile.get("profile_id", "unknown"))
         for profile in imported_profiles
@@ -182,6 +195,11 @@ def main() -> None:
         source_refs = metadata.get("source_refs", [])
         if metadata.get("provenance_count") != len(source_refs):
             source_ref_issues.append(f"{node['id']} provenance_count mismatch")
+        source_types = sorted({str(ref.get("source_type", "")) for ref in source_refs if ref.get("source_type")})
+        if metadata.get("source_types") != source_types:
+            source_ref_issues.append(f"{node['id']} source_types mismatch")
+        if metadata.get("source_type_count") != len(source_types):
+            source_ref_issues.append(f"{node['id']} source_type_count mismatch")
         for ref in source_refs:
             missing_keys = sorted(key for key in REQUIRED_SOURCE_REF_KEYS if not ref.get(key))
             if missing_keys:
@@ -198,7 +216,10 @@ def main() -> None:
     print("graph validation passed")
     print(f"nodes={len(graph.nodes)} edges={len(graph.edges)} evidence_nodes={evidence_count} roles={role_count}")
     print(f"reachable_nodes={len(reachable)} topological_order={len(graph.topological_order)} directions={len(direction_ids)}")
-    print(f"role_families={len(role_families)} imported_profiles={len(imported_profiles)} provenance_nodes={len(provenance_nodes)}")
+    print(
+        f"role_families={len(role_families)} imported_profiles={len(imported_profiles)} "
+        f"provenance_nodes={len(provenance_nodes)} source_types={imported_source_types}"
+    )
 
 
 if __name__ == "__main__":

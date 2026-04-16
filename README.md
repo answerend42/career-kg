@@ -121,6 +121,10 @@ python3 scripts/run_nl_benchmark.py
   - 传播图节点详情中的来源锚点
 - `graph_stats.source_profile_count`
   - 已接入的外部职业画像数量
+- `graph_stats.source_type_count`
+  - 当前接入的来源类型数量
+- `graph_stats.source_profile_count_by_type`
+  - 各来源类型对应的职业画像数量
 - `graph_stats.nodes_with_provenance`
   - 编译后带来源锚点的节点数量
 
@@ -134,9 +138,10 @@ python3 scripts/run_nl_benchmark.py
 
 ## 真实来源数据
 
-项目当前接入了公开职业画像来源，并把来源信息编译进知识图谱节点元数据：
+项目当前接入了多类公开职业知识来源，并把来源信息编译进知识图谱节点元数据：
 
 - 原始快照：`data/sources/raw/onet_profiles.json`
+- 原始快照：`data/sources/raw/roadmap_profiles.json`
 - 来源清洗结果：`data/sources/imported_profiles.json`
 - 导入脚本：`scripts/import_external_profiles.py`
 
@@ -149,6 +154,7 @@ python3 scripts/validate_graph.py
 ```
 
 前端工作台会在推荐卡片和传播图节点详情中展示这些来源锚点，便于课程演示时说明“为什么这些岗位和节点被建进图谱”。
+当前推荐卡片还会展示来源类型 badge，例如 `O*NET` 和 `roadmap.sh`，让“多来源融合”在 UI 上可直接感知。
 
 ## 推荐链路
 

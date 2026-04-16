@@ -93,14 +93,18 @@ python3 scripts/validate_graph.py
 
 1. `data/sources/raw/onet_manifest.json`
    - 声明外部来源 URL、外部 occupation id、映射到哪些图节点
-2. `python3 scripts/import_external_profiles.py`
+2. `data/sources/raw/roadmap_manifest.json`
+   - 声明 roadmap.sh role roadmap 页面与图节点映射
+3. `python3 scripts/import_external_profiles.py`
    - 抓取 O*NET 页面并生成：
    - `data/sources/raw/onet_profiles.json`
+   - 抓取 roadmap.sh 页面并生成：
+   - `data/sources/raw/roadmap_profiles.json`
    - `data/sources/imported_profiles.json`
-3. `python3 scripts/build_graph.py`
+4. `python3 scripts/build_graph.py`
    - 把 imported profiles 的 `source_refs` 合并进 capability / direction / role 节点的 metadata
-4. `python3 scripts/validate_graph.py`
-   - 校验 imported profiles、raw snapshot 和编译后 provenance 覆盖率
+5. `python3 scripts/validate_graph.py`
+   - 校验 imported profiles、raw snapshot、来源多样性和编译后 provenance 覆盖率
 
 ### 当前 provenance 字段
 
@@ -109,6 +113,9 @@ python3 scripts/validate_graph.py
 - `origin`
 - `source_file`
 - `provenance_count`
+- `source_types`
+- `source_type_count`
+- `latest_snapshot_date`
 - `source_refs[*].profile_id`
 - `source_refs[*].source_type`
 - `source_refs[*].source_id`
@@ -119,3 +126,4 @@ python3 scripts/validate_graph.py
 - `source_refs[*].sample_job_titles`
 
 这样前端既能展示“图谱规模”，也能展示“这些岗位/方向节点实际锚定了哪些公开职业资料”。
+在当前实现里，同一个节点可以同时被 `onet_online` 和 `roadmap_sh` 两类来源共同支撑，前端会按来源类型分组展示。

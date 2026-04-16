@@ -20,6 +20,10 @@ const RELATION_COLORS = {
   prefers: "#c08a1f",
   inhibits: "#8b3c2e",
 };
+const SOURCE_TYPE_LABELS = {
+  onet_online: "O*NET",
+  roadmap_sh: "roadmap.sh",
+};
 
 const state = {
   catalog: [],
@@ -98,7 +102,7 @@ async function loadCatalog() {
     state.sampleRequest = payload.sample_request || null;
     const graphStats = payload.graph_stats || {};
     elements.graphSize.textContent =
-      `${graphStats.node_count || 0} 节点 / ${graphStats.edge_count || 0} 边 / ${graphStats.source_profile_count || 0} 条来源画像`;
+      `${graphStats.node_count || 0} 节点 / ${graphStats.edge_count || 0} 边 / ${graphStats.source_profile_count || 0} 条来源画像 / ${graphStats.source_type_count || 0} 类来源`;
     elements.roleCount.textContent =
       `${graphStats.role_count || 0} 个岗位 / ${graphStats.nodes_with_provenance || 0} 个溯源节点`;
     if (state.input.structured.length === 0) {
@@ -595,7 +599,7 @@ function renderNotice() {
   }
   if (state.result?.graph_stats?.source_profile_count) {
     notes.push(
-      `<span class="badge neutral">来源画像：${state.result.graph_stats.source_profile_count} 条 / 溯源节点 ${state.result.graph_stats.nodes_with_provenance}</span>`
+      `<span class="badge neutral">来源画像：${state.result.graph_stats.source_profile_count} 条 / ${state.result.graph_stats.source_type_count || 0} 类 / 溯源节点 ${state.result.graph_stats.nodes_with_provenance}</span>`
     );
   }
   elements.requestNotes.innerHTML = notes.join("") || `<span class="badge neutral">建议先输入自然语言，再按需要补充结构化节点。</span>`;
@@ -664,19 +668,22 @@ function renderRecommendationProvenance(item) {
   }
   const primarySource = sourceRefs[0];
   const extraCount = Math.max(0, (item.provenance_count || sourceRefs.length) - 1);
-  const sourceLabel = [primarySource.source_type, primarySource.snapshot_date].filter(Boolean).join(" · ");
+  const sourceLabel = [formatSourceType(primarySource.source_type), primarySource.snapshot_date].filter(Boolean).join(" · ");
   const sourceJobs = Array.isArray(primarySource.sample_job_titles) && primarySource.sample_job_titles.length
     ? `样例岗位：${escapeHtml(primarySource.sample_job_titles.slice(0, 3).join("、"))}`
     : "";
   return `
     <div class="source-summary">
-      <p class="source-note">外部来源锚点 ${item.provenance_count || sourceRefs.length} 条</p>
+      <div class="source-headline">
+        <p class="source-note">外部来源锚点 ${item.provenance_count || sourceRefs.length} 条</p>
+        <div class="source-chip-row">${renderSourceTypeBadges(item.source_types || sourceRefs.map((source) => source.source_type))}</div>
+      </div>
       <p class="source-inline">
         <strong>${escapeHtml(primarySource.source_title || primarySource.source_id || primarySource.profile_id)}</strong>
         ${sourceLabel ? `<span>${escapeHtml(sourceLabel)}</span>` : ""}
       </p>
       ${sourceJobs ? `<p class="source-jobs">${sourceJobs}</p>` : ""}
-      ${extraCount > 0 ? `<p class="source-more">另有 ${extraCount} 条来源可在传播图节点详情中查看。</p>` : ""}
+      <p class="source-more">${item.source_type_count || 1} 类来源共同支撑该岗位。${extraCount > 0 ? `另有 ${extraCount} 条来源可在传播图节点详情中查看。` : ""}</p>
     </div>
   `;
 }
@@ -685,35 +692,75 @@ function renderSourceRefs(sourceRefs, provenanceCount) {
   if (!sourceRefs.length) {
     return `<p class="soft-note">该节点当前没有外部来源画像锚点。</p>`;
   }
+  const groupedSources = groupSourceRefsByType(sourceRefs);
   const totalCount = provenanceCount || sourceRefs.length;
   const extraCount = Math.max(0, totalCount - sourceRefs.length);
   return `
     <section class="source-block">
-      <p class="source-note">来源画像 ${totalCount} 条</p>
-      <ul class="source-list">
-        ${sourceRefs
-          .map((source) => {
-            const meta = [source.source_type, source.snapshot_date].filter(Boolean).join(" · ");
-            const jobs = Array.isArray(source.sample_job_titles) && source.sample_job_titles.length
-              ? `样例岗位：${escapeHtml(source.sample_job_titles.slice(0, 4).join("、"))}`
-              : "";
-            return `
-              <li>
-                <div class="source-head">
-                  <strong>${escapeHtml(source.source_title || source.source_id || source.profile_id)}</strong>
-                  ${source.source_url ? `<a class="source-link" href="${escapeHtml(source.source_url)}" target="_blank" rel="noreferrer">原始来源</a>` : ""}
-                </div>
-                ${meta ? `<p class="source-inline">${escapeHtml(meta)}</p>` : ""}
-                ${source.evidence_snippet ? `<p class="source-snippet">${escapeHtml(source.evidence_snippet)}</p>` : ""}
-                ${jobs ? `<p class="source-jobs">${jobs}</p>` : ""}
-              </li>
-            `;
-          })
-          .join("")}
-      </ul>
+      <div class="source-headline">
+        <p class="source-note">来源画像 ${totalCount} 条</p>
+        <div class="source-chip-row">${renderSourceTypeBadges(Object.keys(groupedSources))}</div>
+      </div>
+      ${Object.entries(groupedSources)
+        .map(([sourceType, refs]) => {
+          return `
+            <div class="source-group">
+              <div class="source-group-head">
+                <strong>${escapeHtml(formatSourceType(sourceType))}</strong>
+                <span>${refs.length} 条</span>
+              </div>
+              <ul class="source-list">
+                ${refs
+                  .map((source) => {
+                    const meta = [formatSourceType(source.source_type), source.snapshot_date].filter(Boolean).join(" · ");
+                    const jobs = Array.isArray(source.sample_job_titles) && source.sample_job_titles.length
+                      ? `样例岗位：${escapeHtml(source.sample_job_titles.slice(0, 4).join("、"))}`
+                      : "";
+                    return `
+                      <li>
+                        <div class="source-head">
+                          <strong>${escapeHtml(source.source_title || source.source_id || source.profile_id)}</strong>
+                          ${source.source_url ? `<a class="source-link" href="${escapeHtml(source.source_url)}" target="_blank" rel="noreferrer">原始来源</a>` : ""}
+                        </div>
+                        ${meta ? `<p class="source-inline">${escapeHtml(meta)}</p>` : ""}
+                        ${source.evidence_snippet ? `<p class="source-snippet">${escapeHtml(source.evidence_snippet)}</p>` : ""}
+                        ${jobs ? `<p class="source-jobs">${jobs}</p>` : ""}
+                      </li>
+                    `;
+                  })
+                  .join("")}
+              </ul>
+            </div>
+          `;
+        })
+        .join("")}
       ${extraCount > 0 ? `<p class="source-more">还有 ${extraCount} 条来源未在当前面板展开。</p>` : ""}
     </section>
   `;
+}
+
+function groupSourceRefsByType(sourceRefs) {
+  const groups = {};
+  sourceRefs.forEach((source) => {
+    const sourceType = source?.source_type || "unknown";
+    if (!groups[sourceType]) {
+      groups[sourceType] = [];
+    }
+    groups[sourceType].push(source);
+  });
+  return Object.fromEntries(Object.entries(groups).sort(([left], [right]) => left.localeCompare(right)));
+}
+
+function renderSourceTypeBadges(sourceTypes) {
+  const uniqueTypes = Array.from(new Set((sourceTypes || []).filter(Boolean)));
+  return uniqueTypes
+    .sort((left, right) => left.localeCompare(right))
+    .map((sourceType) => `<span class="source-chip">${escapeHtml(formatSourceType(sourceType))}</span>`)
+    .join("");
+}
+
+function formatSourceType(sourceType) {
+  return SOURCE_TYPE_LABELS[sourceType] || sourceType || "未知来源";
 }
 
 function lookupNodeMeta(nodeId, nodeName = "") {

@@ -220,6 +220,38 @@ class GraphBuilder:
             }
             for node_id in profile.get("mapped_node_ids", []):
                 self.imported_refs_by_node.setdefault(node_id, []).append(source_ref)
+        for node_id, source_refs in list(self.imported_refs_by_node.items()):
+            self.imported_refs_by_node[node_id] = self._dedupe_and_sort_source_refs(source_refs)
+
+    def _dedupe_and_sort_source_refs(self, source_refs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        deduped: dict[str, dict[str, Any]] = {}
+        for source_ref in source_refs:
+            profile_id = str(source_ref.get("profile_id", ""))
+            if not profile_id:
+                continue
+            deduped[profile_id] = source_ref
+        return sorted(
+            deduped.values(),
+            key=lambda item: (
+                str(item.get("source_type", "")),
+                str(item.get("source_title", "")),
+                str(item.get("profile_id", "")),
+            ),
+        )
+
+    def _source_metadata_for_node(self, node_id: str) -> dict[str, Any]:
+        source_refs = self.imported_refs_by_node.get(node_id, [])
+        if not source_refs:
+            return {}
+        source_types = sorted({str(source_ref.get("source_type", "")) for source_ref in source_refs if source_ref.get("source_type")})
+        latest_snapshot_date = max((str(source_ref.get("snapshot_date", "")) for source_ref in source_refs), default="")
+        return {
+            "source_refs": source_refs,
+            "provenance_count": len(source_refs),
+            "source_types": source_types,
+            "source_type_count": len(source_types),
+            "latest_snapshot_date": latest_snapshot_date,
+        }
 
     def _compile_evidence(self, skills: dict[str, list[dict[str, Any]]]) -> None:
         for category, specs in skills.items():
@@ -432,10 +464,9 @@ class GraphBuilder:
         self.node_ids.add(node_id)
         self.node_layers[node_id] = layer
         merged_metadata = {"origin": "curated", **(metadata or {})}
-        source_refs = self.imported_refs_by_node.get(node_id, [])
-        if source_refs:
-            merged_metadata["source_refs"] = source_refs
-            merged_metadata["provenance_count"] = len(source_refs)
+        source_metadata = self._source_metadata_for_node(node_id)
+        if source_metadata:
+            merged_metadata.update(source_metadata)
             merged_metadata["origin"] = "curated+imported"
         self.nodes.append(
             {
@@ -468,10 +499,9 @@ class GraphBuilder:
             return
         self.edge_keys.add(edge_key)
         merged_metadata = dict(metadata or {})
-        source_refs = self.imported_refs_by_node.get(target, [])
-        if source_refs and self.node_layers.get(target) in {"role", "direction", "composite"}:
-            merged_metadata["source_refs"] = source_refs
-            merged_metadata["provenance_count"] = len(source_refs)
+        source_metadata = self._source_metadata_for_node(target)
+        if source_metadata and self.node_layers.get(target) in {"role", "direction", "composite"}:
+            merged_metadata.update(source_metadata)
         self.edges.append(
             {
                 "source": source,

@@ -3,98 +3,34 @@
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
 from datetime import date
-from html.parser import HTMLParser
 from pathlib import Path
+import sys
 from typing import Any
-from urllib.request import Request, urlopen
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.import_onet_profiles import import_onet_profiles
+from scripts.import_roadmap_profiles import import_roadmap_profiles
+
+
 RAW_DIR = ROOT / "data" / "sources" / "raw"
-MANIFEST_PATH = RAW_DIR / "onet_manifest.json"
-RAW_OUTPUT_PATH = RAW_DIR / "onet_profiles.json"
 IMPORTED_OUTPUT_PATH = ROOT / "data" / "sources" / "imported_profiles.json"
-USER_AGENT = "Mozilla/5.0 (compatible; CareerKGImporter/1.0; +https://www.onetonline.org/)"
-PLACEHOLDER_SUMMARY_MARKERS = (
-    "a subset of this occupation's profile is available.",
-    "data collection is currently underway",
-)
-
-
-@dataclass(slots=True)
-class SourceSnapshot:
-    source_title: str
-    summary_excerpt: str
-    sample_job_titles: list[str]
-
-
-class OnetPageParser(HTMLParser):
-    def __init__(self) -> None:
-        super().__init__()
-        self.in_title = False
-        self.in_paragraph = False
-        self.title_parts: list[str] = []
-        self.current_paragraph: list[str] = []
-        self.paragraphs: list[str] = []
-
-    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        if tag == "title":
-            self.in_title = True
-        elif tag == "p":
-            self.in_paragraph = True
-            self.current_paragraph = []
-
-    def handle_endtag(self, tag: str) -> None:
-        if tag == "title":
-            self.in_title = False
-        elif tag == "p":
-            text = " ".join("".join(self.current_paragraph).split())
-            if text:
-                self.paragraphs.append(text)
-            self.in_paragraph = False
-
-    def handle_data(self, data: str) -> None:
-        if self.in_title:
-            self.title_parts.append(data)
-        elif self.in_paragraph:
-            self.current_paragraph.append(data)
-
-    def build_snapshot(self) -> SourceSnapshot:
-        title = " ".join("".join(self.title_parts).split())
-        meaningful_paragraphs = [
-            paragraph
-            for paragraph in self.paragraphs
-            if paragraph
-            and paragraph.lower() != "back to top"
-            and not paragraph.startswith("Example apprenticeship titles")
-            and not paragraph.startswith("Specific title(s)")
-            and not paragraph.startswith("How much education")
-            and not paragraph.startswith("Source:")
-        ]
-        summary_candidates = [
-            paragraph
-            for paragraph in meaningful_paragraphs
-            if not self._is_placeholder_summary(paragraph)
-        ]
-        summary_excerpt = summary_candidates[0] if summary_candidates else (meaningful_paragraphs[0] if meaningful_paragraphs else "")
-        sample_job_titles: list[str] = []
-        for paragraph in meaningful_paragraphs[1:6]:
-            if paragraph.startswith("Sample of reported job titles:"):
-                raw_titles = paragraph.split(":", 1)[1]
-                sample_job_titles = [item.strip() for item in raw_titles.split(",") if item.strip()][:6]
-                break
-        return SourceSnapshot(
-            source_title=title,
-            summary_excerpt=summary_excerpt,
-            sample_job_titles=sample_job_titles,
-        )
-
-    @staticmethod
-    def _is_placeholder_summary(paragraph: str) -> bool:
-        lowered = paragraph.lower()
-        return any(marker in lowered for marker in PLACEHOLDER_SUMMARY_MARKERS)
+SOURCE_CONFIGS = [
+    {
+        "manifest_path": RAW_DIR / "onet_manifest.json",
+        "raw_output_path": RAW_DIR / "onet_profiles.json",
+        "importer": import_onet_profiles,
+    },
+    {
+        "manifest_path": RAW_DIR / "roadmap_manifest.json",
+        "raw_output_path": RAW_DIR / "roadmap_profiles.json",
+        "importer": import_roadmap_profiles,
+    },
+]
 
 
 def ensure_dir(path: Path) -> None:
@@ -109,60 +45,38 @@ def write_json(path: Path, payload: Any) -> None:
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def fetch_snapshot(url: str) -> SourceSnapshot:
-    request = Request(url, headers={"User-Agent": USER_AGENT})
-    html = urlopen(request).read().decode("utf-8", errors="ignore")
-    parser = OnetPageParser()
-    parser.feed(html)
-    return parser.build_snapshot()
-
-
-def import_profiles() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    manifest = load_json(MANIFEST_PATH)
-    snapshot_date = date.today().isoformat()
-    raw_profiles: list[dict[str, Any]] = []
-    imported_profiles: list[dict[str, Any]] = []
-
-    for entry in manifest:
-        snapshot = fetch_snapshot(entry["source_url"])
-        raw_profile = {
-            "profile_id": entry["profile_id"],
-            "source_type": entry["source_type"],
-            "source_id": entry["source_id"],
-            "source_url": entry["source_url"],
-            "source_title": snapshot.source_title,
-            "snapshot_date": snapshot_date,
-            "summary_excerpt": snapshot.summary_excerpt,
-            "sample_job_titles": snapshot.sample_job_titles,
-            "mapped_node_ids": entry["mapped_node_ids"],
-            "profile_tags": entry.get("profile_tags", []),
-            "source_note": entry.get("source_note", ""),
-        }
-        raw_profiles.append(raw_profile)
-        imported_profiles.append(
-            {
-                "profile_id": raw_profile["profile_id"],
-                "source_type": raw_profile["source_type"],
-                "source_id": raw_profile["source_id"],
-                "source_url": raw_profile["source_url"],
-                "source_title": raw_profile["source_title"],
-                "snapshot_date": raw_profile["snapshot_date"],
-                "evidence_snippet": raw_profile["summary_excerpt"],
-                "sample_job_titles": raw_profile["sample_job_titles"],
-                "mapped_node_ids": raw_profile["mapped_node_ids"],
-                "profile_tags": raw_profile["profile_tags"],
-            }
-        )
-
-    return raw_profiles, imported_profiles
+def merge_imported_profiles(profile_groups: list[list[dict[str, Any]]]) -> list[dict[str, Any]]:
+    merged: dict[str, dict[str, Any]] = {}
+    for profiles in profile_groups:
+        for profile in profiles:
+            profile_id = str(profile["profile_id"])
+            if profile_id in merged:
+                raise ValueError(f"duplicate imported profile id detected: {profile_id}")
+            merged[profile_id] = profile
+    return sorted(
+        merged.values(),
+        key=lambda item: (str(item.get("source_type", "")), str(item.get("profile_id", ""))),
+    )
 
 
 def main() -> None:
     ensure_dir(RAW_DIR)
-    raw_profiles, imported_profiles = import_profiles()
-    write_json(RAW_OUTPUT_PATH, raw_profiles)
-    write_json(IMPORTED_OUTPUT_PATH, imported_profiles)
-    print(f"imported {len(imported_profiles)} external profiles into {IMPORTED_OUTPUT_PATH.relative_to(ROOT)}")
+    snapshot_date = date.today().isoformat()
+    imported_profile_groups: list[list[dict[str, Any]]] = []
+
+    for source_config in SOURCE_CONFIGS:
+        manifest = load_json(source_config["manifest_path"])
+        raw_profiles, imported_profiles = source_config["importer"](manifest, snapshot_date)
+        write_json(source_config["raw_output_path"], raw_profiles)
+        imported_profile_groups.append(imported_profiles)
+
+    merged_profiles = merge_imported_profiles(imported_profile_groups)
+    write_json(IMPORTED_OUTPUT_PATH, merged_profiles)
+    source_types = sorted({str(profile.get("source_type", "")) for profile in merged_profiles if profile.get("source_type")})
+    print(
+        f"imported {len(merged_profiles)} external profiles into {IMPORTED_OUTPUT_PATH.relative_to(ROOT)} "
+        f"across {len(source_types)} source types"
+    )
 
 
 if __name__ == "__main__":

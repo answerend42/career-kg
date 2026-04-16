@@ -56,6 +56,12 @@ class RecommendationService:
                     paths=paths,
                     limitations=self.explainer.limitations(states, role_id),
                     provenance_count=int(self.graph.nodes[role_id].metadata.get("provenance_count", 0) or 0),
+                    source_type_count=int(self.graph.nodes[role_id].metadata.get("source_type_count", 0) or 0),
+                    source_types=[
+                        str(source_type)
+                        for source_type in self.graph.nodes[role_id].metadata.get("source_types", [])
+                        if str(source_type).strip()
+                    ],
                     source_refs=self._normalize_source_refs(self.graph.nodes[role_id].metadata.get("source_refs", [])),
                 )
             )
@@ -107,7 +113,6 @@ class RecommendationService:
 
     def _build_provenance_summary(self) -> dict[str, Any]:
         unique_profiles: dict[str, dict[str, Any]] = {}
-        source_type_counts: dict[str, int] = {}
         nodes_with_provenance = 0
         latest_snapshot_date = ""
 
@@ -118,15 +123,23 @@ class RecommendationService:
             for ref in refs:
                 profile_key = ref["profile_id"] or f"{ref['source_type']}::{ref['source_id']}"
                 unique_profiles.setdefault(profile_key, ref)
-                if ref["source_type"]:
-                    source_type_counts[ref["source_type"]] = source_type_counts.get(ref["source_type"], 0) + 1
                 if ref["snapshot_date"] and ref["snapshot_date"] > latest_snapshot_date:
                     latest_snapshot_date = ref["snapshot_date"]
+
+        source_profile_count_by_type: dict[str, int] = {}
+        for ref in unique_profiles.values():
+            if ref["source_type"]:
+                source_profile_count_by_type[ref["source_type"]] = source_profile_count_by_type.get(ref["source_type"], 0) + 1
 
         return {
             "source_profile_count": len(unique_profiles),
             "nodes_with_provenance": nodes_with_provenance,
-            "source_types": sorted(source_type_counts),
+            "source_types": sorted(source_profile_count_by_type),
+            "source_type_count": len(source_profile_count_by_type),
+            "source_profile_count_by_type": {
+                source_type: source_profile_count_by_type[source_type]
+                for source_type in sorted(source_profile_count_by_type)
+            },
             "latest_snapshot_date": latest_snapshot_date,
         }
 
@@ -164,6 +177,13 @@ class RecommendationService:
         metadata = dict(node.metadata)
         metadata["source_refs"] = self._normalize_source_refs(metadata.get("source_refs", []))
         metadata["provenance_count"] = int(metadata.get("provenance_count", len(metadata["source_refs"])) or 0)
+        metadata["source_types"] = [
+            str(source_type)
+            for source_type in metadata.get("source_types", [])
+            if str(source_type).strip()
+        ]
+        metadata["source_type_count"] = int(metadata.get("source_type_count", len(metadata["source_types"])) or 0)
+        metadata["latest_snapshot_date"] = str(metadata.get("latest_snapshot_date", ""))
         return metadata
 
     def _build_snapshot(self, states: dict[str, Any]) -> dict[str, Any]:
