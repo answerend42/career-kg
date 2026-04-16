@@ -203,13 +203,13 @@ python3 scripts/run_planning_benchmark.py
 
 ## 工作台流程
 
-1. 用户输入自然语言和结构化信号。
+1. 用户可直接在案例画廊中载入 benchmark/demo persona，或手动输入自然语言和结构化信号。
 2. 前端调用 `/api/recommend` 获取 `normalized_inputs`。
 3. 用户在“节点确认”面板里微调节点分值。
 4. 用户可选择目标岗位，调用 `/api/role-gap` 查看差距、成长路径、推荐行动模板和 what-if 模拟。
 5. 用户既可单独模拟某个行动，也可把最多 2 个行动加入方案篮子，再调用 `/api/action-simulate` 比较组合收益、重复覆盖和岗位排序变化。
 6. 用户可采纳当前模拟方案，把 `simulation.injected_boosts` 写回确认节点层，再调用 `/api/recommend` 重算推荐。
-7. 页面展示新的职业排序、关键路径、限制项和传播图。
+7. 页面展示新的职业排序、关键路径、限制项和传播图；案例画廊中的“一键回放”会自动跑到目标岗位分析这一步。
 
 ## 真实来源数据
 

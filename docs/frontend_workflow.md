@@ -6,9 +6,10 @@
 
 ## 页面主流程
 
-1. 输入与解析
-   - 用户输入自然语言描述
-   - 可补充结构化信号
+1. 案例载入 / 输入与解析
+   - 用户可先从案例画廊一键载入 benchmark persona
+   - 也可以直接输入自然语言描述
+   - 还可补充结构化信号
 2. 节点确认
    - 后端返回 `normalized_inputs`
    - 用户可调整分值、删除节点、补充节点
@@ -35,10 +36,30 @@
    - 按 `evidence -> ability -> composite -> direction -> role` 分层布局
    - 点击节点可查看聚合器和诊断信息
 
+## 案例画廊
+
+- `GET /api/catalog` 现在除 evidence/role 目录外，还会返回 `demo_cases`
+- 每个案例包含：
+  - `id`
+  - `title`
+  - `summary`
+  - `preview`
+  - `text`
+  - `signals`
+  - `target_role_id`
+  - `target_role_name`
+- 前端支持两种动作：
+  - `载入案例`
+    - 只填充输入区和目标岗位，并重置下游状态
+  - `一键回放`
+    - 填充输入后自动执行 `/api/recommend`
+    - 再自动执行 `/api/role-gap`
+    - 方便课程演示时快速切换 persona
+
 ## 使用的接口
 
 - `GET /api/catalog`
-  - 返回 evidence 节点目录、role 节点目录和示例请求
+  - 返回 evidence 节点目录、role 节点目录、示例请求和 demo cases
 - `POST /api/recommend`
   - 返回标准化输入、推荐结果和传播快照
 - `POST /api/role-gap`

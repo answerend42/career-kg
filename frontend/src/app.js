@@ -39,6 +39,7 @@ const EFFORT_LEVEL_LABELS = {
 const state = {
   catalog: [],
   roleCatalog: [],
+  demoCases: [],
   sampleRequest: null,
   input: {
     text: "",
@@ -70,6 +71,7 @@ const elements = {
   addStructuredRowBtn: document.querySelector("#add-structured-row-btn"),
   addConfirmedRowBtn: document.querySelector("#add-confirmed-row-btn"),
   structuredRows: document.querySelector("#structured-rows"),
+  demoCaseGallery: document.querySelector("#demo-case-gallery"),
   requestNotes: document.querySelector("#request-notes"),
   signalList: document.querySelector("#normalized-signals"),
   targetRoleSelect: document.querySelector("#target-role-select"),
@@ -95,6 +97,15 @@ function bindEvents() {
   elements.recomputeBtn.addEventListener("click", () => recomputeFromConfirmedSignals());
   elements.loadSampleBtn.addEventListener("click", () => applySampleRequest());
   elements.analyzeTargetBtn.addEventListener("click", () => analyzeTargetRole());
+  elements.demoCaseGallery.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-demo-case-id]");
+    if (!trigger) {
+      return;
+    }
+    applyDemoCase(trigger.dataset.demoCaseId, {
+      replay: trigger.dataset.demoCaseMode === "replay",
+    });
+  });
   elements.addStructuredRowBtn.addEventListener("click", () => {
     state.input.structured.push(createStructuredRow());
     renderStructuredRows();
@@ -130,6 +141,7 @@ async function loadCatalog() {
     const payload = await fetchJSON("/api/catalog");
     state.catalog = payload.evidence_nodes || [];
     state.roleCatalog = payload.role_nodes || [];
+    state.demoCases = payload.demo_cases || [];
     if (!state.targetRoleId) {
       state.targetRoleId =
         state.roleCatalog.find((item) => item.id === "role_backend_engineer")?.id ||
@@ -159,29 +171,77 @@ function applySampleRequest() {
     setError("示例请求尚未加载完成。");
     return;
   }
+  applyInputPreset({
+    text: state.sampleRequest.text || "",
+    signals: state.sampleRequest.signals || [],
+  });
+  setBusy(false, "已载入示例输入");
+}
+
+function resetWorkbenchState() {
+  state.result = null;
+  state.confirmedSignals = [];
   state.targetGapResult = null;
   state.targetGapInputSignature = "";
   state.actionSimulationResult = null;
   state.selectedActionBundleKeys = [];
-  state.input.text = state.sampleRequest.text || "";
+  state.selectedJobId = null;
+  state.selectedPathIndex = 0;
+  state.selectedNodeId = null;
+}
+
+function applyInputPreset({ text = "", signals = [], targetRoleId = "" }) {
+  resetWorkbenchState();
+  state.input.text = text;
   elements.textInput.value = state.input.text;
-  state.input.structured = (state.sampleRequest.signals || []).map((signal) => ({
+  state.input.structured = (signals || []).map((signal) => ({
     id: uid(),
-    entity: signal.entity,
+    entity: signal.entity || "",
     score: Number(signal.score || 0.7),
   }));
   if (state.input.structured.length === 0) {
     state.input.structured.push(createStructuredRow());
   }
-  renderStructuredRows();
-  setBusy(false, "已载入示例输入");
+  if (targetRoleId) {
+    state.targetRoleId = targetRoleId;
+  }
+  renderAll();
+}
+
+async function applyDemoCase(caseId, { replay = false } = {}) {
+  const selectedCase = state.demoCases.find((item) => item.id === caseId);
+  if (!selectedCase) {
+    setError("未找到对应的案例配置。");
+    return;
+  }
+
+  applyInputPreset({
+    text: selectedCase.text || "",
+    signals: selectedCase.signals || [],
+    targetRoleId: selectedCase.target_role_id || state.targetRoleId,
+  });
+
+  if (!replay) {
+    setBusy(false, `已载入案例：${selectedCase.title}`);
+    return;
+  }
+
+  const recommendOk = await submitInitialRecommendation();
+  if (!recommendOk) {
+    return;
+  }
+  const gapOk = await analyzeTargetRole();
+  if (!gapOk) {
+    return;
+  }
+  setBusy(false, `案例已回放到目标岗位分析：${selectedCase.title}`);
 }
 
 async function submitInitialRecommendation() {
   const payload = buildInitialRecommendationPayload();
   if (!payload.text && payload.signals.length === 0) {
     setError("请至少提供一条自然语言描述或结构化信号，再生成推荐。");
-    return;
+    return false;
   }
 
   setBusy(true, "正在解析输入并运行图推理…");
@@ -204,8 +264,10 @@ async function submitInitialRecommendation() {
     state.selectedNodeId = state.selectedJobId;
     setBusy(false, "推荐结果已更新，可继续微调节点后重算。");
     renderAll();
+    return true;
   } catch (error) {
     setError(`推荐请求失败：${error.message}`);
+    return false;
   }
 }
 
@@ -256,12 +318,12 @@ async function recomputeFromConfirmedSignals() {
 async function analyzeTargetRole() {
   if (!state.targetRoleId) {
     setError("请先选择一个目标岗位。");
-    return;
+    return false;
   }
   const payload = buildRoleGapPayload();
   if (!payload.text && payload.signals.length === 0) {
     setError("请先输入或确认至少一组能力信号，再分析目标岗位。");
-    return;
+    return false;
   }
 
   setBusy(true, "正在分析目标岗位差距与模拟收益…");
@@ -272,8 +334,10 @@ async function analyzeTargetRole() {
     state.selectedActionBundleKeys = [];
     setBusy(false, "目标岗位分析已更新。");
     renderAll();
+    return true;
   } catch (error) {
     setError(`目标岗位分析失败：${error.message}`);
+    return false;
   }
 }
 
@@ -417,6 +481,7 @@ function setBusy(busy, message = "") {
   if (!busy) {
     state.errorMessage = "";
   }
+  renderDemoCases();
   renderNotice();
 }
 
@@ -424,12 +489,15 @@ function setError(message) {
   state.busy = false;
   state.errorMessage = message;
   state.statusMessage = "";
+  renderDemoCases();
+  renderTargetGapAnalysis();
   renderNotice();
 }
 
 function renderAll() {
   renderCatalogOptions();
   renderTargetRoleOptions();
+  renderDemoCases();
   renderStructuredRows();
   renderConfirmedSignals();
   renderTargetGapAnalysis();
@@ -453,6 +521,58 @@ function renderTargetRoleOptions() {
         <option value="${node.id}" ${node.id === state.targetRoleId ? "selected" : ""}>${escapeHtml(node.name)}</option>
       `
     )
+    .join("");
+}
+
+function renderDemoCases() {
+  if (!state.demoCases.length) {
+    elements.demoCaseGallery.innerHTML = emptyState("案例画廊会在目录加载后出现。");
+    return;
+  }
+
+  elements.demoCaseGallery.innerHTML = state.demoCases
+    .map((item) => {
+      const preview = item.preview || (item.text ? item.text : "当前案例主要由结构化信号驱动。");
+      const tags = Array.isArray(item.tags) ? item.tags : [];
+      return `
+        <article class="case-card">
+          <div class="case-card-head">
+            <div>
+              <p class="panel-kicker">案例画廊</p>
+              <h3>${escapeHtml(item.title || item.target_role_name || item.id)}</h3>
+            </div>
+            <span class="soft-chip accent-chip">${escapeHtml(item.target_role_name || "未指定目标岗位")}</span>
+          </div>
+          <p class="reason-text">${escapeHtml(item.summary || "可一键载入并演示当前知识图谱链路。")}</p>
+          <p class="signal-meta">${escapeHtml(preview)}</p>
+          <div class="chip-row case-chip-row">
+            ${tags.map((tag) => `<span class="soft-chip">${escapeHtml(tag)}</span>`).join("")}
+            <span class="soft-chip">${item.text ? "自然语言" : "结构化信号"}</span>
+            <span class="soft-chip">${Number(item.signal_count || 0)} 个补充信号</span>
+          </div>
+          <div class="case-card-footer">
+            <button
+              class="ghost-btn"
+              type="button"
+              data-demo-case-id="${escapeHtml(item.id)}"
+              data-demo-case-mode="load"
+              ${state.busy ? "disabled" : ""}
+            >
+              载入案例
+            </button>
+            <button
+              class="primary-btn"
+              type="button"
+              data-demo-case-id="${escapeHtml(item.id)}"
+              data-demo-case-mode="replay"
+              ${state.busy ? "disabled" : ""}
+            >
+              一键回放
+            </button>
+          </div>
+        </article>
+      `;
+    })
     .join("");
 }
 

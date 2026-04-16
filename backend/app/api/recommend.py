@@ -26,6 +26,43 @@ from ..services.role_gap_analyzer import RoleGapAnalyzer
 MIN_RECOMMENDATION_SCORE = 0.05
 MIN_NEAR_MISS_SCORE = 0.05
 MAX_NEAR_MISS_ITEMS = 4
+DEMO_CASE_METADATA = {
+    "sample_request": {
+        "title": "系统示例：后端入门画像",
+        "summary": "适合第一屏演示推荐、节点确认和传播图。",
+        "tags": ["系统示例", "后端", "推荐演示"],
+    },
+    "backend_bundle_nl": {
+        "title": "后端成长画像",
+        "summary": "用自然语言直接演示后端目标岗位分析与双动作组合模拟。",
+        "tags": ["自然语言", "后端", "组合模拟"],
+    },
+    "data_engineer_structured": {
+        "title": "数据工程画像",
+        "summary": "适合展示结构化信号如何触发数据工程成长路径。",
+        "tags": ["结构化输入", "数据工程", "规划链路"],
+    },
+    "frontend_structured": {
+        "title": "前端画像",
+        "summary": "适合展示前端方向的推荐、差距分析和动作模板匹配。",
+        "tags": ["结构化输入", "前端", "动作模板"],
+    },
+    "qa_nl": {
+        "title": "质量保障画像",
+        "summary": "适合演示 QA / 测试开发方向的差距分析与补齐建议。",
+        "tags": ["自然语言", "QA", "补齐建议"],
+    },
+    "appsec_structured": {
+        "title": "应用安全画像",
+        "summary": "适合展示安全方向的前置能力和专项行动模板。",
+        "tags": ["结构化输入", "安全", "前置能力"],
+    },
+    "devops_nl": {
+        "title": "DevOps 画像",
+        "summary": "适合演示基础能力补齐后如何重新拉动 DevOps 目标岗位。",
+        "tags": ["自然语言", "DevOps", "规划回放"],
+    },
+}
 
 
 class RecommendationService:
@@ -45,6 +82,7 @@ class RecommendationService:
         self.action_template_matcher = ActionTemplateMatcher(self.graph, self.action_templates)
         self.action_simulator = ActionSimulator(self.graph, self.engine, self.role_gap_analyzer)
         self.sample_request_path = self.loader.base_dir / "data" / "demo" / "sample_request.json"
+        self.planning_benchmark_path = self.loader.base_dir / "data" / "demo" / "planning_benchmark.json"
         self.provenance_summary = self._build_provenance_summary()
 
     def recommend(self, payload: dict[str, Any] | None) -> dict[str, Any]:
@@ -268,10 +306,44 @@ class RecommendationService:
                 **self.provenance_summary,
             },
             "sample_request": self.sample_request(),
+            "demo_cases": self.demo_cases(),
         }
 
     def sample_request(self) -> dict[str, Any]:
         return json.loads(self.sample_request_path.read_text(encoding="utf-8"))
+
+    def demo_cases(self) -> list[dict[str, Any]]:
+        cases: list[dict[str, Any]] = []
+        sample_request = self.sample_request()
+        cases.append(
+            self._build_demo_case_payload(
+                case_id="sample_request",
+                text=str(sample_request.get("text", "") or ""),
+                signals=sample_request.get("signals", []),
+                target_role_id="role_backend_engineer",
+                source="sample_request",
+            )
+        )
+
+        if not self.planning_benchmark_path.exists():
+            return cases
+
+        for raw_case in json.loads(self.planning_benchmark_path.read_text(encoding="utf-8")):
+            if not isinstance(raw_case, dict):
+                continue
+            target_role_id = str(raw_case.get("target_role_id", "") or "").strip()
+            if not target_role_id or target_role_id not in self.graph.role_ids:
+                continue
+            cases.append(
+                self._build_demo_case_payload(
+                    case_id=str(raw_case.get("id", "") or "").strip() or target_role_id,
+                    text=str(raw_case.get("text", "") or ""),
+                    signals=raw_case.get("signals", []),
+                    target_role_id=target_role_id,
+                    source="planning_benchmark",
+                )
+            )
+        return cases
 
     def _resolve_request_context(
         self,
@@ -361,6 +433,54 @@ class RecommendationService:
 
         refs.sort(key=lambda item: (item["source_type"], item["source_title"], item["profile_id"]))
         return refs
+
+    def _build_demo_case_payload(
+        self,
+        case_id: str,
+        text: str,
+        signals: Any,
+        target_role_id: str,
+        source: str,
+    ) -> dict[str, Any]:
+        normalized_signals: list[dict[str, Any]] = []
+        if isinstance(signals, list):
+            for signal in signals:
+                if not isinstance(signal, dict):
+                    continue
+                entity = str(signal.get("entity", "") or "").strip()
+                if not entity:
+                    continue
+                normalized_signals.append(
+                    {
+                        "entity": entity,
+                        "score": float(signal.get("score", 0.7) or 0.7),
+                    }
+                )
+
+        metadata = DEMO_CASE_METADATA.get(case_id, {})
+        target_role_name = self.graph.nodes[target_role_id].name if target_role_id in self.graph.role_ids else target_role_id
+        preview = text.strip()
+        if not preview and normalized_signals:
+            preview = "结构化信号：" + "、".join(
+                f"{item['entity']} {item['score']:.2f}"
+                for item in normalized_signals[:3]
+            )
+        if len(preview) > 88:
+            preview = preview[:85].rstrip() + "..."
+
+        return {
+            "id": case_id,
+            "title": metadata.get("title", target_role_name),
+            "summary": metadata.get("summary", f"目标岗位：{target_role_name}"),
+            "tags": metadata.get("tags", [source, target_role_name])[:4],
+            "source": source,
+            "text": text,
+            "signals": normalized_signals,
+            "signal_count": len(normalized_signals),
+            "target_role_id": target_role_id,
+            "target_role_name": target_role_name,
+            "preview": preview,
+        }
 
     def _serialize_node_metadata(self, node_id: str) -> dict[str, Any]:
         node = self.graph.nodes[node_id]

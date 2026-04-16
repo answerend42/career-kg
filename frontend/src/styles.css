@@ -184,6 +184,50 @@ select {
   gap: 12px;
 }
 
+.case-gallery-block {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.case-gallery {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.case-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(15, 118, 110, 0.14);
+  background: linear-gradient(180deg, rgba(255, 251, 244, 0.92), rgba(245, 252, 250, 0.9));
+  box-shadow: 0 12px 24px rgba(59, 48, 27, 0.06);
+}
+
+.case-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.case-card h3 {
+  font-size: 1.1rem;
+}
+
+.case-chip-row {
+  margin-top: -2px;
+}
+
+.case-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
 .field {
   display: grid;
   gap: 8px;
@@ -988,6 +1032,8 @@ input[type="range"] {
 
   .panel-head,
   .subhead,
+  .case-card-head,
+  .case-card-footer,
   .path-head,
   .action-card-footer,
   .bundle-action-row,
