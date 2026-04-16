@@ -343,10 +343,14 @@ class ActionSimulationResult:
     target_role_name: str
     action_keys: list[str]
     template_ids: list[str]
+    bundle_size: int
     current_score: float
     predicted_score: float
     delta_score: float
     summary: str
+    bundle_summary: str = ""
+    overlap_node_ids: list[str] = field(default_factory=list)
+    overlap_node_names: list[str] = field(default_factory=list)
     applied_actions: list[ActionCard] = field(default_factory=list)
     injected_boosts: list[SimulatedBoost] = field(default_factory=list)
     activated_nodes: list[ActionImpactNode] = field(default_factory=list)

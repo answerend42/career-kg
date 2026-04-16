@@ -32,6 +32,7 @@ class ActionSimulationApiTests(unittest.TestCase):
         simulation = result["simulation"]
         self.assertEqual(simulation["target_role_id"], "role_backend_engineer")
         self.assertEqual(simulation["template_ids"], [action["template_id"]])
+        self.assertEqual(simulation["bundle_size"], 1)
         self.assertGreaterEqual(simulation["predicted_score"], simulation["current_score"])
         self.assertGreaterEqual(simulation["delta_score"], 0.0)
         self.assertGreaterEqual(simulation["target_role_rank_before"], simulation["target_role_rank_after"])
@@ -112,6 +113,39 @@ class ActionSimulationApiTests(unittest.TestCase):
         self.assertEqual(first_result["simulation"]["action_keys"], [first_action["action_key"]])
         self.assertEqual(later_result["simulation"]["action_keys"], [later_action["action_key"]])
         self.assertNotEqual(first_result["simulation"]["delta_score"], later_result["simulation"]["delta_score"])
+
+    def test_action_simulation_supports_two_action_keys_bundle(self) -> None:
+        gap_result = self.service.role_gap(
+            {
+                "target_role_id": "role_backend_engineer",
+            }
+        )
+        action_keys: list[str] = []
+        for step in gap_result["target_role"]["learning_path"]:
+            for action in step["recommended_actions"]:
+                action_key = action.get("action_key")
+                if action_key and action_key not in action_keys:
+                    action_keys.append(action_key)
+                if len(action_keys) >= 2:
+                    break
+            if len(action_keys) >= 2:
+                break
+
+        self.assertEqual(len(action_keys), 2)
+
+        result = self.service.action_simulate(
+            {
+                "target_role_id": "role_backend_engineer",
+                "action_keys": action_keys,
+            }
+        )
+
+        simulation = result["simulation"]
+        self.assertEqual(simulation["action_keys"], action_keys)
+        self.assertEqual(simulation["bundle_size"], 2)
+        self.assertTrue(simulation["bundle_summary"])
+        self.assertEqual(len({boost["node_id"] for boost in simulation["injected_boosts"]}), len(simulation["injected_boosts"]))
+        self.assertGreaterEqual(simulation["predicted_score"], simulation["current_score"])
 
 
 if __name__ == "__main__":

@@ -175,7 +175,7 @@ python3 scripts/run_recommendation_benchmark.py
 ```
 
 - `action_key` 或 `action_keys`
-  - 推荐从 `learning_path[*].recommended_actions[*].action_key` 直接传回，能精确定位用户点击的是哪一步里的哪张行动卡。
+  - 推荐从 `learning_path[*].recommended_actions[*].action_key` 直接传回，能精确定位用户点击的是哪一步里的哪张行动卡；当前最多支持 2 个 action 组成组合方案。
 - `template_id` 或 `template_ids`
   - 兼容唯一模板场景；如果同一个模板在多步成长路径里重复出现，服务端会要求改用 `action_key` 以避免模拟到错误步骤。
 
@@ -184,6 +184,9 @@ python3 scripts/run_recommendation_benchmark.py
 - `simulation.current_score`
 - `simulation.predicted_score`
 - `simulation.delta_score`
+- `simulation.bundle_size`
+- `simulation.bundle_summary`
+- `simulation.overlap_node_names`
 - `simulation.injected_boosts`
 - `simulation.activated_nodes`
 - `simulation.before_top_roles`
@@ -197,7 +200,7 @@ python3 scripts/run_recommendation_benchmark.py
 2. 前端调用 `/api/recommend` 获取 `normalized_inputs`。
 3. 用户在“节点确认”面板里微调节点分值。
 4. 用户可选择目标岗位，调用 `/api/role-gap` 查看差距、成长路径、推荐行动模板和 what-if 模拟。
-5. 用户点击某个行动模板时，前端调用 `/api/action-simulate` 观察目标岗位分数、岗位排序和被带动节点如何变化。
+5. 用户既可单独模拟某个行动，也可把最多 2 个行动加入方案篮子，再调用 `/api/action-simulate` 比较组合收益、重复覆盖和岗位排序变化。
 6. 前端使用确认后的节点再次调用 `/api/recommend`。
 7. 页面展示职业排序、关键路径、限制项和传播图。
 

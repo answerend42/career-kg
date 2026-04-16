@@ -50,6 +50,7 @@ const state = {
   targetGapResult: null,
   targetGapInputSignature: "",
   actionSimulationResult: null,
+  selectedActionBundleKeys: [],
   selectedJobId: null,
   selectedPathIndex: 0,
   selectedNodeId: null,
@@ -110,6 +111,7 @@ function bindEvents() {
     state.targetGapResult = null;
     state.targetGapInputSignature = "";
     state.actionSimulationResult = null;
+    state.selectedActionBundleKeys = [];
     renderTargetGapAnalysis();
   });
 }
@@ -160,6 +162,7 @@ function applySampleRequest() {
   state.targetGapResult = null;
   state.targetGapInputSignature = "";
   state.actionSimulationResult = null;
+  state.selectedActionBundleKeys = [];
   state.input.text = state.sampleRequest.text || "";
   elements.textInput.value = state.input.text;
   state.input.structured = (state.sampleRequest.signals || []).map((signal) => ({
@@ -188,6 +191,7 @@ async function submitInitialRecommendation() {
     state.targetGapResult = null;
     state.targetGapInputSignature = "";
     state.actionSimulationResult = null;
+    state.selectedActionBundleKeys = [];
     state.confirmedSignals = (result.normalized_inputs || []).map((item) => ({
       id: uid(),
       nodeId: item.node_id,
@@ -225,6 +229,7 @@ async function recomputeFromConfirmedSignals() {
     state.targetGapResult = null;
     state.targetGapInputSignature = "";
     state.actionSimulationResult = null;
+    state.selectedActionBundleKeys = [];
     state.confirmedSignals = (result.normalized_inputs || []).map((item) => ({
       id: uid(),
       nodeId: item.node_id,
@@ -259,6 +264,7 @@ async function analyzeTargetRole() {
     state.targetGapResult = await postJSON("/api/role-gap", payload);
     state.targetGapInputSignature = buildPayloadSignature(payload);
     state.actionSimulationResult = null;
+    state.selectedActionBundleKeys = [];
     setBusy(false, "目标岗位分析已更新。");
     renderAll();
   } catch (error) {
@@ -267,30 +273,75 @@ async function analyzeTargetRole() {
 }
 
 async function simulateActionTemplate(templateId, actionKey) {
-  if (!templateId) {
+  if (!templateId && !actionKey) {
     setError("缺少可模拟的行动模板。");
     return;
   }
+  return runActionSimulation(
+    buildActionSimulationPayload(templateId, actionKey),
+    "正在模拟所选行动会如何改写图谱传播…",
+    "行动模拟已更新。"
+  );
+}
+
+async function simulateActionBundle() {
+  const selectedActions = getSelectedBundleActions();
+  if (!selectedActions.length) {
+    setError("请先加入至少一个动作，再模拟方案。");
+    return;
+  }
+  return runActionSimulation(
+    buildActionBundlePayload(selectedActions.map((action) => action.action_key)),
+    selectedActions.length >= 2 ? "正在比较双动作组合会如何改写图谱传播…" : "正在模拟当前方案…",
+    selectedActions.length >= 2 ? "组合模拟已更新。" : "方案模拟已更新。"
+  );
+}
+
+async function runActionSimulation(payload, loadingMessage, successMessage) {
   if (!state.targetRoleId || !state.targetGapResult?.target_role) {
     setError("请先完成一次目标岗位分析，再模拟行动。");
     return;
   }
-
-  const payload = buildActionSimulationPayload(templateId, actionKey);
   if (state.targetGapInputSignature && buildPayloadSignature(buildRoleGapPayload()) !== state.targetGapInputSignature) {
     setError("确认节点已变更，请先重新分析目标岗位，再执行行动模拟。");
     return;
   }
 
-  setBusy(true, "正在模拟所选行动会如何改写图谱传播…");
+  setBusy(true, loadingMessage);
   try {
     const result = await postJSON("/api/action-simulate", payload);
     state.actionSimulationResult = result.simulation || null;
-    setBusy(false, "行动模拟已更新。");
+    setBusy(false, successMessage);
     renderTargetGapAnalysis();
   } catch (error) {
     setError(`行动模拟失败：${error.message}`);
   }
+}
+
+function toggleActionBundle(actionKey) {
+  if (!actionKey) {
+    setError("当前动作缺少稳定的 action_key，暂时无法加入方案。");
+    return;
+  }
+  if (state.selectedActionBundleKeys.includes(actionKey)) {
+    state.selectedActionBundleKeys = state.selectedActionBundleKeys.filter((item) => item !== actionKey);
+    state.actionSimulationResult = null;
+    renderTargetGapAnalysis();
+    return;
+  }
+  if (state.selectedActionBundleKeys.length >= 2) {
+    setError("当前最多只能对比 2 个动作，请先移除一个。");
+    return;
+  }
+  state.selectedActionBundleKeys = [...state.selectedActionBundleKeys, actionKey];
+  state.actionSimulationResult = null;
+  renderTargetGapAnalysis();
+}
+
+function clearActionBundle() {
+  state.selectedActionBundleKeys = [];
+  state.actionSimulationResult = null;
+  renderTargetGapAnalysis();
 }
 
 function setBusy(busy, message = "") {
@@ -386,6 +437,13 @@ function buildActionSimulationPayload(templateId, actionKey) {
   };
 }
 
+function buildActionBundlePayload(actionKeys) {
+  return {
+    ...buildRoleGapPayload(),
+    action_keys: actionKeys,
+  };
+}
+
 function buildPayloadSignature(payload) {
   return JSON.stringify({
     text: payload.text || "",
@@ -395,6 +453,24 @@ function buildPayloadSignature(payload) {
       score: clampScore(item.score),
     })),
   });
+}
+
+function findTargetActionByKey(actionKey) {
+  if (!actionKey || !state.targetGapResult?.target_role?.learning_path?.length) {
+    return null;
+  }
+  for (const step of state.targetGapResult.target_role.learning_path) {
+    for (const action of step.recommended_actions || []) {
+      if ((action.action_key || "") === actionKey) {
+        return { ...action, step };
+      }
+    }
+  }
+  return null;
+}
+
+function getSelectedBundleActions() {
+  return state.selectedActionBundleKeys.map((actionKey) => findTargetActionByKey(actionKey)).filter(Boolean);
 }
 
 function renderTargetGapAnalysis() {
@@ -411,6 +487,7 @@ function renderTargetGapAnalysis() {
   const target = state.targetGapResult.target_role;
   const leadPath = target.paths?.[0];
   const sourceBadges = renderSourceTypeBadges(target.source_types || []);
+  const selectedBundleActionKeys = new Set(state.selectedActionBundleKeys);
   const simulatedActionKeys = new Set((state.actionSimulationResult?.applied_actions || []).map((action) => action.action_key || action.template_id));
   const roadmapMarkup = target.learning_path?.length
     ? `<div class="roadmap-list">${target.learning_path
@@ -487,15 +564,25 @@ function renderTargetGapAnalysis() {
                                       )}`
                                     : "当前没有稳定的模拟锚点"
                                 }</p>
-                                <button
-                                  class="ghost-btn action-simulate-btn ${simulatedActionKeys.has(action.action_key || action.template_id) ? "is-active" : ""}"
-                                  type="button"
-                                  data-simulate-template-id="${action.template_id}"
-                                  data-simulate-action-key="${action.action_key || ""}"
-                                  ${state.busy ? "disabled" : ""}
-                                >
-                                  ${simulatedActionKeys.has(action.action_key || action.template_id) ? "重新模拟" : "模拟这个动作"}
-                                </button>
+                                <div class="action-card-controls">
+                                  <button
+                                    class="ghost-btn action-bundle-btn ${selectedBundleActionKeys.has(action.action_key || "") ? "is-selected" : ""}"
+                                    type="button"
+                                    data-bundle-action-key="${action.action_key || ""}"
+                                    ${!action.action_key || state.busy ? "disabled" : ""}
+                                  >
+                                    ${selectedBundleActionKeys.has(action.action_key || "") ? "移出方案" : "加入方案"}
+                                  </button>
+                                  <button
+                                    class="ghost-btn action-simulate-btn ${simulatedActionKeys.has(action.action_key || action.template_id) ? "is-active" : ""}"
+                                    type="button"
+                                    data-simulate-template-id="${action.template_id}"
+                                    data-simulate-action-key="${action.action_key || ""}"
+                                    ${state.busy ? "disabled" : ""}
+                                  >
+                                    ${simulatedActionKeys.has(action.action_key || action.template_id) ? "重新模拟" : "单独模拟"}
+                                  </button>
+                                </div>
                               </div>
                             </article>
                           `
@@ -570,6 +657,7 @@ function renderTargetGapAnalysis() {
         </div>
         ${roadmapMarkup}
       </section>
+      ${renderActionBundleSection()}
       ${renderActionSimulationSection()}
       <section class="scenario-section">
         <div class="subhead">
@@ -613,6 +701,75 @@ function renderTargetGapAnalysis() {
       simulateActionTemplate(button.dataset.simulateTemplateId, button.dataset.simulateActionKey);
     });
   });
+  elements.targetGapAnalysis.querySelectorAll("[data-bundle-action-key]").forEach((button) => {
+    button.addEventListener("click", () => {
+      toggleActionBundle(button.dataset.bundleActionKey);
+    });
+  });
+  elements.targetGapAnalysis.querySelectorAll("[data-action-bundle-run]").forEach((button) => {
+    button.addEventListener("click", () => {
+      simulateActionBundle();
+    });
+  });
+  elements.targetGapAnalysis.querySelectorAll("[data-action-bundle-clear]").forEach((button) => {
+    button.addEventListener("click", () => {
+      clearActionBundle();
+    });
+  });
+}
+
+function renderActionBundleSection() {
+  const selectedActions = getSelectedBundleActions();
+  const bundleInsight = buildActionBundleInsight(selectedActions);
+
+  return `
+    <section class="scenario-section action-bundle-section">
+      <div class="subhead">
+        <h3>方案篮子</h3>
+        <p class="soft-note">最多选 2 个动作做组合比较，查看它们是互补增益还是重复覆盖。</p>
+      </div>
+      ${
+        selectedActions.length
+          ? `
+            <article class="scenario-card action-bundle-card">
+              <div class="scenario-headline">
+                <div>
+                  <p class="signal-name">当前已选 ${selectedActions.length} / 2 个动作</p>
+                  <p class="signal-meta">${escapeHtml(bundleInsight.summary)}</p>
+                </div>
+                <div class="delta-chip">${selectedActions.length === 2 ? "组合待算" : "可单步"}</div>
+              </div>
+              <div class="bundle-chip-list">
+                ${selectedActions
+                  .map(
+                    (action) => `
+                      <span class="soft-chip accent-chip">
+                        ${escapeHtml(action.title)}
+                        <button type="button" class="bundle-chip-remove" data-bundle-action-key="${action.action_key}">×</button>
+                      </span>
+                    `
+                  )
+                  .join("")}
+              </div>
+              ${
+                bundleInsight.overlapNames.length
+                  ? `<div class="chip-row action-chip-row">${bundleInsight.overlapNames
+                      .map((name) => `<span class="soft-chip">重复覆盖 ${escapeHtml(name)}</span>`)
+                      .join("")}</div>`
+                  : `<p class="soft-note">当前已选动作覆盖范围基本互补，适合看组合收益。</p>`
+              }
+              <div class="bundle-action-row">
+                <button class="primary-btn bundle-run-btn" type="button" data-action-bundle-run ${state.busy ? "disabled" : ""}>
+                  ${selectedActions.length === 1 ? "模拟当前动作" : "模拟组合方案"}
+                </button>
+                <button class="ghost-btn" type="button" data-action-bundle-clear ${state.busy ? "disabled" : ""}>清空方案</button>
+              </div>
+            </article>
+          `
+          : `<p class="soft-note">从上方行动卡中加入 1-2 个动作，就能直接比较组合后的分数提升、岗位排名变化和重复覆盖情况。</p>`
+      }
+    </section>
+  `;
 }
 
 function renderActionSimulationSection() {
@@ -621,7 +778,7 @@ function renderActionSimulationSection() {
     <section class="scenario-section action-simulation-section">
       <div class="subhead">
         <h3>行动模拟</h3>
-        <p class="soft-note">选中某个行动模板后，直接把它覆盖的证据节点注入图谱，再看目标岗位和职业排序会怎么变。</p>
+        <p class="soft-note">支持单动作和双动作组合模拟，结果都来自同一套知识图谱重算，而不是前端本地拼接。</p>
       </div>
       ${
         simulation
@@ -648,11 +805,26 @@ function renderActionSimulationSection() {
                   <strong>${simulation.target_role_rank_before || "-"} → ${simulation.target_role_rank_after || "-"}</strong>
                 </div>
               </div>
+                ${
+                  simulation.applied_actions?.length
+                    ? `<div class="chip-row action-chip-row">${simulation.applied_actions
+                        .map((action) => `<span class="soft-chip accent-chip">${escapeHtml(action.title)}</span>`)
+                        .join("")}</div>`
+                    : ""
+              }
               ${
-                simulation.applied_actions?.length
-                  ? `<div class="chip-row action-chip-row">${simulation.applied_actions
-                      .map((action) => `<span class="soft-chip accent-chip">${escapeHtml(action.title)}</span>`)
-                      .join("")}</div>`
+                simulation.bundle_size > 1
+                  ? `<div class="detail-card bundle-result-card">
+                      <h4>组合覆盖分析</h4>
+                      <p class="reason-text">${escapeHtml(simulation.bundle_summary || "当前组合会同时覆盖多个证据节点。")}</p>
+                      ${
+                        simulation.overlap_node_names?.length
+                          ? `<div class="chip-row action-chip-row">${simulation.overlap_node_names
+                              .map((name) => `<span class="soft-chip">重复覆盖 ${escapeHtml(name)}</span>`)
+                              .join("")}</div>`
+                          : `<p class="soft-note">这两个动作覆盖范围基本互补，组合收益更多来自新增证据与新增激活。</p>`
+                      }
+                    </div>`
                   : ""
               }
               <div class="detail-grid simulation-detail-grid">
@@ -699,10 +871,50 @@ function renderActionSimulationSection() {
               </div>
             </article>
           `
-          : `<p class="soft-note">点击上方任一“模拟这个动作”，查看目标岗位分数、排序和传播链路会如何变化。</p>`
+          : `<p class="soft-note">点击上方“单独模拟”可看单动作收益，或先把 2 个动作加入方案篮子，再比较组合模拟结果。</p>`
       }
     </section>
   `;
+}
+
+function buildActionBundleInsight(actions) {
+  const overlapNames = [];
+  const overlapCounts = new Map();
+  const bundleNodeNames = new Map();
+
+  actions.forEach((action) => {
+    const nodeIds = [...new Set(action.simulation_node_ids || [])];
+    nodeIds.forEach((nodeId) => {
+      bundleNodeNames.set(nodeId, lookupNodeMeta(nodeId, nodeId)?.name || nodeId);
+      overlapCounts.set(nodeId, (overlapCounts.get(nodeId) || 0) + 1);
+    });
+  });
+
+  overlapCounts.forEach((count, nodeId) => {
+    if (count >= 2) {
+      overlapNames.push(bundleNodeNames.get(nodeId) || nodeId);
+    }
+  });
+
+  if (!actions.length) {
+    return { overlapNames, summary: "" };
+  }
+  if (actions.length === 1) {
+    return {
+      overlapNames,
+      summary: "当前先选了 1 个动作。你可以直接模拟它，也可以再加 1 个动作查看组合收益。",
+    };
+  }
+  if (overlapNames.length) {
+    return {
+      overlapNames,
+      summary: `这两个动作都覆盖 ${overlapNames.join("、")}，组合收益会更偏向巩固共用证据，而不是完全新增。`,
+    };
+  }
+  return {
+    overlapNames,
+    summary: "这两个动作覆盖范围基本互补，更适合看组合收益和新增带动。",
+  };
 }
 
 function renderRolePreviewList(items) {

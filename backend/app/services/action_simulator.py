@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from collections import Counter
+
 from ..schemas import (
     ActionCard,
     ActionImpactNode,
@@ -59,6 +61,7 @@ class ActionSimulator:
         delta_score = round(predicted_score - current_score, 4)
         before_rank = self._rank_of_role(states, target_role_id)
         after_rank = self._rank_of_role(simulated_states, target_role_id)
+        overlap_node_ids, overlap_node_names = self._build_overlap_nodes(applied_actions)
         activated_nodes = self._build_activated_nodes(
             before_states=states,
             after_states=simulated_states,
@@ -70,6 +73,7 @@ class ActionSimulator:
             target_role_name=self.graph.nodes[target_role_id].name,
             action_keys=[action.action_key for action in applied_actions],
             template_ids=[action.template_id for action in applied_actions],
+            bundle_size=len(applied_actions),
             current_score=current_score,
             predicted_score=predicted_score,
             delta_score=delta_score,
@@ -83,6 +87,9 @@ class ActionSimulator:
                 after_rank=after_rank,
                 activated_nodes=activated_nodes,
             ),
+            bundle_summary=self._build_bundle_summary(applied_actions, overlap_node_names, activated_nodes),
+            overlap_node_ids=overlap_node_ids,
+            overlap_node_names=overlap_node_names,
             applied_actions=applied_actions,
             injected_boosts=boosts,
             activated_nodes=activated_nodes,
@@ -139,6 +146,18 @@ class ActionSimulator:
             used_node_ids.update(boost.node_id for boost in action_boosts)
 
         return applied_actions, boosts
+
+    def _build_overlap_nodes(self, applied_actions: list[ActionCard]) -> tuple[list[str], list[str]]:
+        if len(applied_actions) < 2:
+            return [], []
+
+        counts: Counter[str] = Counter()
+        for action in applied_actions:
+            counts.update(dict.fromkeys(action.simulation_node_ids, 1))
+
+        overlap_node_ids = [node_id for node_id, count in counts.items() if count >= 2 and node_id in self.graph.nodes]
+        overlap_node_names = [self.graph.nodes[node_id].name for node_id in overlap_node_ids]
+        return overlap_node_ids, overlap_node_names
 
     def _build_top_roles(self, states: dict[str, NodeState], limit: int = TOP_ROLE_LIMIT) -> list[RoleScorePreview]:
         ranked_role_ids = self._sorted_role_ids(states)
@@ -234,3 +253,24 @@ class ActionSimulator:
             f"执行 {action_label} 后，{role_name} 预计从 {current_score:.2f} 分提升到 {predicted_score:.2f} 分，"
             f"增益 {delta_score:.2f} 分，{rank_text}{activated_text}。"
         )
+
+    def _build_bundle_summary(
+        self,
+        applied_actions: list[ActionCard],
+        overlap_node_names: list[str],
+        activated_nodes: list[ActionImpactNode],
+    ) -> str:
+        if not applied_actions:
+            return ""
+        if len(applied_actions) == 1:
+            return "当前是单动作模拟，结果主要反映这一步单独执行后的图谱增益。"
+
+        if overlap_node_names:
+            overlap_text = f"两项动作都覆盖了 {'、'.join(overlap_node_names[:3])}"
+            if activated_nodes:
+                return f"{overlap_text}，组合收益更偏向巩固共用证据，同时新增带动 {'、'.join(node.node_name for node in activated_nodes[:2])}。"
+            return f"{overlap_text}，说明两项动作存在重复覆盖，组合收益会更偏向巩固而不是纯新增。"
+
+        if activated_nodes:
+            return f"两项动作覆盖范围基本互补，并共同带动 {'、'.join(node.node_name for node in activated_nodes[:3])}。"
+        return "两项动作覆盖范围基本互补，组合模拟主要体现联合补强后的目标岗位增益。"
