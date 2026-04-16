@@ -104,6 +104,8 @@ class RecommendationItem:
     reason: str
     paths: list[PathExplanation]
     limitations: list[str]
+    provenance_count: int = 0
+    source_refs: list[dict[str, Any]] = field(default_factory=list)
 
     def as_dict(self) -> dict[str, Any]:
         payload = asdict(self)

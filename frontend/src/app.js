@@ -96,8 +96,11 @@ async function loadCatalog() {
     const payload = await fetchJSON("/api/catalog");
     state.catalog = payload.evidence_nodes || [];
     state.sampleRequest = payload.sample_request || null;
-    elements.graphSize.textContent = `${payload.graph_stats.node_count} 节点 / ${payload.graph_stats.edge_count} 边`;
-    elements.roleCount.textContent = `${payload.graph_stats.role_count} 个岗位`;
+    const graphStats = payload.graph_stats || {};
+    elements.graphSize.textContent =
+      `${graphStats.node_count || 0} 节点 / ${graphStats.edge_count || 0} 边 / ${graphStats.source_profile_count || 0} 条来源画像`;
+    elements.roleCount.textContent =
+      `${graphStats.role_count || 0} 个岗位 / ${graphStats.nodes_with_provenance || 0} 个溯源节点`;
     if (state.input.structured.length === 0) {
       state.input.structured.push(createStructuredRow());
     }
@@ -156,7 +159,7 @@ async function submitInitialRecommendation() {
     const firstRecommendation = result.recommendations?.[0];
     state.selectedJobId = firstRecommendation ? firstRecommendation.job_id : null;
     state.selectedPathIndex = 0;
-    state.selectedNodeId = null;
+    state.selectedNodeId = firstRecommendation?.job_id || null;
     setBusy(false, "推荐结果已更新，可继续微调节点后重算。");
     renderAll();
   } catch (error) {
@@ -196,7 +199,7 @@ async function recomputeFromConfirmedSignals() {
     const stillSelected = result.recommendations?.find((item) => item.job_id === state.selectedJobId);
     state.selectedJobId = stillSelected ? stillSelected.job_id : result.recommendations?.[0]?.job_id || null;
     state.selectedPathIndex = 0;
-    state.selectedNodeId = null;
+    state.selectedNodeId = state.selectedJobId;
     setBusy(false, "已基于确认节点重新计算。");
     renderAll();
   } catch (error) {
@@ -351,6 +354,7 @@ function renderRecommendations() {
           </div>
           <div class="score-track"><span style="width: ${Math.min(100, item.score * 100)}%"></span></div>
           <p class="reason-text">${escapeHtml(item.reason)}</p>
+          ${renderRecommendationProvenance(item)}
           ${
             item.limitations?.length
               ? `<ul class="limit-list">${item.limitations.map((limit) => `<li>${escapeHtml(limit)}</li>`).join("")}</ul>`
@@ -365,7 +369,7 @@ function renderRecommendations() {
     card.addEventListener("click", () => {
       state.selectedJobId = card.dataset.jobId;
       state.selectedPathIndex = 0;
-      state.selectedNodeId = null;
+      state.selectedNodeId = card.dataset.jobId;
       renderRecommendations();
       renderPathInspector();
       renderGraph();
@@ -471,7 +475,11 @@ function renderGraph() {
       ? selectedPath.node_ids.slice(0, -1).map((nodeId, index) => `${nodeId}->${selectedPath.node_ids[index + 1]}`)
       : []
   );
-  const selectedNode = visibleNodes.find((node) => node.id === state.selectedNodeId) || visibleNodes[0];
+  const selectedNode =
+    visibleNodes.find((node) => node.id === state.selectedNodeId) ||
+    visibleNodes.find((node) => node.id === state.selectedJobId) ||
+    (selectedPath ? visibleNodes.find((node) => node.id === selectedPath.node_ids[selectedPath.node_ids.length - 1]) : null) ||
+    visibleNodes[0];
 
   elements.graphArea.innerHTML = `
     <svg class="graph-svg" viewBox="0 0 1120 620" role="img" aria-label="Propagation graph">
@@ -539,6 +547,7 @@ function renderGraphDetail(node) {
   if (!node) {
     return "";
   }
+  const sourceRefs = Array.isArray(node.metadata?.source_refs) ? node.metadata.source_refs : [];
   const diagnostics = Object.entries(node.diagnostics || {})
     .map(([key, value]) => `<li><span>${escapeHtml(key)}</span><strong>${escapeHtml(formatDiagnosticValue(value))}</strong></li>`)
     .join("");
@@ -551,8 +560,14 @@ function renderGraphDetail(node) {
         </div>
         <div class="score-pill">${Math.round(node.score * 100)} 分</div>
       </div>
-      <p class="node-summary">${escapeHtml(LAYER_LABELS[node.layer] || node.layer)} · ${escapeHtml(node.aggregator)}</p>
-      <ul class="diagnostic-list">${diagnostics}</ul>
+      <p class="node-summary">${escapeHtml(LAYER_LABELS[node.layer] || node.layer)} · ${escapeHtml(node.node_type || node.aggregator)} · ${escapeHtml(node.aggregator)}</p>
+      ${node.description ? `<p class="node-description">${escapeHtml(node.description)}</p>` : ""}
+      ${renderSourceRefs(sourceRefs, node.metadata?.provenance_count || sourceRefs.length)}
+      ${
+        diagnostics.length
+          ? `<ul class="diagnostic-list">${diagnostics}</ul>`
+          : `<p class="soft-note">当前节点没有额外诊断项。</p>`
+      }
     </article>
   `;
 }
@@ -577,6 +592,11 @@ function renderNotice() {
   }
   if (state.result?.unresolved_entities?.length) {
     notes.push(`<span class="badge neutral">未识别：${escapeHtml(state.result.unresolved_entities.join("、"))}</span>`);
+  }
+  if (state.result?.graph_stats?.source_profile_count) {
+    notes.push(
+      `<span class="badge neutral">来源画像：${state.result.graph_stats.source_profile_count} 条 / 溯源节点 ${state.result.graph_stats.nodes_with_provenance}</span>`
+    );
   }
   elements.requestNotes.innerHTML = notes.join("") || `<span class="badge neutral">建议先输入自然语言，再按需要补充结构化节点。</span>`;
 }
@@ -635,6 +655,65 @@ function getSelectedPath() {
     return null;
   }
   return recommendation.paths[state.selectedPathIndex] || recommendation.paths[0];
+}
+
+function renderRecommendationProvenance(item) {
+  const sourceRefs = Array.isArray(item.source_refs) ? item.source_refs : [];
+  if (!sourceRefs.length) {
+    return `<p class="soft-note">当前岗位还没有外部职业画像锚点。</p>`;
+  }
+  const primarySource = sourceRefs[0];
+  const extraCount = Math.max(0, (item.provenance_count || sourceRefs.length) - 1);
+  const sourceLabel = [primarySource.source_type, primarySource.snapshot_date].filter(Boolean).join(" · ");
+  const sourceJobs = Array.isArray(primarySource.sample_job_titles) && primarySource.sample_job_titles.length
+    ? `样例岗位：${escapeHtml(primarySource.sample_job_titles.slice(0, 3).join("、"))}`
+    : "";
+  return `
+    <div class="source-summary">
+      <p class="source-note">外部来源锚点 ${item.provenance_count || sourceRefs.length} 条</p>
+      <p class="source-inline">
+        <strong>${escapeHtml(primarySource.source_title || primarySource.source_id || primarySource.profile_id)}</strong>
+        ${sourceLabel ? `<span>${escapeHtml(sourceLabel)}</span>` : ""}
+      </p>
+      ${sourceJobs ? `<p class="source-jobs">${sourceJobs}</p>` : ""}
+      ${extraCount > 0 ? `<p class="source-more">另有 ${extraCount} 条来源可在传播图节点详情中查看。</p>` : ""}
+    </div>
+  `;
+}
+
+function renderSourceRefs(sourceRefs, provenanceCount) {
+  if (!sourceRefs.length) {
+    return `<p class="soft-note">该节点当前没有外部来源画像锚点。</p>`;
+  }
+  const totalCount = provenanceCount || sourceRefs.length;
+  const extraCount = Math.max(0, totalCount - sourceRefs.length);
+  return `
+    <section class="source-block">
+      <p class="source-note">来源画像 ${totalCount} 条</p>
+      <ul class="source-list">
+        ${sourceRefs
+          .map((source) => {
+            const meta = [source.source_type, source.snapshot_date].filter(Boolean).join(" · ");
+            const jobs = Array.isArray(source.sample_job_titles) && source.sample_job_titles.length
+              ? `样例岗位：${escapeHtml(source.sample_job_titles.slice(0, 4).join("、"))}`
+              : "";
+            return `
+              <li>
+                <div class="source-head">
+                  <strong>${escapeHtml(source.source_title || source.source_id || source.profile_id)}</strong>
+                  ${source.source_url ? `<a class="source-link" href="${escapeHtml(source.source_url)}" target="_blank" rel="noreferrer">原始来源</a>` : ""}
+                </div>
+                ${meta ? `<p class="source-inline">${escapeHtml(meta)}</p>` : ""}
+                ${source.evidence_snippet ? `<p class="source-snippet">${escapeHtml(source.evidence_snippet)}</p>` : ""}
+                ${jobs ? `<p class="source-jobs">${jobs}</p>` : ""}
+              </li>
+            `;
+          })
+          .join("")}
+      </ul>
+      ${extraCount > 0 ? `<p class="source-more">还有 ${extraCount} 条来源未在当前面板展开。</p>` : ""}
+    </section>
+  `;
 }
 
 function lookupNodeMeta(nodeId, nodeName = "") {

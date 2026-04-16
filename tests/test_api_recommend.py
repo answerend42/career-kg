@@ -28,6 +28,16 @@ class RecommendationApiTests(unittest.TestCase):
         self.assertIsNotNone(result["propagation_snapshot"])
         self.assertGreater(len(result["propagation_snapshot"]["nodes"]), 0)
         self.assertGreater(len(result["recommendations"][0]["paths"]), 0)
+        top_recommendation = result["recommendations"][0]
+        self.assertGreaterEqual(top_recommendation["provenance_count"], 1)
+        self.assertEqual(top_recommendation["source_refs"][0]["source_type"], "onet_online")
+        snapshot_node = next(
+            item for item in result["propagation_snapshot"]["nodes"]
+            if item["id"] == top_recommendation["job_id"]
+        )
+        self.assertIn("description", snapshot_node)
+        self.assertIn("metadata", snapshot_node)
+        self.assertGreaterEqual(snapshot_node["metadata"]["provenance_count"], 1)
 
     def test_negative_preferences_do_not_create_positive_frontend_signals(self) -> None:
         payload = {
@@ -56,6 +66,9 @@ class RecommendationApiTests(unittest.TestCase):
         self.assertIn("graph_stats", catalog)
         self.assertIn("sample_request", catalog)
         self.assertIn("text", catalog["sample_request"])
+        self.assertGreaterEqual(catalog["graph_stats"]["source_profile_count"], 7)
+        self.assertGreaterEqual(catalog["graph_stats"]["nodes_with_provenance"], 40)
+        self.assertEqual(catalog["graph_stats"]["source_types"], ["onet_online"])
         python_node = next((item for item in catalog["evidence_nodes"] if item["id"] == "skill_python"), None)
         self.assertIsNotNone(python_node)
         self.assertIn("python", python_node["aliases"])

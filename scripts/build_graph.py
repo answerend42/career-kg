@@ -153,6 +153,9 @@ class GraphBuilder:
         self.aliases: dict[str, set[str]] = {}
         self.node_ids: set[str] = set()
         self.edge_keys: set[tuple[str, str, str]] = set()
+        self.node_layers: dict[str, str] = {}
+        self.imported_refs_by_node: dict[str, list[dict[str, Any]]] = {}
+        self.imported_profile_ids: set[str] = set()
 
     def build(self) -> dict[str, int]:
         skills = load_json(self.sources_dir / "skills.json")
@@ -163,15 +166,22 @@ class GraphBuilder:
         sample_request = load_json(self.sources_dir / "sample_request.json")
         parsing_patterns = load_json(self.sources_dir / "parsing_patterns.json")
         nl_benchmark = load_json(self.sources_dir / "nl_benchmark.json")
+        imported_profiles_path = self.sources_dir / "imported_profiles.json"
+        imported_profiles = load_json(imported_profiles_path) if imported_profiles_path.exists() else []
 
         for path in [self.ontology_dir, self.seeds_dir, self.dictionaries_dir, self.demo_dir]:
             ensure_dir(path)
 
+        self._index_imported_profiles(imported_profiles)
         self._compile_evidence(skills)
         self._compile_templates(templates, relations)
         self._compile_standalone_roles(roles.get("standalone_roles", []), relations)
         self._compile_specializations(roles.get("specializations", []), relations)
         self._merge_alias_overrides(alias_overrides.get("extra_aliases", {}))
+
+        missing_import_targets = sorted(set(self.imported_refs_by_node) - self.node_ids)
+        if missing_import_targets:
+            raise ValueError(f"imported profiles reference unknown node ids: {missing_import_targets[:12]}")
 
         write_json(self.ontology_dir / "node_types.json", NODE_TYPES)
         write_json(self.ontology_dir / "edge_types.json", EDGE_TYPES)
@@ -190,7 +200,26 @@ class GraphBuilder:
             "nodes": len(self.nodes),
             "edges": len(self.edges),
             "aliases": len(self.aliases),
+            "imported_profiles": len(self.imported_profile_ids),
+            "nodes_with_provenance": sum(1 for node in self.nodes if node.get("metadata", {}).get("source_refs")),
         }
+
+    def _index_imported_profiles(self, profiles: list[dict[str, Any]]) -> None:
+        for profile in profiles:
+            profile_id = str(profile["profile_id"])
+            self.imported_profile_ids.add(profile_id)
+            source_ref = {
+                "profile_id": profile_id,
+                "source_type": profile["source_type"],
+                "source_id": profile["source_id"],
+                "source_title": profile["source_title"],
+                "source_url": profile["source_url"],
+                "snapshot_date": profile["snapshot_date"],
+                "evidence_snippet": profile["evidence_snippet"],
+                "sample_job_titles": profile.get("sample_job_titles", [])[:4],
+            }
+            for node_id in profile.get("mapped_node_ids", []):
+                self.imported_refs_by_node.setdefault(node_id, []).append(source_ref)
 
     def _compile_evidence(self, skills: dict[str, list[dict[str, Any]]]) -> None:
         for category, specs in skills.items():
@@ -401,6 +430,13 @@ class GraphBuilder:
         if node_id in self.node_ids:
             raise ValueError(f"duplicate node id detected: {node_id}")
         self.node_ids.add(node_id)
+        self.node_layers[node_id] = layer
+        merged_metadata = {"origin": "curated", **(metadata or {})}
+        source_refs = self.imported_refs_by_node.get(node_id, [])
+        if source_refs:
+            merged_metadata["source_refs"] = source_refs
+            merged_metadata["provenance_count"] = len(source_refs)
+            merged_metadata["origin"] = "curated+imported"
         self.nodes.append(
             {
                 "id": node_id,
@@ -410,7 +446,7 @@ class GraphBuilder:
                 "aggregator": aggregator,
                 "description": description,
                 "params": params,
-                "metadata": metadata or {},
+                "metadata": merged_metadata,
             }
         )
         alias_bucket = self.aliases.setdefault(node_id, set())
@@ -431,6 +467,11 @@ class GraphBuilder:
         if edge_key in self.edge_keys:
             return
         self.edge_keys.add(edge_key)
+        merged_metadata = dict(metadata or {})
+        source_refs = self.imported_refs_by_node.get(target, [])
+        if source_refs and self.node_layers.get(target) in {"role", "direction", "composite"}:
+            merged_metadata["source_refs"] = source_refs
+            merged_metadata["provenance_count"] = len(source_refs)
         self.edges.append(
             {
                 "source": source,
@@ -438,7 +479,7 @@ class GraphBuilder:
                 "relation": relation,
                 "weight": weight,
                 "note": note,
-                "metadata": metadata or {},
+                "metadata": merged_metadata,
             }
         )
 
@@ -450,7 +491,10 @@ def build_all(base_dir: Path | None = None) -> dict[str, int]:
 
 def main() -> None:
     summary = build_all()
-    print(f"generated {summary['nodes']} nodes and {summary['edges']} edges")
+    print(
+        f"generated {summary['nodes']} nodes and {summary['edges']} edges "
+        f"({summary['imported_profiles']} imported profiles, {summary['nodes_with_provenance']} nodes with provenance)"
+    )
 
 
 if __name__ == "__main__":

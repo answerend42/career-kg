@@ -86,3 +86,36 @@ python3 scripts/validate_graph.py
 6. 运行 `python3 scripts/validate_graph.py`、测试和 `python3 scripts/run_nl_benchmark.py`
 
 如果后续引入爬虫或外部职位数据，建议先落到 `data/sources/raw/` 或中间清洗脚本，再统一映射到当前 source schema。
+
+## 外部职业画像接入
+
+当前仓库已经接入一条可复用的数据流水线，用来把公开职业画像映射到图谱节点：
+
+1. `data/sources/raw/onet_manifest.json`
+   - 声明外部来源 URL、外部 occupation id、映射到哪些图节点
+2. `python3 scripts/import_external_profiles.py`
+   - 抓取 O*NET 页面并生成：
+   - `data/sources/raw/onet_profiles.json`
+   - `data/sources/imported_profiles.json`
+3. `python3 scripts/build_graph.py`
+   - 把 imported profiles 的 `source_refs` 合并进 capability / direction / role 节点的 metadata
+4. `python3 scripts/validate_graph.py`
+   - 校验 imported profiles、raw snapshot 和编译后 provenance 覆盖率
+
+### 当前 provenance 字段
+
+编译后的节点 metadata 会保留以下字段，供 API 和前端工作台展示：
+
+- `origin`
+- `source_file`
+- `provenance_count`
+- `source_refs[*].profile_id`
+- `source_refs[*].source_type`
+- `source_refs[*].source_id`
+- `source_refs[*].source_title`
+- `source_refs[*].source_url`
+- `source_refs[*].snapshot_date`
+- `source_refs[*].evidence_snippet`
+- `source_refs[*].sample_job_titles`
+
+这样前端既能展示“图谱规模”，也能展示“这些岗位/方向节点实际锚定了哪些公开职业资料”。

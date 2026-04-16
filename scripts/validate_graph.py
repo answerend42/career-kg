@@ -21,6 +21,31 @@ MIN_EDGES = 700
 MIN_EVIDENCE_NODES = 120
 MIN_ROLE_NODES = 25
 MIN_ROLE_FAMILIES = 8
+MIN_IMPORTED_PROFILES = 5
+MIN_PROVENANCE_NODES = 40
+REQUIRED_IMPORTED_PROFILE_KEYS = {
+    "profile_id",
+    "source_type",
+    "source_id",
+    "source_url",
+    "source_title",
+    "snapshot_date",
+    "evidence_snippet",
+    "mapped_node_ids",
+}
+REQUIRED_SOURCE_REF_KEYS = {
+    "profile_id",
+    "source_type",
+    "source_id",
+    "source_title",
+    "source_url",
+    "snapshot_date",
+    "evidence_snippet",
+}
+PLACEHOLDER_SNIPPET_MARKERS = {
+    "a subset of this occupation's profile is available.",
+    "data collection is currently underway",
+}
 
 
 def load_seed_payloads() -> tuple[list[dict], list[dict]]:
@@ -29,6 +54,19 @@ def load_seed_payloads() -> tuple[list[dict], list[dict]]:
     return (
         json.loads(nodes_path.read_text(encoding="utf-8")),
         json.loads(edges_path.read_text(encoding="utf-8")),
+    )
+
+
+def load_imported_payloads() -> tuple[list[dict], list[dict]]:
+    imported_path = ROOT / "data" / "sources" / "imported_profiles.json"
+    raw_snapshot_path = ROOT / "data" / "sources" / "raw" / "onet_profiles.json"
+    if not imported_path.exists():
+        raise SystemExit("imported profile dataset is missing: data/sources/imported_profiles.json")
+    if not raw_snapshot_path.exists():
+        raise SystemExit("raw source snapshot is missing: data/sources/raw/onet_profiles.json")
+    return (
+        json.loads(imported_path.read_text(encoding="utf-8")),
+        json.loads(raw_snapshot_path.read_text(encoding="utf-8")),
     )
 
 
@@ -50,6 +88,7 @@ def main() -> None:
     loader = GraphLoader()
     graph = loader.load_graph()
     raw_nodes, raw_edges = load_seed_payloads()
+    imported_profiles, raw_profiles = load_imported_payloads()
 
     invalid_relations = [f"{edge.source}->{edge.target}:{edge.relation}" for edge in graph.edges if edge.relation not in VALID_RELATIONS]
     if invalid_relations:
@@ -105,10 +144,61 @@ def main() -> None:
     if len(role_families) < MIN_ROLE_FAMILIES:
         raise SystemExit(f"role family coverage is too narrow: {sorted(role_families)}")
 
+    if len(imported_profiles) < MIN_IMPORTED_PROFILES:
+        raise SystemExit(f"imported profile coverage is too small: {len(imported_profiles)}")
+    if len(raw_profiles) < len(imported_profiles):
+        raise SystemExit("raw profile snapshot count is smaller than imported profile count")
+
+    invalid_imported_profiles = []
+    imported_profile_ids = set()
+    for profile in imported_profiles:
+        missing_keys = sorted(
+            key for key in REQUIRED_IMPORTED_PROFILE_KEYS
+            if not profile.get(key)
+        )
+        if missing_keys:
+            invalid_imported_profiles.append(f"{profile.get('profile_id', 'unknown')} missing {missing_keys}")
+        else:
+            imported_profile_ids.add(str(profile["profile_id"]))
+    if invalid_imported_profiles:
+        raise SystemExit(f"invalid imported profiles: {invalid_imported_profiles[:5]}")
+
+    placeholder_profiles = [
+        str(profile.get("profile_id", "unknown"))
+        for profile in imported_profiles
+        if any(marker in str(profile.get("evidence_snippet", "")).lower() for marker in PLACEHOLDER_SNIPPET_MARKERS)
+    ]
+    if placeholder_profiles:
+        raise SystemExit(f"imported profiles still contain placeholder evidence snippets: {placeholder_profiles}")
+
+    provenance_nodes = [item for item in raw_nodes if item.get("metadata", {}).get("source_refs")]
+    if len(provenance_nodes) < MIN_PROVENANCE_NODES:
+        raise SystemExit(f"provenance node coverage is too small: {len(provenance_nodes)}")
+
+    source_ref_issues = []
+    referenced_profile_ids = set()
+    for node in provenance_nodes:
+        metadata = node.get("metadata", {})
+        source_refs = metadata.get("source_refs", [])
+        if metadata.get("provenance_count") != len(source_refs):
+            source_ref_issues.append(f"{node['id']} provenance_count mismatch")
+        for ref in source_refs:
+            missing_keys = sorted(key for key in REQUIRED_SOURCE_REF_KEYS if not ref.get(key))
+            if missing_keys:
+                source_ref_issues.append(f"{node['id']} missing source ref keys {missing_keys}")
+                continue
+            referenced_profile_ids.add(str(ref["profile_id"]))
+    if source_ref_issues:
+        raise SystemExit(f"invalid source refs: {source_ref_issues[:5]}")
+
+    missing_profile_refs = sorted(imported_profile_ids - referenced_profile_ids)
+    if missing_profile_refs:
+        raise SystemExit(f"imported profiles not attached to any compiled node: {missing_profile_refs}")
+
     print("graph validation passed")
     print(f"nodes={len(graph.nodes)} edges={len(graph.edges)} evidence_nodes={evidence_count} roles={role_count}")
     print(f"reachable_nodes={len(reachable)} topological_order={len(graph.topological_order)} directions={len(direction_ids)}")
-    print(f"role_families={len(role_families)}")
+    print(f"role_families={len(role_families)} imported_profiles={len(imported_profiles)} provenance_nodes={len(provenance_nodes)}")
 
 
 if __name__ == "__main__":

@@ -111,6 +111,19 @@ python3 scripts/run_nl_benchmark.py
 - 图谱统计信息
 - 示例请求
 
+`POST /api/recommend` 还会返回可直接用于展示 provenance 的字段：
+
+- `recommendations[*].source_refs`
+  - 当前职业节点绑定的外部职业画像来源
+- `recommendations[*].provenance_count`
+  - 当前职业节点命中的来源条数
+- `propagation_snapshot.nodes[*].metadata.source_refs`
+  - 传播图节点详情中的来源锚点
+- `graph_stats.source_profile_count`
+  - 已接入的外部职业画像数量
+- `graph_stats.nodes_with_provenance`
+  - 编译后带来源锚点的节点数量
+
 ## 工作台流程
 
 1. 用户输入自然语言和结构化信号。
@@ -118,6 +131,24 @@ python3 scripts/run_nl_benchmark.py
 3. 用户在“节点确认”面板里微调节点分值。
 4. 前端使用确认后的节点再次调用 `/api/recommend`。
 5. 页面展示职业排序、关键路径、限制项和传播图。
+
+## 真实来源数据
+
+项目当前接入了公开职业画像来源，并把来源信息编译进知识图谱节点元数据：
+
+- 原始快照：`data/sources/raw/onet_profiles.json`
+- 来源清洗结果：`data/sources/imported_profiles.json`
+- 导入脚本：`scripts/import_external_profiles.py`
+
+刷新来源数据的推荐命令顺序：
+
+```bash
+python3 scripts/import_external_profiles.py
+python3 scripts/build_graph.py
+python3 scripts/validate_graph.py
+```
+
+前端工作台会在推荐卡片和传播图节点详情中展示这些来源锚点，便于课程演示时说明“为什么这些岗位和节点被建进图谱”。
 
 ## 推荐链路
 

@@ -8,9 +8,9 @@
     "description": "Python 编程技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -22,9 +22,9 @@
     "description": "Java 编程技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -36,9 +36,9 @@
     "description": "C++ 编程技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -50,9 +50,9 @@
     "description": "C 语言编程技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -64,9 +64,9 @@
     "description": "JavaScript 编程技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -78,9 +78,9 @@
     "description": "TypeScript 编程技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -92,9 +92,9 @@
     "description": "Go 编程技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -106,9 +106,9 @@
     "description": "Rust 编程技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -120,9 +120,9 @@
     "description": "SQL 查询与建模技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -134,9 +134,9 @@
     "description": "Shell 与 Bash 脚本技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -148,9 +148,9 @@
     "description": "Kotlin 开发技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -162,9 +162,9 @@
     "description": "Swift 开发技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -176,9 +176,9 @@
     "description": "C# 开发技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -190,9 +190,9 @@
     "description": "PHP 开发技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -204,9 +204,9 @@
     "description": "Dart 语言技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -218,9 +218,9 @@
     "description": "Scala 语言技能。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "skill",
-      "origin": "curated"
+      "category": "skill"
     }
   },
   {
@@ -232,9 +232,9 @@
     "description": "Flask 后端框架经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -246,9 +246,9 @@
     "description": "Django 后端框架经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -260,9 +260,9 @@
     "description": "FastAPI 服务开发经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -274,9 +274,9 @@
     "description": "Spring Boot 服务开发经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -288,9 +288,9 @@
     "description": "Java ORM 与数据访问经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -302,9 +302,9 @@
     "description": "Node.js 服务端运行时经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -316,9 +316,9 @@
     "description": "Express 服务开发经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -330,9 +330,9 @@
     "description": "NestJS 服务开发经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -344,9 +344,9 @@
     "description": "Gin Web 框架经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -358,9 +358,9 @@
     "description": "Echo Web 框架经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -372,9 +372,9 @@
     "description": "Laravel 服务开发经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -386,9 +386,9 @@
     "description": ".NET 服务开发经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -400,9 +400,9 @@
     "description": "React 前端框架经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -414,9 +414,9 @@
     "description": "Vue 前端框架经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -428,9 +428,9 @@
     "description": "Next.js 全栈框架经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -442,9 +442,9 @@
     "description": "Android Studio 开发工具经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -456,9 +456,9 @@
     "description": "Xcode 开发工具经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -470,9 +470,9 @@
     "description": "Flutter 跨端开发经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -484,9 +484,9 @@
     "description": "Linux 使用与运维经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -498,9 +498,9 @@
     "description": "Docker 容器化经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -512,9 +512,9 @@
     "description": "Kubernetes 编排经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -526,9 +526,9 @@
     "description": "Git 版本控制经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -540,9 +540,9 @@
     "description": "GitHub Actions 流水线经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -554,9 +554,9 @@
     "description": "Jenkins 流水线经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -568,9 +568,9 @@
     "description": "Terraform IaC 经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -582,9 +582,9 @@
     "description": "Nginx 网关与代理经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -596,9 +596,9 @@
     "description": "MySQL 数据库经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -610,9 +610,9 @@
     "description": "PostgreSQL 数据库经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -624,9 +624,9 @@
     "description": "Redis 缓存经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -638,9 +638,9 @@
     "description": "MongoDB 文档数据库经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -652,9 +652,9 @@
     "description": "Elasticsearch 搜索与检索经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -666,9 +666,9 @@
     "description": "ClickHouse OLAP 引擎经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -680,9 +680,9 @@
     "description": "Hive 数据仓库经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -694,9 +694,9 @@
     "description": "Snowflake 数仓平台经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -708,9 +708,9 @@
     "description": "Pandas 数据处理经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -722,9 +722,9 @@
     "description": "NumPy 科学计算经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -736,9 +736,9 @@
     "description": "Spark 批处理经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -750,9 +750,9 @@
     "description": "Hadoop 生态经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -764,9 +764,9 @@
     "description": "Flink 实时计算经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -778,9 +778,9 @@
     "description": "Kafka 消息流经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -792,9 +792,9 @@
     "description": "Airflow 调度经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -806,9 +806,9 @@
     "description": "dbt 数仓建模经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -820,9 +820,9 @@
     "description": "Superset 数据可视化经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -834,9 +834,9 @@
     "description": "PyTorch 模型开发经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -848,9 +848,9 @@
     "description": "TensorFlow 模型开发经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -862,9 +862,9 @@
     "description": "Scikit-learn 建模经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -876,9 +876,9 @@
     "description": "OpenCV 视觉处理经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -890,9 +890,9 @@
     "description": "MLflow 模型实验与追踪经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -904,9 +904,9 @@
     "description": "Ray 分布式训练经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -918,9 +918,9 @@
     "description": "Selenium 自动化测试经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -932,9 +932,9 @@
     "description": "Pytest 自动化测试经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -946,9 +946,9 @@
     "description": "JMeter 性能测试经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -960,9 +960,9 @@
     "description": "Prometheus 指标监控经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -974,9 +974,9 @@
     "description": "Grafana 仪表盘经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -988,9 +988,9 @@
     "description": "Wireshark 抓包分析经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -1002,9 +1002,9 @@
     "description": "Nmap 扫描经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -1016,9 +1016,9 @@
     "description": "Burp Suite 应用安全测试经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -1030,9 +1030,9 @@
     "description": "AWS 云平台经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -1044,9 +1044,9 @@
     "description": "阿里云平台经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -1058,9 +1058,9 @@
     "description": "Google Cloud 平台经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -1072,9 +1072,9 @@
     "description": "Azure 云平台经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "tool",
-      "origin": "curated"
+      "category": "tool"
     }
   },
   {
@@ -1086,9 +1086,9 @@
     "description": "数据结构理论基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1100,9 +1100,9 @@
     "description": "算法设计与复杂度基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1114,9 +1114,9 @@
     "description": "面向对象设计基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1128,9 +1128,9 @@
     "description": "数据库原理基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1142,9 +1142,9 @@
     "description": "操作系统基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1156,9 +1156,9 @@
     "description": "计算机网络基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1170,9 +1170,9 @@
     "description": "统计学基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1184,9 +1184,9 @@
     "description": "线性代数基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1198,9 +1198,9 @@
     "description": "概率论基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1212,9 +1212,9 @@
     "description": "系统设计基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1226,9 +1226,9 @@
     "description": "数学基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1240,9 +1240,9 @@
     "description": "分布式系统基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1254,9 +1254,9 @@
     "description": "微服务架构设计知识。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1268,9 +1268,9 @@
     "description": "数仓建模知识。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1282,9 +1282,9 @@
     "description": "ETL 建模与调度知识。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1296,9 +1296,9 @@
     "description": "实验设计与评估知识。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1310,9 +1310,9 @@
     "description": "密码学基础知识。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1324,9 +1324,9 @@
     "description": "安全编码知识。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1338,9 +1338,9 @@
     "description": "界面交互基础知识。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1352,9 +1352,9 @@
     "description": "移动端架构知识。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1366,9 +1366,9 @@
     "description": "嵌入式通信协议基础。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1380,9 +1380,9 @@
     "description": "硬件调试基础知识。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "knowledge",
-      "origin": "curated"
+      "category": "knowledge"
     }
   },
   {
@@ -1394,9 +1394,9 @@
     "description": "后端接口项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1408,9 +1408,9 @@
     "description": "微服务项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1422,9 +1422,9 @@
     "description": "低延迟服务项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1436,9 +1436,9 @@
     "description": "网关与服务治理项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1450,9 +1450,9 @@
     "description": "Web 前端项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1464,9 +1464,9 @@
     "description": "组件库与设计系统项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1478,9 +1478,9 @@
     "description": "移动应用项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1492,9 +1492,9 @@
     "description": "跨端应用项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1506,9 +1506,9 @@
     "description": "数据管道项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1520,9 +1520,9 @@
     "description": "实时链路项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1534,9 +1534,9 @@
     "description": "分析看板项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1548,9 +1548,9 @@
     "description": "实验平台项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1562,9 +1562,9 @@
     "description": "模型训练项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1576,9 +1576,9 @@
     "description": "模型部署项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1590,9 +1590,9 @@
     "description": "推荐系统项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1604,9 +1604,9 @@
     "description": "测试自动化项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1618,9 +1618,9 @@
     "description": "性能压测项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1632,9 +1632,9 @@
     "description": "运维自动化项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1646,9 +1646,9 @@
     "description": "CI/CD 平台项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1660,9 +1660,9 @@
     "description": "安全实战项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1674,9 +1674,9 @@
     "description": "安全监测与告警项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1688,9 +1688,9 @@
     "description": "应用加固项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1702,9 +1702,9 @@
     "description": "平台门户项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1716,9 +1716,9 @@
     "description": "可观测平台项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1730,9 +1730,9 @@
     "description": "IoT 网关项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1744,9 +1744,9 @@
     "description": "固件交付项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1758,9 +1758,9 @@
     "description": "数据仓库项目经验。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "project",
-      "origin": "curated"
+      "category": "project"
     }
   },
   {
@@ -1772,9 +1772,9 @@
     "description": "后端方向偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1786,9 +1786,9 @@
     "description": "前端方向偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1800,9 +1800,9 @@
     "description": "数据方向偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1814,9 +1814,9 @@
     "description": "机器学习方向偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1828,9 +1828,9 @@
     "description": "DevOps 与平台方向偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1842,9 +1842,9 @@
     "description": "安全方向偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1856,9 +1856,9 @@
     "description": "稳定交付偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1870,9 +1870,9 @@
     "description": "可视化表达偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1884,9 +1884,9 @@
     "description": "移动端方向偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1898,9 +1898,9 @@
     "description": "客户端体验偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1912,9 +1912,9 @@
     "description": "基础设施自动化偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1926,9 +1926,9 @@
     "description": "研究探索偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1940,9 +1940,9 @@
     "description": "底层系统偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1954,9 +1954,9 @@
     "description": "产品落地偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1968,9 +1968,9 @@
     "description": "可靠性方向偏好。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "interest",
-      "origin": "curated"
+      "category": "interest"
     }
   },
   {
@@ -1982,9 +1982,9 @@
     "description": "沟通表达能力。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "soft_skill",
-      "origin": "curated"
+      "category": "soft_skill"
     }
   },
   {
@@ -1996,9 +1996,9 @@
     "description": "团队协作能力。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "soft_skill",
-      "origin": "curated"
+      "category": "soft_skill"
     }
   },
   {
@@ -2010,9 +2010,9 @@
     "description": "自主学习能力。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "soft_skill",
-      "origin": "curated"
+      "category": "soft_skill"
     }
   },
   {
@@ -2024,9 +2024,9 @@
     "description": "文档习惯。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "soft_skill",
-      "origin": "curated"
+      "category": "soft_skill"
     }
   },
   {
@@ -2038,9 +2038,9 @@
     "description": "对系统结果负责的意识。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "soft_skill",
-      "origin": "curated"
+      "category": "soft_skill"
     }
   },
   {
@@ -2052,9 +2052,9 @@
     "description": "问题拆解能力。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "soft_skill",
-      "origin": "curated"
+      "category": "soft_skill"
     }
   },
   {
@@ -2066,9 +2066,9 @@
     "description": "业务理解能力。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "soft_skill",
-      "origin": "curated"
+      "category": "soft_skill"
     }
   },
   {
@@ -2080,9 +2080,9 @@
     "description": "知识分享与带教能力。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "soft_skill",
-      "origin": "curated"
+      "category": "soft_skill"
     }
   },
   {
@@ -2094,9 +2094,9 @@
     "description": "数学理论短板。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "constraint",
-      "origin": "curated"
+      "category": "constraint"
     }
   },
   {
@@ -2108,9 +2108,9 @@
     "description": "抗拒 on-call 值班。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "constraint",
-      "origin": "curated"
+      "category": "constraint"
     }
   },
   {
@@ -2122,9 +2122,9 @@
     "description": "不偏好界面细节打磨。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "constraint",
-      "origin": "curated"
+      "category": "constraint"
     }
   },
   {
@@ -2136,9 +2136,9 @@
     "description": "不偏好重复性测试工作。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "constraint",
-      "origin": "curated"
+      "category": "constraint"
     }
   },
   {
@@ -2150,9 +2150,9 @@
     "description": "不偏好高不确定性研究工作。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "constraint",
-      "origin": "curated"
+      "category": "constraint"
     }
   },
   {
@@ -2164,9 +2164,9 @@
     "description": "不偏好底层调试。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "constraint",
-      "origin": "curated"
+      "category": "constraint"
     }
   },
   {
@@ -2178,9 +2178,9 @@
     "description": "不偏好高频业务沟通。",
     "params": {},
     "metadata": {
+      "origin": "curated",
       "source_file": "skills.json",
-      "category": "constraint",
-      "origin": "curated"
+      "category": "constraint"
     }
   },
   {
@@ -2194,6 +2194,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2209,6 +2210,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2226,6 +2228,7 @@
       "required_floor": 0.55
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2241,6 +2244,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2256,6 +2260,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2271,6 +2276,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2286,6 +2292,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2301,6 +2308,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2316,6 +2324,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2331,6 +2340,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2346,6 +2356,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2361,6 +2372,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2376,6 +2388,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2391,6 +2404,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2406,6 +2420,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2421,6 +2436,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2436,6 +2452,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2451,6 +2468,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2466,6 +2484,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2481,6 +2500,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2496,6 +2516,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2513,6 +2534,7 @@
       "required_floor": 0.35
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2528,6 +2550,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2543,6 +2566,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2558,6 +2582,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2573,6 +2598,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2588,6 +2614,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2603,6 +2630,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2618,6 +2646,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2633,6 +2662,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2648,6 +2678,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2663,6 +2694,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2678,6 +2710,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2693,6 +2726,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2708,6 +2742,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2723,6 +2758,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2738,6 +2774,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2753,6 +2790,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2768,6 +2806,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2783,6 +2822,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2798,6 +2838,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2813,6 +2854,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2828,6 +2870,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2843,6 +2886,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2858,6 +2902,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "ability"
     }
@@ -2874,8 +2919,27 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1252.00",
+          "source_title": "15-1252.00 - Software Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1252.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Research, design, and develop computer and network software or specialized utility programs. Analyze user needs and develop software solutions, applying principles and techniques of computer science, engineering, and mathematical analysis. Update software or enhance existing software capabilities. May work with computer hardware engineers to integrate hardware and software systems, and develop specifications and performance requirements. May maintain databases within an application area, working individually or coordinating database development as part of a team.",
+          "sample_job_titles": [
+            "Application Developer",
+            "Application Integration Engineer",
+            "Developer",
+            "DevOps Engineer (Development Operations Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -2890,6 +2954,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -2906,6 +2971,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -2922,6 +2988,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -2938,6 +3005,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -2954,6 +3022,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -2970,8 +3039,27 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "onet_web_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1254.00",
+          "source_title": "15-1254.00 - Web Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1254.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement websites, web applications, application databases, and interactive web interfaces. Evaluate code to ensure that it is properly structured, meets industry standards, and is compatible with browsers and devices. Optimize website performance, scalability, and server-side code and processes. May develop website infrastructure and integrate websites with other computer applications.",
+          "sample_job_titles": [
+            "Technology Applications Engineer",
+            "Web Architect",
+            "Web Design Specialist",
+            "Web Developer"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -2986,6 +3074,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3002,6 +3091,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3018,6 +3108,7 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3034,8 +3125,27 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "onet_database_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1242.00",
+          "source_title": "15-1242.00 - Database Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1242.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Administer, test, and implement computer databases, applying knowledge of database management systems. Coordinate changes to computer databases. Identify, investigate, and resolve database performance issues, database capacity, and database scalability. May plan, coordinate, and implement security measures to safeguard computer databases.",
+          "sample_job_titles": [
+            "Database Administration Manager",
+            "Database Administrator (DBA)",
+            "Database Analyst",
+            "Database Coordinator"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3050,6 +3160,7 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3066,8 +3177,22 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "onet_data_scientists",
+          "source_type": "onet_online",
+          "source_id": "15-2051.00",
+          "source_title": "15-2051.00 - Data Scientists",
+          "source_url": "https://www.onetonline.org/link/summary/15-2051.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
+          "sample_job_titles": []
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3082,8 +3207,22 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "onet_data_scientists",
+          "source_type": "onet_online",
+          "source_id": "15-2051.00",
+          "source_title": "15-2051.00 - Data Scientists",
+          "source_url": "https://www.onetonline.org/link/summary/15-2051.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
+          "sample_job_titles": []
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3098,6 +3237,7 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3114,6 +3254,7 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3130,8 +3271,27 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "onet_network_system_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1244.00",
+          "source_title": "15-1244.00 - Network and Computer Systems Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1244.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Install, configure, and maintain an organization's local area network (LAN), wide area network (WAN), data communications network, operating systems, and physical and virtual servers. Perform system monitoring and verify the integrity and availability of hardware, network, and server resources and systems. Review system and application logs and verify completion of scheduled jobs, including system backups. Analyze network and server resource consumption and control user access. Install and upgrade software and maintain software licenses. May assist in network modeling, analysis, planning, and coordination between network and data communications hardware and software.",
+          "sample_job_titles": [
+            "Information Analyst",
+            "Information Technology Specialist (IT Specialist)",
+            "LAN Specialist (Local Area Network Specialist)",
+            "Local Area Network Administrator (LAN Administrator)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3146,6 +3306,7 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3162,8 +3323,27 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_quality_assurance",
+          "source_type": "onet_online",
+          "source_id": "15-1253.00",
+          "source_title": "15-1253.00 - Software Quality Assurance Analysts and Testers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1253.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and execute software tests to identify software problems and their causes. Test system modifications to prepare for implementation. Document software and application defects using a bug tracking system and report defects to software or web developers. Create and maintain databases of known defects. May participate in software design reviews to provide input on functional requirements, operational characteristics, product designs, and schedules.",
+          "sample_job_titles": [
+            "Automation Tester",
+            "Information Technology Analyst (IT Analyst)",
+            "Quality Assurance Analyst (QA Analyst)",
+            "Quality Assurance Engineer (QA Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3178,8 +3358,27 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "onet_information_security_analysts",
+          "source_type": "onet_online",
+          "source_id": "15-1212.00",
+          "source_title": "15-1212.00 - Information Security Analysts",
+          "source_url": "https://www.onetonline.org/link/summary/15-1212.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Plan, implement, upgrade, or monitor security measures for the protection of computer networks and information. Assess system vulnerabilities for security risks and propose and implement risk mitigation strategies. May ensure appropriate security controls are in place that will safeguard digital files and vital electronic infrastructure. May respond to computer security breaches and viruses.",
+          "sample_job_titles": [
+            "Information Security Officer",
+            "Information Security Specialist",
+            "Information Systems Security Analyst",
+            "Information Systems Security Officer (ISSO)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3194,6 +3393,7 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3210,6 +3410,7 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3226,8 +3427,27 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "composite"
+      "template_group": "composite",
+      "source_refs": [
+        {
+          "profile_id": "onet_network_system_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1244.00",
+          "source_title": "15-1244.00 - Network and Computer Systems Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1244.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Install, configure, and maintain an organization's local area network (LAN), wide area network (WAN), data communications network, operating systems, and physical and virtual servers. Perform system monitoring and verify the integrity and availability of hardware, network, and server resources and systems. Review system and application logs and verify completion of scheduled jobs, including system backups. Analyze network and server resource consumption and control user access. Install and upgrade software and maintain software licenses. May assist in network modeling, analysis, planning, and coordination between network and data communications hardware and software.",
+          "sample_job_titles": [
+            "Information Analyst",
+            "Information Technology Specialist (IT Specialist)",
+            "LAN Specialist (Local Area Network Specialist)",
+            "Local Area Network Administrator (LAN Administrator)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3242,6 +3462,7 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3258,6 +3479,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3274,6 +3496,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3290,6 +3513,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3306,6 +3530,7 @@
       "required_threshold": 0.08
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3322,6 +3547,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "composite"
     }
@@ -3339,8 +3565,27 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1252.00",
+          "source_title": "15-1252.00 - Software Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1252.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Research, design, and develop computer and network software or specialized utility programs. Analyze user needs and develop software solutions, applying principles and techniques of computer science, engineering, and mathematical analysis. Update software or enhance existing software capabilities. May work with computer hardware engineers to integrate hardware and software systems, and develop specifications and performance requirements. May maintain databases within an application area, working individually or coordinating database development as part of a team.",
+          "sample_job_titles": [
+            "Application Developer",
+            "Application Integration Engineer",
+            "Developer",
+            "DevOps Engineer (Development Operations Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3356,8 +3601,27 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "onet_web_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1254.00",
+          "source_title": "15-1254.00 - Web Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1254.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement websites, web applications, application databases, and interactive web interfaces. Evaluate code to ensure that it is properly structured, meets industry standards, and is compatible with browsers and devices. Optimize website performance, scalability, and server-side code and processes. May develop website infrastructure and integrate websites with other computer applications.",
+          "sample_job_titles": [
+            "Technology Applications Engineer",
+            "Web Architect",
+            "Web Design Specialist",
+            "Web Developer"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3373,8 +3637,27 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1252.00",
+          "source_title": "15-1252.00 - Software Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1252.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Research, design, and develop computer and network software or specialized utility programs. Analyze user needs and develop software solutions, applying principles and techniques of computer science, engineering, and mathematical analysis. Update software or enhance existing software capabilities. May work with computer hardware engineers to integrate hardware and software systems, and develop specifications and performance requirements. May maintain databases within an application area, working individually or coordinating database development as part of a team.",
+          "sample_job_titles": [
+            "Application Developer",
+            "Application Integration Engineer",
+            "Developer",
+            "DevOps Engineer (Development Operations Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3390,8 +3673,27 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "onet_database_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1242.00",
+          "source_title": "15-1242.00 - Database Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1242.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Administer, test, and implement computer databases, applying knowledge of database management systems. Coordinate changes to computer databases. Identify, investigate, and resolve database performance issues, database capacity, and database scalability. May plan, coordinate, and implement security measures to safeguard computer databases.",
+          "sample_job_titles": [
+            "Database Administration Manager",
+            "Database Administrator (DBA)",
+            "Database Analyst",
+            "Database Coordinator"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3407,8 +3709,22 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "onet_data_scientists",
+          "source_type": "onet_online",
+          "source_id": "15-2051.00",
+          "source_title": "15-2051.00 - Data Scientists",
+          "source_url": "https://www.onetonline.org/link/summary/15-2051.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
+          "sample_job_titles": []
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3424,8 +3740,22 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "onet_data_scientists",
+          "source_type": "onet_online",
+          "source_id": "15-2051.00",
+          "source_title": "15-2051.00 - Data Scientists",
+          "source_url": "https://www.onetonline.org/link/summary/15-2051.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
+          "sample_job_titles": []
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3441,6 +3771,7 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "direction"
     }
@@ -3458,8 +3789,27 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "onet_network_system_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1244.00",
+          "source_title": "15-1244.00 - Network and Computer Systems Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1244.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Install, configure, and maintain an organization's local area network (LAN), wide area network (WAN), data communications network, operating systems, and physical and virtual servers. Perform system monitoring and verify the integrity and availability of hardware, network, and server resources and systems. Review system and application logs and verify completion of scheduled jobs, including system backups. Analyze network and server resource consumption and control user access. Install and upgrade software and maintain software licenses. May assist in network modeling, analysis, planning, and coordination between network and data communications hardware and software.",
+          "sample_job_titles": [
+            "Information Analyst",
+            "Information Technology Specialist (IT Specialist)",
+            "LAN Specialist (Local Area Network Specialist)",
+            "Local Area Network Administrator (LAN Administrator)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3475,8 +3825,27 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "onet_network_system_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1244.00",
+          "source_title": "15-1244.00 - Network and Computer Systems Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1244.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Install, configure, and maintain an organization's local area network (LAN), wide area network (WAN), data communications network, operating systems, and physical and virtual servers. Perform system monitoring and verify the integrity and availability of hardware, network, and server resources and systems. Review system and application logs and verify completion of scheduled jobs, including system backups. Analyze network and server resource consumption and control user access. Install and upgrade software and maintain software licenses. May assist in network modeling, analysis, planning, and coordination between network and data communications hardware and software.",
+          "sample_job_titles": [
+            "Information Analyst",
+            "Information Technology Specialist (IT Specialist)",
+            "LAN Specialist (Local Area Network Specialist)",
+            "Local Area Network Administrator (LAN Administrator)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3492,8 +3861,27 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_quality_assurance",
+          "source_type": "onet_online",
+          "source_id": "15-1253.00",
+          "source_title": "15-1253.00 - Software Quality Assurance Analysts and Testers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1253.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and execute software tests to identify software problems and their causes. Test system modifications to prepare for implementation. Document software and application defects using a bug tracking system and report defects to software or web developers. Create and maintain databases of known defects. May participate in software design reviews to provide input on functional requirements, operational characteristics, product designs, and schedules.",
+          "sample_job_titles": [
+            "Automation Tester",
+            "Information Technology Analyst (IT Analyst)",
+            "Quality Assurance Analyst (QA Analyst)",
+            "Quality Assurance Engineer (QA Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3509,8 +3897,27 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "onet_information_security_analysts",
+          "source_type": "onet_online",
+          "source_id": "15-1212.00",
+          "source_title": "15-1212.00 - Information Security Analysts",
+          "source_url": "https://www.onetonline.org/link/summary/15-1212.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Plan, implement, upgrade, or monitor security measures for the protection of computer networks and information. Assess system vulnerabilities for security risks and propose and implement risk mitigation strategies. May ensure appropriate security controls are in place that will safeguard digital files and vital electronic infrastructure. May respond to computer security breaches and viruses.",
+          "sample_job_titles": [
+            "Information Security Officer",
+            "Information Security Specialist",
+            "Information Systems Security Analyst",
+            "Information Systems Security Officer (ISSO)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3526,8 +3933,27 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "capability_templates.json",
-      "template_group": "direction"
+      "template_group": "direction",
+      "source_refs": [
+        {
+          "profile_id": "onet_network_system_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1244.00",
+          "source_title": "15-1244.00 - Network and Computer Systems Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1244.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Install, configure, and maintain an organization's local area network (LAN), wide area network (WAN), data communications network, operating systems, and physical and virtual servers. Perform system monitoring and verify the integrity and availability of hardware, network, and server resources and systems. Review system and application logs and verify completion of scheduled jobs, including system backups. Analyze network and server resource consumption and control user access. Install and upgrade software and maintain software licenses. May assist in network modeling, analysis, planning, and coordination between network and data communications hardware and software.",
+          "sample_job_titles": [
+            "Information Analyst",
+            "Information Technology Specialist (IT Specialist)",
+            "LAN Specialist (Local Area Network Specialist)",
+            "Local Area Network Administrator (LAN Administrator)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3543,6 +3969,7 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "direction"
     }
@@ -3560,6 +3987,7 @@
       "penalty_floor": 0.45
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "capability_templates.json",
       "template_group": "direction"
     }
@@ -3576,9 +4004,28 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "backend"
+      "family": "backend",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1252.00",
+          "source_title": "15-1252.00 - Software Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1252.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Research, design, and develop computer and network software or specialized utility programs. Analyze user needs and develop software solutions, applying principles and techniques of computer science, engineering, and mathematical analysis. Update software or enhance existing software capabilities. May work with computer hardware engineers to integrate hardware and software systems, and develop specifications and performance requirements. May maintain databases within an application area, working individually or coordinating database development as part of a team.",
+          "sample_job_titles": [
+            "Application Developer",
+            "Application Integration Engineer",
+            "Developer",
+            "DevOps Engineer (Development Operations Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3593,9 +4040,28 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "backend"
+      "family": "backend",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1252.00",
+          "source_title": "15-1252.00 - Software Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1252.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Research, design, and develop computer and network software or specialized utility programs. Analyze user needs and develop software solutions, applying principles and techniques of computer science, engineering, and mathematical analysis. Update software or enhance existing software capabilities. May work with computer hardware engineers to integrate hardware and software systems, and develop specifications and performance requirements. May maintain databases within an application area, working individually or coordinating database development as part of a team.",
+          "sample_job_titles": [
+            "Application Developer",
+            "Application Integration Engineer",
+            "Developer",
+            "DevOps Engineer (Development Operations Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3610,9 +4076,28 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "backend"
+      "family": "backend",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1252.00",
+          "source_title": "15-1252.00 - Software Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1252.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Research, design, and develop computer and network software or specialized utility programs. Analyze user needs and develop software solutions, applying principles and techniques of computer science, engineering, and mathematical analysis. Update software or enhance existing software capabilities. May work with computer hardware engineers to integrate hardware and software systems, and develop specifications and performance requirements. May maintain databases within an application area, working individually or coordinating database development as part of a team.",
+          "sample_job_titles": [
+            "Application Developer",
+            "Application Integration Engineer",
+            "Developer",
+            "DevOps Engineer (Development Operations Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3627,9 +4112,28 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "frontend"
+      "family": "frontend",
+      "source_refs": [
+        {
+          "profile_id": "onet_web_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1254.00",
+          "source_title": "15-1254.00 - Web Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1254.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement websites, web applications, application databases, and interactive web interfaces. Evaluate code to ensure that it is properly structured, meets industry standards, and is compatible with browsers and devices. Optimize website performance, scalability, and server-side code and processes. May develop website infrastructure and integrate websites with other computer applications.",
+          "sample_job_titles": [
+            "Technology Applications Engineer",
+            "Web Architect",
+            "Web Design Specialist",
+            "Web Developer"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3644,9 +4148,28 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "fullstack"
+      "family": "fullstack",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1252.00",
+          "source_title": "15-1252.00 - Software Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1252.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Research, design, and develop computer and network software or specialized utility programs. Analyze user needs and develop software solutions, applying principles and techniques of computer science, engineering, and mathematical analysis. Update software or enhance existing software capabilities. May work with computer hardware engineers to integrate hardware and software systems, and develop specifications and performance requirements. May maintain databases within an application area, working individually or coordinating database development as part of a team.",
+          "sample_job_titles": [
+            "Application Developer",
+            "Application Integration Engineer",
+            "Developer",
+            "DevOps Engineer (Development Operations Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3661,9 +4184,28 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "data"
+      "family": "data",
+      "source_refs": [
+        {
+          "profile_id": "onet_database_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1242.00",
+          "source_title": "15-1242.00 - Database Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1242.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Administer, test, and implement computer databases, applying knowledge of database management systems. Coordinate changes to computer databases. Identify, investigate, and resolve database performance issues, database capacity, and database scalability. May plan, coordinate, and implement security measures to safeguard computer databases.",
+          "sample_job_titles": [
+            "Database Administration Manager",
+            "Database Administrator (DBA)",
+            "Database Analyst",
+            "Database Coordinator"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3678,9 +4220,23 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "data"
+      "family": "data",
+      "source_refs": [
+        {
+          "profile_id": "onet_data_scientists",
+          "source_type": "onet_online",
+          "source_id": "15-2051.00",
+          "source_title": "15-2051.00 - Data Scientists",
+          "source_url": "https://www.onetonline.org/link/summary/15-2051.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
+          "sample_job_titles": []
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3695,9 +4251,23 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "ml"
+      "family": "ml",
+      "source_refs": [
+        {
+          "profile_id": "onet_data_scientists",
+          "source_type": "onet_online",
+          "source_id": "15-2051.00",
+          "source_title": "15-2051.00 - Data Scientists",
+          "source_url": "https://www.onetonline.org/link/summary/15-2051.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
+          "sample_job_titles": []
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3712,6 +4282,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "standalone",
       "family": "ml"
@@ -3729,9 +4300,28 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "devops"
+      "family": "devops",
+      "source_refs": [
+        {
+          "profile_id": "onet_network_system_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1244.00",
+          "source_title": "15-1244.00 - Network and Computer Systems Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1244.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Install, configure, and maintain an organization's local area network (LAN), wide area network (WAN), data communications network, operating systems, and physical and virtual servers. Perform system monitoring and verify the integrity and availability of hardware, network, and server resources and systems. Review system and application logs and verify completion of scheduled jobs, including system backups. Analyze network and server resource consumption and control user access. Install and upgrade software and maintain software licenses. May assist in network modeling, analysis, planning, and coordination between network and data communications hardware and software.",
+          "sample_job_titles": [
+            "Information Analyst",
+            "Information Technology Specialist (IT Specialist)",
+            "LAN Specialist (Local Area Network Specialist)",
+            "Local Area Network Administrator (LAN Administrator)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3746,9 +4336,28 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "devops"
+      "family": "devops",
+      "source_refs": [
+        {
+          "profile_id": "onet_network_system_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1244.00",
+          "source_title": "15-1244.00 - Network and Computer Systems Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1244.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Install, configure, and maintain an organization's local area network (LAN), wide area network (WAN), data communications network, operating systems, and physical and virtual servers. Perform system monitoring and verify the integrity and availability of hardware, network, and server resources and systems. Review system and application logs and verify completion of scheduled jobs, including system backups. Analyze network and server resource consumption and control user access. Install and upgrade software and maintain software licenses. May assist in network modeling, analysis, planning, and coordination between network and data communications hardware and software.",
+          "sample_job_titles": [
+            "Information Analyst",
+            "Information Technology Specialist (IT Specialist)",
+            "LAN Specialist (Local Area Network Specialist)",
+            "Local Area Network Administrator (LAN Administrator)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3763,9 +4372,28 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "qa"
+      "family": "qa",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_quality_assurance",
+          "source_type": "onet_online",
+          "source_id": "15-1253.00",
+          "source_title": "15-1253.00 - Software Quality Assurance Analysts and Testers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1253.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and execute software tests to identify software problems and their causes. Test system modifications to prepare for implementation. Document software and application defects using a bug tracking system and report defects to software or web developers. Create and maintain databases of known defects. May participate in software design reviews to provide input on functional requirements, operational characteristics, product designs, and schedules.",
+          "sample_job_titles": [
+            "Automation Tester",
+            "Information Technology Analyst (IT Analyst)",
+            "Quality Assurance Analyst (QA Analyst)",
+            "Quality Assurance Engineer (QA Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3780,9 +4408,28 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "security"
+      "family": "security",
+      "source_refs": [
+        {
+          "profile_id": "onet_information_security_analysts",
+          "source_type": "onet_online",
+          "source_id": "15-1212.00",
+          "source_title": "15-1212.00 - Information Security Analysts",
+          "source_url": "https://www.onetonline.org/link/summary/15-1212.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Plan, implement, upgrade, or monitor security measures for the protection of computer networks and information. Assess system vulnerabilities for security risks and propose and implement risk mitigation strategies. May ensure appropriate security controls are in place that will safeguard digital files and vital electronic infrastructure. May respond to computer security breaches and viruses.",
+          "sample_job_titles": [
+            "Information Security Officer",
+            "Information Security Specialist",
+            "Information Systems Security Analyst",
+            "Information Systems Security Officer (ISSO)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3797,9 +4444,28 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "standalone",
-      "family": "platform"
+      "family": "platform",
+      "source_refs": [
+        {
+          "profile_id": "onet_network_system_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1244.00",
+          "source_title": "15-1244.00 - Network and Computer Systems Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1244.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Install, configure, and maintain an organization's local area network (LAN), wide area network (WAN), data communications network, operating systems, and physical and virtual servers. Perform system monitoring and verify the integrity and availability of hardware, network, and server resources and systems. Review system and application logs and verify completion of scheduled jobs, including system backups. Analyze network and server resource consumption and control user access. Install and upgrade software and maintain software licenses. May assist in network modeling, analysis, planning, and coordination between network and data communications hardware and software.",
+          "sample_job_titles": [
+            "Information Analyst",
+            "Information Technology Specialist (IT Specialist)",
+            "LAN Specialist (Local Area Network Specialist)",
+            "Local Area Network Administrator (LAN Administrator)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3814,6 +4480,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "standalone",
       "family": "mobile"
@@ -3831,6 +4498,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "standalone",
       "family": "embedded"
@@ -3847,6 +4515,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -3865,6 +4534,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -3883,10 +4553,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1252.00",
+          "source_title": "15-1252.00 - Software Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1252.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Research, design, and develop computer and network software or specialized utility programs. Analyze user needs and develop software solutions, applying principles and techniques of computer science, engineering, and mathematical analysis. Update software or enhance existing software capabilities. May work with computer hardware engineers to integrate hardware and software systems, and develop specifications and performance requirements. May maintain databases within an application area, working individually or coordinating database development as part of a team.",
+          "sample_job_titles": [
+            "Application Developer",
+            "Application Integration Engineer",
+            "Developer",
+            "DevOps Engineer (Development Operations Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3900,6 +4589,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -3918,6 +4608,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -3936,10 +4627,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1252.00",
+          "source_title": "15-1252.00 - Software Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1252.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Research, design, and develop computer and network software or specialized utility programs. Analyze user needs and develop software solutions, applying principles and techniques of computer science, engineering, and mathematical analysis. Update software or enhance existing software capabilities. May work with computer hardware engineers to integrate hardware and software systems, and develop specifications and performance requirements. May maintain databases within an application area, working individually or coordinating database development as part of a team.",
+          "sample_job_titles": [
+            "Application Developer",
+            "Application Integration Engineer",
+            "Developer",
+            "DevOps Engineer (Development Operations Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -3953,6 +4663,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -3971,6 +4682,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -3989,6 +4701,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -4006,6 +4719,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -4024,6 +4738,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -4042,6 +4757,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -4059,6 +4775,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -4077,6 +4794,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -4095,6 +4813,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -4112,6 +4831,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -4130,6 +4850,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -4148,6 +4869,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "backend",
@@ -4165,6 +4887,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "frontend",
@@ -4183,6 +4906,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "frontend",
@@ -4201,10 +4925,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "frontend",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_web_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1254.00",
+          "source_title": "15-1254.00 - Web Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1254.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement websites, web applications, application databases, and interactive web interfaces. Evaluate code to ensure that it is properly structured, meets industry standards, and is compatible with browsers and devices. Optimize website performance, scalability, and server-side code and processes. May develop website infrastructure and integrate websites with other computer applications.",
+          "sample_job_titles": [
+            "Technology Applications Engineer",
+            "Web Architect",
+            "Web Design Specialist",
+            "Web Developer"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -4218,6 +4961,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "frontend",
@@ -4236,6 +4980,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "frontend",
@@ -4254,10 +4999,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "frontend",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_web_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1254.00",
+          "source_title": "15-1254.00 - Web Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1254.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement websites, web applications, application databases, and interactive web interfaces. Evaluate code to ensure that it is properly structured, meets industry standards, and is compatible with browsers and devices. Optimize website performance, scalability, and server-side code and processes. May develop website infrastructure and integrate websites with other computer applications.",
+          "sample_job_titles": [
+            "Technology Applications Engineer",
+            "Web Architect",
+            "Web Design Specialist",
+            "Web Developer"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -4271,6 +5035,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "frontend",
@@ -4289,6 +5054,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "frontend",
@@ -4307,10 +5073,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "frontend",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_web_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1254.00",
+          "source_title": "15-1254.00 - Web Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1254.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement websites, web applications, application databases, and interactive web interfaces. Evaluate code to ensure that it is properly structured, meets industry standards, and is compatible with browsers and devices. Optimize website performance, scalability, and server-side code and processes. May develop website infrastructure and integrate websites with other computer applications.",
+          "sample_job_titles": [
+            "Technology Applications Engineer",
+            "Web Architect",
+            "Web Design Specialist",
+            "Web Developer"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -4324,6 +5109,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
@@ -4342,6 +5128,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
@@ -4360,6 +5147,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
@@ -4377,6 +5165,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
@@ -4395,6 +5184,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
@@ -4413,6 +5203,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
@@ -4430,6 +5221,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
@@ -4448,6 +5240,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
@@ -4466,6 +5259,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "mobile",
@@ -4483,6 +5277,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4501,6 +5296,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4519,10 +5315,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_database_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1242.00",
+          "source_title": "15-1242.00 - Database Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1242.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Administer, test, and implement computer databases, applying knowledge of database management systems. Coordinate changes to computer databases. Identify, investigate, and resolve database performance issues, database capacity, and database scalability. May plan, coordinate, and implement security measures to safeguard computer databases.",
+          "sample_job_titles": [
+            "Database Administration Manager",
+            "Database Administrator (DBA)",
+            "Database Analyst",
+            "Database Coordinator"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -4536,6 +5351,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4554,6 +5370,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4572,6 +5389,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4589,6 +5407,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4607,6 +5426,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4625,10 +5445,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_database_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1242.00",
+          "source_title": "15-1242.00 - Database Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1242.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Administer, test, and implement computer databases, applying knowledge of database management systems. Coordinate changes to computer databases. Identify, investigate, and resolve database performance issues, database capacity, and database scalability. May plan, coordinate, and implement security measures to safeguard computer databases.",
+          "sample_job_titles": [
+            "Database Administration Manager",
+            "Database Administrator (DBA)",
+            "Database Analyst",
+            "Database Coordinator"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -4642,6 +5481,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4660,6 +5500,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4678,6 +5519,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4695,6 +5537,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4713,6 +5556,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4731,6 +5575,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "data",
@@ -4748,6 +5593,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -4766,6 +5612,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -4784,6 +5631,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -4801,6 +5649,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -4819,6 +5668,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -4837,6 +5687,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -4854,6 +5705,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -4872,6 +5724,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -4890,10 +5743,24 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_data_scientists",
+          "source_type": "onet_online",
+          "source_id": "15-2051.00",
+          "source_title": "15-2051.00 - Data Scientists",
+          "source_url": "https://www.onetonline.org/link/summary/15-2051.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
+          "sample_job_titles": []
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -4907,6 +5774,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -4925,6 +5793,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -4943,10 +5812,24 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_data_scientists",
+          "source_type": "onet_online",
+          "source_id": "15-2051.00",
+          "source_title": "15-2051.00 - Data Scientists",
+          "source_url": "https://www.onetonline.org/link/summary/15-2051.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
+          "sample_job_titles": []
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -4960,6 +5843,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -4978,6 +5862,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -4996,10 +5881,24 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_data_scientists",
+          "source_type": "onet_online",
+          "source_id": "15-2051.00",
+          "source_title": "15-2051.00 - Data Scientists",
+          "source_url": "https://www.onetonline.org/link/summary/15-2051.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
+          "sample_job_titles": []
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -5013,6 +5912,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -5031,6 +5931,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -5049,6 +5950,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "ml",
@@ -5066,6 +5968,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
@@ -5084,6 +5987,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
@@ -5102,10 +6006,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_network_system_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1244.00",
+          "source_title": "15-1244.00 - Network and Computer Systems Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1244.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Install, configure, and maintain an organization's local area network (LAN), wide area network (WAN), data communications network, operating systems, and physical and virtual servers. Perform system monitoring and verify the integrity and availability of hardware, network, and server resources and systems. Review system and application logs and verify completion of scheduled jobs, including system backups. Analyze network and server resource consumption and control user access. Install and upgrade software and maintain software licenses. May assist in network modeling, analysis, planning, and coordination between network and data communications hardware and software.",
+          "sample_job_titles": [
+            "Information Analyst",
+            "Information Technology Specialist (IT Specialist)",
+            "LAN Specialist (Local Area Network Specialist)",
+            "Local Area Network Administrator (LAN Administrator)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -5119,6 +6042,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
@@ -5137,6 +6061,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
@@ -5155,6 +6080,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
@@ -5172,6 +6098,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
@@ -5190,6 +6117,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
@@ -5208,10 +6136,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "platform",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_network_system_administrators",
+          "source_type": "onet_online",
+          "source_id": "15-1244.00",
+          "source_title": "15-1244.00 - Network and Computer Systems Administrators",
+          "source_url": "https://www.onetonline.org/link/summary/15-1244.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Install, configure, and maintain an organization's local area network (LAN), wide area network (WAN), data communications network, operating systems, and physical and virtual servers. Perform system monitoring and verify the integrity and availability of hardware, network, and server resources and systems. Review system and application logs and verify completion of scheduled jobs, including system backups. Analyze network and server resource consumption and control user access. Install and upgrade software and maintain software licenses. May assist in network modeling, analysis, planning, and coordination between network and data communications hardware and software.",
+          "sample_job_titles": [
+            "Information Analyst",
+            "Information Technology Specialist (IT Specialist)",
+            "LAN Specialist (Local Area Network Specialist)",
+            "Local Area Network Administrator (LAN Administrator)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -5225,6 +6172,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "qa",
@@ -5243,6 +6191,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "qa",
@@ -5261,10 +6210,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "qa",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_quality_assurance",
+          "source_type": "onet_online",
+          "source_id": "15-1253.00",
+          "source_title": "15-1253.00 - Software Quality Assurance Analysts and Testers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1253.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and execute software tests to identify software problems and their causes. Test system modifications to prepare for implementation. Document software and application defects using a bug tracking system and report defects to software or web developers. Create and maintain databases of known defects. May participate in software design reviews to provide input on functional requirements, operational characteristics, product designs, and schedules.",
+          "sample_job_titles": [
+            "Automation Tester",
+            "Information Technology Analyst (IT Analyst)",
+            "Quality Assurance Analyst (QA Analyst)",
+            "Quality Assurance Engineer (QA Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -5278,6 +6246,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "qa",
@@ -5296,6 +6265,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "qa",
@@ -5314,10 +6284,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "qa",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_quality_assurance",
+          "source_type": "onet_online",
+          "source_id": "15-1253.00",
+          "source_title": "15-1253.00 - Software Quality Assurance Analysts and Testers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1253.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and execute software tests to identify software problems and their causes. Test system modifications to prepare for implementation. Document software and application defects using a bug tracking system and report defects to software or web developers. Create and maintain databases of known defects. May participate in software design reviews to provide input on functional requirements, operational characteristics, product designs, and schedules.",
+          "sample_job_titles": [
+            "Automation Tester",
+            "Information Technology Analyst (IT Analyst)",
+            "Quality Assurance Analyst (QA Analyst)",
+            "Quality Assurance Engineer (QA Engineer)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -5331,6 +6320,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
@@ -5349,6 +6339,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
@@ -5367,10 +6358,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_information_security_analysts",
+          "source_type": "onet_online",
+          "source_id": "15-1212.00",
+          "source_title": "15-1212.00 - Information Security Analysts",
+          "source_url": "https://www.onetonline.org/link/summary/15-1212.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Plan, implement, upgrade, or monitor security measures for the protection of computer networks and information. Assess system vulnerabilities for security risks and propose and implement risk mitigation strategies. May ensure appropriate security controls are in place that will safeguard digital files and vital electronic infrastructure. May respond to computer security breaches and viruses.",
+          "sample_job_titles": [
+            "Information Security Officer",
+            "Information Security Specialist",
+            "Information Systems Security Analyst",
+            "Information Systems Security Officer (ISSO)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -5384,6 +6394,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
@@ -5402,6 +6413,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
@@ -5420,10 +6432,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_information_security_analysts",
+          "source_type": "onet_online",
+          "source_id": "15-1212.00",
+          "source_title": "15-1212.00 - Information Security Analysts",
+          "source_url": "https://www.onetonline.org/link/summary/15-1212.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Plan, implement, upgrade, or monitor security measures for the protection of computer networks and information. Assess system vulnerabilities for security risks and propose and implement risk mitigation strategies. May ensure appropriate security controls are in place that will safeguard digital files and vital electronic infrastructure. May respond to computer security breaches and viruses.",
+          "sample_job_titles": [
+            "Information Security Officer",
+            "Information Security Specialist",
+            "Information Systems Security Analyst",
+            "Information Systems Security Officer (ISSO)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -5437,6 +6468,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
@@ -5455,6 +6487,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
@@ -5473,10 +6506,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_information_security_analysts",
+          "source_type": "onet_online",
+          "source_id": "15-1212.00",
+          "source_title": "15-1212.00 - Information Security Analysts",
+          "source_url": "https://www.onetonline.org/link/summary/15-1212.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Plan, implement, upgrade, or monitor security measures for the protection of computer networks and information. Assess system vulnerabilities for security risks and propose and implement risk mitigation strategies. May ensure appropriate security controls are in place that will safeguard digital files and vital electronic infrastructure. May respond to computer security breaches and viruses.",
+          "sample_job_titles": [
+            "Information Security Officer",
+            "Information Security Specialist",
+            "Information Systems Security Analyst",
+            "Information Systems Security Officer (ISSO)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -5490,6 +6542,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
@@ -5508,6 +6561,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
@@ -5526,10 +6580,29 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated+imported",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "security",
-      "stage": "role"
+      "stage": "role",
+      "source_refs": [
+        {
+          "profile_id": "onet_information_security_analysts",
+          "source_type": "onet_online",
+          "source_id": "15-1212.00",
+          "source_title": "15-1212.00 - Information Security Analysts",
+          "source_url": "https://www.onetonline.org/link/summary/15-1212.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Plan, implement, upgrade, or monitor security measures for the protection of computer networks and information. Assess system vulnerabilities for security risks and propose and implement risk mitigation strategies. May ensure appropriate security controls are in place that will safeguard digital files and vital electronic infrastructure. May respond to computer security breaches and viruses.",
+          "sample_job_titles": [
+            "Information Security Officer",
+            "Information Security Specialist",
+            "Information Systems Security Analyst",
+            "Information Systems Security Officer (ISSO)"
+          ]
+        }
+      ],
+      "provenance_count": 1
     }
   },
   {
@@ -5543,6 +6616,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "embedded",
@@ -5561,6 +6635,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "embedded",
@@ -5579,6 +6654,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "embedded",
@@ -5596,6 +6672,7 @@
       "cap": 1.0
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "embedded",
@@ -5614,6 +6691,7 @@
       "required_threshold": 0.06
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "embedded",
@@ -5632,6 +6710,7 @@
       "required_threshold": 0.025
     },
     "metadata": {
+      "origin": "curated",
       "source_file": "roles.json",
       "role_kind": "specialization",
       "family": "embedded",

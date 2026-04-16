@@ -4,6 +4,7 @@ import json
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 
 def repo_root() -> Path:
@@ -19,6 +20,7 @@ class NodeDefinition:
     aggregator: str
     description: str
     params: dict
+    metadata: dict[str, Any]
 
 
 @dataclass(frozen=True, slots=True)
@@ -28,6 +30,7 @@ class EdgeDefinition:
     relation: str
     weight: float
     note: str
+    metadata: dict[str, Any]
 
 
 @dataclass(slots=True)
@@ -68,6 +71,7 @@ class GraphLoader:
                 aggregator=item["aggregator"],
                 description=item["description"],
                 params=item.get("params", {}),
+                metadata=item.get("metadata", {}),
             )
             for item in raw_nodes
         }
@@ -78,6 +82,7 @@ class GraphLoader:
                 relation=item["relation"],
                 weight=float(item["weight"]),
                 note=item["note"],
+                metadata=item.get("metadata", {}),
             )
             for item in raw_edges
         ]
