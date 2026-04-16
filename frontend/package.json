@@ -1,0 +1,8 @@
+{
+  "name": "career-kg-workbench",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node ./tools/build.mjs"
+  }
+}

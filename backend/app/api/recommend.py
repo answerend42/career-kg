@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import asdict
+import json
 from pathlib import Path
 from typing import Any
 
@@ -10,6 +10,9 @@ from ..services.graph_loader import GraphLoader
 from ..services.inference_engine import InferenceEngine
 from ..services.input_normalizer import InputNormalizer
 from ..services.nl_parser import LightweightNLParser
+
+
+MIN_RECOMMENDATION_SCORE = 0.05
 
 
 class RecommendationService:
@@ -22,6 +25,7 @@ class RecommendationService:
         self.nl_parser = LightweightNLParser(self.graph, self.aliases, self.preference_patterns)
         self.engine = InferenceEngine()
         self.explainer = GraphExplainer()
+        self.sample_request_path = self.loader.base_dir / "data" / "demo" / "sample_request.json"
 
     def recommend(self, payload: dict[str, Any] | None) -> dict[str, Any]:
         request = RecommendationRequest.from_payload(payload)
@@ -36,6 +40,7 @@ class RecommendationService:
             key=lambda node_id: (states[node_id].score, self.graph.nodes[node_id].name),
             reverse=True,
         )
+        ranked_roles = [role_id for role_id in ranked_roles if states[role_id].score >= MIN_RECOMMENDATION_SCORE]
 
         recommendations: list[RecommendationItem] = []
         for role_id in ranked_roles[: request.top_k]:
@@ -63,6 +68,35 @@ class RecommendationService:
                 "activated_node_count": sum(1 for state in states.values() if state.score >= 0.05),
             },
         }
+
+    def catalog(self) -> dict[str, Any]:
+        evidence_nodes = [
+            {
+                "id": node_id,
+                "name": node.name,
+                "node_type": node.node_type,
+                "description": node.description,
+                "aliases": self.aliases.get(node_id, []),
+            }
+            for node_id, node in sorted(
+                self.graph.nodes.items(),
+                key=lambda item: (item[1].layer, item[1].node_type, item[1].name),
+            )
+            if node.layer == "evidence"
+        ]
+        return {
+            "evidence_nodes": evidence_nodes,
+            "graph_stats": {
+                "node_count": len(self.graph.nodes),
+                "edge_count": len(self.graph.edges),
+                "evidence_node_count": len(self.graph.evidence_ids),
+                "role_count": len(self.graph.role_ids),
+            },
+            "sample_request": self.sample_request(),
+        }
+
+    def sample_request(self) -> dict[str, Any]:
+        return json.loads(self.sample_request_path.read_text(encoding="utf-8"))
 
     def _build_snapshot(self, states: dict[str, Any]) -> dict[str, Any]:
         nodes = [

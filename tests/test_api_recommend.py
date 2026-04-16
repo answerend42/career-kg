@@ -44,11 +44,33 @@ class RecommendationApiTests(unittest.TestCase):
     def test_non_object_payload_falls_back_to_default_request(self) -> None:
         result = self.service.recommend(["not", "an", "object"])  # type: ignore[arg-type]
         self.assertEqual(result["normalized_inputs"], [])
-        self.assertEqual(len(result["recommendations"]), 5)
+        self.assertEqual(result["recommendations"], [])
 
     def test_include_snapshot_string_false_disables_snapshot(self) -> None:
         result = self.service.recommend({"include_snapshot": "false"})
         self.assertIsNone(result["propagation_snapshot"])
+
+    def test_catalog_exposes_evidence_nodes_and_sample_request(self) -> None:
+        catalog = self.service.catalog()
+        self.assertGreaterEqual(len(catalog["evidence_nodes"]), 70)
+        self.assertIn("graph_stats", catalog)
+        self.assertIn("sample_request", catalog)
+        self.assertIn("text", catalog["sample_request"])
+        python_node = next((item for item in catalog["evidence_nodes"] if item["id"] == "skill_python"), None)
+        self.assertIsNotNone(python_node)
+        self.assertIn("python", python_node["aliases"])
+
+    def test_sample_request_filters_out_zero_score_roles(self) -> None:
+        payload = self.service.sample_request()
+        payload["top_k"] = 6
+        result = self.service.recommend(payload)
+        self.assertGreater(len(result["recommendations"]), 0)
+        self.assertTrue(all(item["score"] >= 0.05 for item in result["recommendations"]))
+
+    def test_empty_input_does_not_return_zero_score_pseudo_recommendations(self) -> None:
+        result = self.service.recommend({"text": "", "signals": [], "top_k": 6})
+        self.assertEqual(result["normalized_inputs"], [])
+        self.assertEqual(result["recommendations"], [])
 
 
 if __name__ == "__main__":

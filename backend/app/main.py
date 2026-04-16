@@ -2,10 +2,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import mimetypes
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
+from urllib.parse import unquote, urlparse
 
 from .api.recommend import RecommendationService
 
@@ -26,8 +28,20 @@ def load_payload(input_file: Path | None) -> dict[str, Any]:
     return json.loads(sample_path.read_text(encoding="utf-8"))
 
 
+def repo_root() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
+def frontend_root() -> Path:
+    dist_dir = repo_root() / "frontend" / "dist"
+    if dist_dir.exists():
+        return dist_dir
+    return repo_root() / "frontend" / "src"
+
+
 def serve(host: str, port: int) -> None:
     service = RecommendationService()
+    static_root = frontend_root().resolve()
 
     class Handler(BaseHTTPRequestHandler):
         def _send_json(self, payload: dict[str, Any], status: int = HTTPStatus.OK) -> None:
@@ -38,14 +52,45 @@ def serve(host: str, port: int) -> None:
             self.end_headers()
             self.wfile.write(body)
 
+        def _send_file(self, file_path: Path, status: int = HTTPStatus.OK) -> None:
+            body = file_path.read_bytes()
+            content_type, _ = mimetypes.guess_type(file_path.name)
+            self.send_response(status)
+            self.send_header("Content-Type", content_type or "application/octet-stream")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def _resolve_static_path(self) -> Path | None:
+            raw_path = urlparse(self.path).path
+            path = unquote(raw_path)
+            if path in {"/", ""}:
+                candidate = static_root / "index.html"
+            else:
+                candidate = (static_root / path.lstrip("/")).resolve()
+            if not candidate.exists() or not candidate.is_file():
+                return None
+            if not candidate.is_relative_to(static_root):
+                return None
+            return candidate
+
         def do_GET(self) -> None:  # noqa: N802
-            if self.path == "/health":
+            url_path = urlparse(self.path).path
+            if url_path == "/health":
                 self._send_json({"status": "ok"})
+                return
+            if url_path in {"/api/catalog", "/catalog"}:
+                self._send_json(service.catalog())
+                return
+            static_path = self._resolve_static_path()
+            if static_path is not None:
+                self._send_file(static_path)
                 return
             self._send_json({"error": "not found"}, status=HTTPStatus.NOT_FOUND)
 
         def do_POST(self) -> None:  # noqa: N802
-            if self.path != "/recommend":
+            url_path = urlparse(self.path).path
+            if url_path not in {"/recommend", "/api/recommend"}:
                 self._send_json({"error": "not found"}, status=HTTPStatus.NOT_FOUND)
                 return
             try:
