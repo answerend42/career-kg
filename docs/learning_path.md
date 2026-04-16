@@ -56,6 +56,13 @@
 
 这让系统可以从“补哪些节点”继续落到“具体做哪类项目、练习或交付物”。
 
+在此基础上，当前还增加了 action simulation：
+
+- 用户选中某个 `recommended_actions[*]`
+- 后端读取其中的 `simulation_node_ids`
+- 对这些证据节点做轻量注入
+- 再次运行整张图的传播，返回目标岗位和岗位排序的变化
+
 ## 返回字段
 
 每个 `learning_path[*]` 包含：
@@ -82,6 +89,7 @@
   - 这一阶段实际补的证据节点
 - `recommended_actions`
   - 当前这一步最值得执行的 1 到 2 个行动模板
+  - 每个模板还会带 `simulation_node_ids`，供 `/api/action-simulate` 复用
 
 ## 当前边界
 

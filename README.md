@@ -160,14 +160,46 @@ python3 scripts/run_recommendation_benchmark.py
 - `target_role.learning_path[*].recommended_actions`
 - `target_role.what_if_scenarios`
 
+`POST /api/action-simulate` 与 `POST /action-simulate` 用于模拟“执行某个成长路径行动后会怎样”，请求体示例：
+
+```json
+{
+  "target_role_id": "role_backend_engineer",
+  "action_key": "step-1:backend_rest_service_project",
+  "template_id": "backend_rest_service_project",
+  "signals": [
+    {"entity": "Python", "score": 0.8},
+    {"entity": "偏好后端", "score": 0.9}
+  ]
+}
+```
+
+- `action_key` 或 `action_keys`
+  - 推荐从 `learning_path[*].recommended_actions[*].action_key` 直接传回，能精确定位用户点击的是哪一步里的哪张行动卡。
+- `template_id` 或 `template_ids`
+  - 兼容唯一模板场景；如果同一个模板在多步成长路径里重复出现，服务端会要求改用 `action_key` 以避免模拟到错误步骤。
+
+响应重点字段：
+
+- `simulation.current_score`
+- `simulation.predicted_score`
+- `simulation.delta_score`
+- `simulation.injected_boosts`
+- `simulation.activated_nodes`
+- `simulation.before_top_roles`
+- `simulation.after_top_roles`
+- `simulation.target_role_rank_before`
+- `simulation.target_role_rank_after`
+
 ## 工作台流程
 
 1. 用户输入自然语言和结构化信号。
 2. 前端调用 `/api/recommend` 获取 `normalized_inputs`。
 3. 用户在“节点确认”面板里微调节点分值。
 4. 用户可选择目标岗位，调用 `/api/role-gap` 查看差距、成长路径、推荐行动模板和 what-if 模拟。
-5. 前端使用确认后的节点再次调用 `/api/recommend`。
-6. 页面展示职业排序、关键路径、限制项和传播图。
+5. 用户点击某个行动模板时，前端调用 `/api/action-simulate` 观察目标岗位分数、岗位排序和被带动节点如何变化。
+6. 前端使用确认后的节点再次调用 `/api/recommend`。
+7. 页面展示职业排序、关键路径、限制项和传播图。
 
 ## 真实来源数据
 

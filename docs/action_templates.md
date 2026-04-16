@@ -66,6 +66,7 @@
 
 每个行动卡片包含：
 
+- `action_key`
 - `template_id`
 - `title`
 - `action_type`
@@ -75,6 +76,9 @@
 - `tags`
 - `matched_node_ids`
 - `matched_node_names`
+- `simulation_node_ids`
 - `reason`
 
 其中 `reason` 用于解释“为什么它适合当前这一步”。
+`simulation_node_ids` 则用于 action simulation：当用户点击“模拟这个动作”时，后端会把这些证据节点作为轻量注入目标重新跑一遍图推理。
+如果同一个 `template_id` 在多步成长路径里重复出现，前端与 API 应优先使用 `action_key`，避免把后续步骤的上下文误用到当前点击的动作上。

@@ -4,7 +4,15 @@ import json
 from pathlib import Path
 from typing import Any
 
-from ..schemas import NearMissItem, RecommendationItem, RecommendationRequest, RoleGapRequest
+from ..schemas import (
+    ActionSimulationRequest,
+    LearningPathStep,
+    NearMissItem,
+    RecommendationItem,
+    RecommendationRequest,
+    RoleGapRequest,
+)
+from ..services.action_simulator import ActionSimulator
 from ..services.action_template_matcher import ActionTemplateMatcher
 from ..services.explainer import GraphExplainer
 from ..services.graph_loader import GraphLoader
@@ -35,6 +43,7 @@ class RecommendationService:
         self.role_gap_analyzer = RoleGapAnalyzer(self.graph, self.engine, self.explainer)
         self.learning_path_planner = LearningPathPlanner(self.graph, self.role_gap_analyzer)
         self.action_template_matcher = ActionTemplateMatcher(self.graph, self.action_templates)
+        self.action_simulator = ActionSimulator(self.graph, self.engine, self.role_gap_analyzer)
         self.sample_request_path = self.loader.base_dir / "data" / "demo" / "sample_request.json"
         self.provenance_summary = self._build_provenance_summary()
 
@@ -96,17 +105,39 @@ class RecommendationService:
             source_payload=self._role_source_payload(request.target_role_id),
             scenario_limit=request.scenario_limit,
         )
-        analysis.learning_path = self.learning_path_planner.plan(
+        analysis.learning_path = self._build_learning_path(states, score_map, request.target_role_id)
+        return {
+            "target_role": analysis.as_dict(),
+            "normalized_inputs": [item.as_dict() for item in merged_signals],
+            "parsing_notes": parse_result.notes[:30],
+            "parsing_debug": parse_result.debug,
+            "unresolved_entities": unresolved,
+        }
+
+    def action_simulate(self, payload: dict[str, Any] | None) -> dict[str, Any]:
+        request = ActionSimulationRequest.from_payload(payload)
+        if not request.target_role_id:
+            raise ValueError("target_role_id is required")
+        if request.target_role_id not in self.graph.role_ids:
+            raise ValueError(f"unknown target role: {request.target_role_id}")
+        if not request.action_keys and not request.template_ids:
+            raise ValueError("action_keys or template_ids is required")
+
+        merged_signals, unresolved, parse_result, score_map, states = self._resolve_request_context(
+            request.text,
+            request.signals,
+        )
+        learning_path = self._build_learning_path(states, score_map, request.target_role_id)
+        simulation = self.action_simulator.simulate(
             states=states,
             score_map=score_map,
             target_role_id=request.target_role_id,
-        )
-        analysis.learning_path = self.action_template_matcher.attach_actions(
-            steps=analysis.learning_path,
-            target_role_id=request.target_role_id,
+            learning_path=learning_path,
+            action_keys=request.action_keys,
+            template_ids=request.template_ids,
         )
         return {
-            "target_role": analysis.as_dict(),
+            "simulation": simulation.as_dict(),
             "normalized_inputs": [item.as_dict() for item in merged_signals],
             "parsing_notes": parse_result.notes[:30],
             "parsing_debug": parse_result.debug,
@@ -253,6 +284,22 @@ class RecommendationService:
         score_map = self.normalizer.to_score_map(merged_signals)
         states = self.engine.run(self.graph, score_map)
         return merged_signals, unresolved, parse_result, score_map, states
+
+    def _build_learning_path(
+        self,
+        states: dict[str, NodeState],
+        score_map: dict[str, float],
+        target_role_id: str,
+    ) -> list[LearningPathStep]:
+        steps = self.learning_path_planner.plan(
+            states=states,
+            score_map=score_map,
+            target_role_id=target_role_id,
+        )
+        return self.action_template_matcher.attach_actions(
+            steps=steps,
+            target_role_id=target_role_id,
+        )
 
     def _build_provenance_summary(self) -> dict[str, Any]:
         unique_profiles: dict[str, dict[str, Any]] = {}

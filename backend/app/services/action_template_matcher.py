@@ -56,6 +56,8 @@ class ActionTemplateMatcher:
                     target_role_id=target_role_id,
                     limit=limit,
                 )
+            for action in step.recommended_actions:
+                action.action_key = self._build_action_key(step.step, action.template_id)
             used_template_ids.update(item.template_id for item in step.recommended_actions)
         return steps
 
@@ -97,6 +99,9 @@ class ActionTemplateMatcher:
             matched_node_ids = list(dict.fromkeys(focus_hits + related_focus_hits + boost_hits + direction_hits))
             if not matched_node_ids:
                 continue
+            simulation_node_ids = self._build_simulation_node_ids(template, boost_hits)
+            if not simulation_node_ids:
+                continue
 
             score = (
                 len(focus_hits) * 4.0
@@ -133,6 +138,7 @@ class ActionTemplateMatcher:
                 tags=list(template.tags),
                 matched_node_ids=matched_node_ids,
                 matched_node_names=matched_node_names,
+                simulation_node_ids=simulation_node_ids,
                 reason=reason,
             )
             candidates.append((score, ACTION_TYPE_PRIORITY.get(template.action_type, 0), action))
@@ -235,3 +241,21 @@ class ActionTemplateMatcher:
         if not reason_parts:
             reason_parts.append(f"围绕 {focus_node_name} 的缺口")
         return "；".join(reason_parts)
+
+    @staticmethod
+    def _build_action_key(step_index: int, template_id: str) -> str:
+        return f"step-{step_index}:{template_id}"
+
+    def _build_simulation_node_ids(self, template: ActionTemplate, boost_hits: list[str], limit: int = 4) -> list[str]:
+        selected: list[str] = []
+        seen_node_ids: set[str] = set()
+        for node_id in boost_hits + template.evidence_node_ids:
+            if node_id in seen_node_ids or node_id not in self.graph.nodes:
+                continue
+            if self.graph.nodes[node_id].layer != "evidence":
+                continue
+            seen_node_ids.add(node_id)
+            selected.append(node_id)
+            if len(selected) >= limit:
+                break
+        return selected

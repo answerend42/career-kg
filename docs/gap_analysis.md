@@ -53,6 +53,8 @@
 - `target_role.learning_path`
 - `target_role.learning_path[*].recommended_actions`
 - `target_role.what_if_scenarios`
+- `/api/action-simulate -> simulation`
+  - 选中具体行动模板后，对其 `simulation_node_ids` 做证据注入重算
 
 ## 前端使用方式
 
@@ -67,6 +69,12 @@
    - 成长路径时间线
    - 每一步的推荐行动模板
    - what-if 模拟卡片
+4. 用户点选某个行动模板时，再调用 `/api/action-simulate`
+5. 展示：
+   - 目标岗位分数前后对比
+   - 注入的证据节点
+   - 被带动的中间节点
+   - 模拟前后 Top 岗位变化
 
 ## 当前边界
 

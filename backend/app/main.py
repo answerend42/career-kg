@@ -90,7 +90,14 @@ def serve(host: str, port: int) -> None:
 
         def do_POST(self) -> None:  # noqa: N802
             url_path = urlparse(self.path).path
-            if url_path not in {"/recommend", "/api/recommend", "/role-gap", "/api/role-gap"}:
+            if url_path not in {
+                "/recommend",
+                "/api/recommend",
+                "/role-gap",
+                "/api/role-gap",
+                "/action-simulate",
+                "/api/action-simulate",
+            }:
                 self._send_json({"error": "not found"}, status=HTTPStatus.NOT_FOUND)
                 return
             try:
@@ -105,6 +112,9 @@ def serve(host: str, port: int) -> None:
             try:
                 if url_path in {"/role-gap", "/api/role-gap"}:
                     self._send_json(service.role_gap(payload))
+                    return
+                if url_path in {"/action-simulate", "/api/action-simulate"}:
+                    self._send_json(service.action_simulate(payload))
                     return
                 self._send_json(service.recommend(payload))
             except ValueError as error:

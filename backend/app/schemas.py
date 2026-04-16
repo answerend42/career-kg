@@ -108,6 +108,70 @@ class RoleGapRequest:
 
 
 @dataclass(slots=True)
+class ActionSimulationRequest:
+    target_role_id: str
+    action_keys: list[str] = field(default_factory=list)
+    template_ids: list[str] = field(default_factory=list)
+    text: str = ""
+    signals: list[SignalInput] = field(default_factory=list)
+
+    @classmethod
+    def from_payload(cls, payload: Any | None) -> "ActionSimulationRequest":
+        if not isinstance(payload, dict):
+            payload = {}
+        raw_signals = payload.get("signals", [])
+        signals: list[SignalInput] = []
+        if isinstance(raw_signals, dict):
+            signals = [SignalInput(entity=str(key), score=clamp_score(value, default=0.7)) for key, value in raw_signals.items()]
+        elif isinstance(raw_signals, list):
+            signals = [SignalInput.from_payload(item) for item in raw_signals]
+
+        raw_action_keys = payload.get("action_keys", payload.get("action_key", []))
+        if isinstance(raw_action_keys, str):
+            action_keys = [raw_action_keys]
+        elif isinstance(raw_action_keys, list):
+            action_keys = [str(item).strip() for item in raw_action_keys if str(item).strip()]
+        else:
+            action_keys = []
+
+        deduped_action_keys: list[str] = []
+        seen_action_keys: set[str] = set()
+        for action_key in action_keys:
+            if action_key in seen_action_keys:
+                continue
+            seen_action_keys.add(action_key)
+            deduped_action_keys.append(action_key)
+            if len(deduped_action_keys) >= 2:
+                break
+
+        raw_template_ids = payload.get("template_ids", payload.get("template_id", []))
+        if isinstance(raw_template_ids, str):
+            template_ids = [raw_template_ids]
+        elif isinstance(raw_template_ids, list):
+            template_ids = [str(item).strip() for item in raw_template_ids if str(item).strip()]
+        else:
+            template_ids = []
+
+        deduped_template_ids: list[str] = []
+        seen_template_ids: set[str] = set()
+        for template_id in template_ids:
+            if template_id in seen_template_ids:
+                continue
+            seen_template_ids.add(template_id)
+            deduped_template_ids.append(template_id)
+            if len(deduped_template_ids) >= 2:
+                break
+
+        return cls(
+            target_role_id=str(payload.get("target_role_id", "") or "").strip(),
+            action_keys=deduped_action_keys,
+            template_ids=deduped_template_ids,
+            text=str(payload.get("text", "") or ""),
+            signals=signals,
+        )
+
+
+@dataclass(slots=True)
 class NormalizedSignal:
     node_id: str
     node_name: str
@@ -216,10 +280,12 @@ class ActionCard:
     action_type: str
     summary: str
     effort_level: str
+    action_key: str = ""
     deliverables: list[str] = field(default_factory=list)
     tags: list[str] = field(default_factory=list)
     matched_node_ids: list[str] = field(default_factory=list)
     matched_node_names: list[str] = field(default_factory=list)
+    simulation_node_ids: list[str] = field(default_factory=list)
     reason: str = ""
 
     def as_dict(self) -> dict[str, Any]:
@@ -245,6 +311,57 @@ class LearningPathStep:
         payload = asdict(self)
         payload["boosts"] = [item.as_dict() for item in self.boosts]
         payload["recommended_actions"] = [item.as_dict() for item in self.recommended_actions]
+        return payload
+
+
+@dataclass(slots=True)
+class ActionImpactNode:
+    node_id: str
+    node_name: str
+    layer: str
+    before_score: float
+    after_score: float
+    delta_score: float
+
+    def as_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(slots=True)
+class RoleScorePreview:
+    job_id: str
+    job_name: str
+    score: float
+
+    def as_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(slots=True)
+class ActionSimulationResult:
+    target_role_id: str
+    target_role_name: str
+    action_keys: list[str]
+    template_ids: list[str]
+    current_score: float
+    predicted_score: float
+    delta_score: float
+    summary: str
+    applied_actions: list[ActionCard] = field(default_factory=list)
+    injected_boosts: list[SimulatedBoost] = field(default_factory=list)
+    activated_nodes: list[ActionImpactNode] = field(default_factory=list)
+    before_top_roles: list[RoleScorePreview] = field(default_factory=list)
+    after_top_roles: list[RoleScorePreview] = field(default_factory=list)
+    target_role_rank_before: int = 0
+    target_role_rank_after: int = 0
+
+    def as_dict(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["applied_actions"] = [item.as_dict() for item in self.applied_actions]
+        payload["injected_boosts"] = [item.as_dict() for item in self.injected_boosts]
+        payload["activated_nodes"] = [item.as_dict() for item in self.activated_nodes]
+        payload["before_top_roles"] = [item.as_dict() for item in self.before_top_roles]
+        payload["after_top_roles"] = [item.as_dict() for item in self.after_top_roles]
         return payload
 
 

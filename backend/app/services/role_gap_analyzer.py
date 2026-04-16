@@ -199,6 +199,45 @@ class RoleGapAnalyzer:
         filtered = [boost for boost in boosts if boost.node_id not in exclude_node_ids]
         return filtered[:max_boosts]
 
+    def build_boosts_from_node_ids(
+        self,
+        states: dict[str, NodeState],
+        node_ids: list[str],
+        relation: str,
+        tip: str,
+        exclude_node_ids: set[str] | None = None,
+        max_boosts: int = 4,
+    ) -> list[SimulatedBoost]:
+        exclude_node_ids = exclude_node_ids or set()
+        boosts: list[SimulatedBoost] = []
+        seen_node_ids = set(exclude_node_ids)
+
+        for node_id in node_ids:
+            if node_id in seen_node_ids or node_id not in self.graph.nodes:
+                continue
+            node = self.graph.nodes[node_id]
+            if node.layer != "evidence":
+                continue
+            current_score = states[node_id].score
+            target_score = self._simulation_target_score(current_score, relation)
+            if target_score <= current_score + 0.01:
+                continue
+
+            boosts.append(
+                SimulatedBoost(
+                    node_id=node_id,
+                    node_name=node.name,
+                    from_score=round(current_score, 4),
+                    to_score=round(target_score, 4),
+                    tip=tip,
+                )
+            )
+            seen_node_ids.add(node_id)
+            if len(boosts) >= max_boosts:
+                break
+
+        return boosts
+
     def simulate_with_boosts(
         self,
         score_map: dict[str, float],

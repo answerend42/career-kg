@@ -48,6 +48,7 @@ class ActionTemplateMatcherTests(unittest.TestCase):
         self.assertGreaterEqual(len(actions), 1)
         self.assertEqual(actions[0].template_id, "backend_rest_service_project")
         self.assertIn("cap_backend_engineering", actions[0].matched_node_ids)
+        self.assertGreater(len(actions[0].simulation_node_ids), 0)
 
     def test_matcher_rejects_role_only_templates_without_node_anchor(self) -> None:
         step = LearningPathStep(
@@ -123,6 +124,7 @@ class ActionTemplateMatcherTests(unittest.TestCase):
 
         self.assertTrue(attached)
         self.assertTrue(all(step.recommended_actions for step in attached))
+        self.assertTrue(all(action.action_key for step in attached for action in step.recommended_actions))
 
 
 if __name__ == "__main__":

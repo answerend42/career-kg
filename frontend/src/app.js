@@ -48,6 +48,8 @@ const state = {
   result: null,
   targetRoleId: "",
   targetGapResult: null,
+  targetGapInputSignature: "",
+  actionSimulationResult: null,
   selectedJobId: null,
   selectedPathIndex: 0,
   selectedNodeId: null,
@@ -106,6 +108,8 @@ function bindEvents() {
   elements.targetRoleSelect.addEventListener("change", (event) => {
     state.targetRoleId = event.target.value;
     state.targetGapResult = null;
+    state.targetGapInputSignature = "";
+    state.actionSimulationResult = null;
     renderTargetGapAnalysis();
   });
 }
@@ -154,6 +158,8 @@ function applySampleRequest() {
     return;
   }
   state.targetGapResult = null;
+  state.targetGapInputSignature = "";
+  state.actionSimulationResult = null;
   state.input.text = state.sampleRequest.text || "";
   elements.textInput.value = state.input.text;
   state.input.structured = (state.sampleRequest.signals || []).map((signal) => ({
@@ -180,6 +186,8 @@ async function submitInitialRecommendation() {
     const result = await postJSON("/api/recommend", payload);
     state.result = result;
     state.targetGapResult = null;
+    state.targetGapInputSignature = "";
+    state.actionSimulationResult = null;
     state.confirmedSignals = (result.normalized_inputs || []).map((item) => ({
       id: uid(),
       nodeId: item.node_id,
@@ -215,6 +223,8 @@ async function recomputeFromConfirmedSignals() {
     });
     state.result = result;
     state.targetGapResult = null;
+    state.targetGapInputSignature = "";
+    state.actionSimulationResult = null;
     state.confirmedSignals = (result.normalized_inputs || []).map((item) => ({
       id: uid(),
       nodeId: item.node_id,
@@ -247,10 +257,39 @@ async function analyzeTargetRole() {
   setBusy(true, "正在分析目标岗位差距与模拟收益…");
   try {
     state.targetGapResult = await postJSON("/api/role-gap", payload);
+    state.targetGapInputSignature = buildPayloadSignature(payload);
+    state.actionSimulationResult = null;
     setBusy(false, "目标岗位分析已更新。");
     renderAll();
   } catch (error) {
     setError(`目标岗位分析失败：${error.message}`);
+  }
+}
+
+async function simulateActionTemplate(templateId, actionKey) {
+  if (!templateId) {
+    setError("缺少可模拟的行动模板。");
+    return;
+  }
+  if (!state.targetRoleId || !state.targetGapResult?.target_role) {
+    setError("请先完成一次目标岗位分析，再模拟行动。");
+    return;
+  }
+
+  const payload = buildActionSimulationPayload(templateId, actionKey);
+  if (state.targetGapInputSignature && buildPayloadSignature(buildRoleGapPayload()) !== state.targetGapInputSignature) {
+    setError("确认节点已变更，请先重新分析目标岗位，再执行行动模拟。");
+    return;
+  }
+
+  setBusy(true, "正在模拟所选行动会如何改写图谱传播…");
+  try {
+    const result = await postJSON("/api/action-simulate", payload);
+    state.actionSimulationResult = result.simulation || null;
+    setBusy(false, "行动模拟已更新。");
+    renderTargetGapAnalysis();
+  } catch (error) {
+    setError(`行动模拟失败：${error.message}`);
   }
 }
 
@@ -339,6 +378,25 @@ function buildRoleGapPayload() {
   };
 }
 
+function buildActionSimulationPayload(templateId, actionKey) {
+  return {
+    ...buildRoleGapPayload(),
+    template_id: templateId,
+    action_key: actionKey || "",
+  };
+}
+
+function buildPayloadSignature(payload) {
+  return JSON.stringify({
+    text: payload.text || "",
+    target_role_id: payload.target_role_id || "",
+    signals: (payload.signals || []).map((item) => ({
+      entity: item.entity || "",
+      score: clampScore(item.score),
+    })),
+  });
+}
+
 function renderTargetGapAnalysis() {
   if (!state.targetGapResult?.target_role) {
     const selectedRoleName = state.roleCatalog.find((item) => item.id === state.targetRoleId)?.name;
@@ -353,6 +411,7 @@ function renderTargetGapAnalysis() {
   const target = state.targetGapResult.target_role;
   const leadPath = target.paths?.[0];
   const sourceBadges = renderSourceTypeBadges(target.source_types || []);
+  const simulatedActionKeys = new Set((state.actionSimulationResult?.applied_actions || []).map((action) => action.action_key || action.template_id));
   const roadmapMarkup = target.learning_path?.length
     ? `<div class="roadmap-list">${target.learning_path
         .map(
@@ -394,7 +453,7 @@ function renderTargetGapAnalysis() {
                     ? `<div class="action-card-list">${step.recommended_actions
                         .map(
                           (action) => `
-                            <article class="action-card">
+                            <article class="action-card ${simulatedActionKeys.has(action.action_key || action.template_id) ? "is-simulated" : ""}">
                               <div class="action-card-head">
                                 <div>
                                   <p class="signal-name">${escapeHtml(action.title)}</p>
@@ -418,6 +477,26 @@ function renderTargetGapAnalysis() {
                                        .join("")}</div>`
                                   : ""
                               }
+                              <div class="action-card-footer">
+                                <p class="soft-note action-sim-note">${
+                                  action.simulation_node_ids?.length
+                                    ? `模拟时会注入 ${escapeHtml(
+                                        action.simulation_node_ids
+                                          .map((nodeId) => lookupNodeMeta(nodeId, nodeId)?.name || nodeId)
+                                          .join("、")
+                                      )}`
+                                    : "当前没有稳定的模拟锚点"
+                                }</p>
+                                <button
+                                  class="ghost-btn action-simulate-btn ${simulatedActionKeys.has(action.action_key || action.template_id) ? "is-active" : ""}"
+                                  type="button"
+                                  data-simulate-template-id="${action.template_id}"
+                                  data-simulate-action-key="${action.action_key || ""}"
+                                  ${state.busy ? "disabled" : ""}
+                                >
+                                  ${simulatedActionKeys.has(action.action_key || action.template_id) ? "重新模拟" : "模拟这个动作"}
+                                </button>
+                              </div>
                             </article>
                           `
                         )
@@ -491,6 +570,7 @@ function renderTargetGapAnalysis() {
         </div>
         ${roadmapMarkup}
       </section>
+      ${renderActionSimulationSection()}
       <section class="scenario-section">
         <div class="subhead">
           <h3>What-if 模拟</h3>
@@ -526,6 +606,122 @@ function renderTargetGapAnalysis() {
         }
       </section>
     </article>
+  `;
+
+  elements.targetGapAnalysis.querySelectorAll("[data-simulate-template-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      simulateActionTemplate(button.dataset.simulateTemplateId, button.dataset.simulateActionKey);
+    });
+  });
+}
+
+function renderActionSimulationSection() {
+  const simulation = state.actionSimulationResult;
+  return `
+    <section class="scenario-section action-simulation-section">
+      <div class="subhead">
+        <h3>行动模拟</h3>
+        <p class="soft-note">选中某个行动模板后，直接把它覆盖的证据节点注入图谱，再看目标岗位和职业排序会怎么变。</p>
+      </div>
+      ${
+        simulation
+          ? `
+            <article class="scenario-card action-simulation-card">
+              <div class="scenario-headline">
+                <div>
+                  <p class="signal-name">${escapeHtml(simulation.target_role_name)}</p>
+                  <p class="signal-meta">${escapeHtml(simulation.summary)}</p>
+                </div>
+                <div class="delta-chip">${formatSignedScore(simulation.delta_score || 0)}</div>
+              </div>
+              <div class="simulation-metric-grid">
+                <div class="simulation-metric">
+                  <span>当前分数</span>
+                  <strong>${Math.round((simulation.current_score || 0) * 100)} 分</strong>
+                </div>
+                <div class="simulation-metric">
+                  <span>模拟后分数</span>
+                  <strong>${Math.round((simulation.predicted_score || 0) * 100)} 分</strong>
+                </div>
+                <div class="simulation-metric">
+                  <span>岗位排名</span>
+                  <strong>${simulation.target_role_rank_before || "-"} → ${simulation.target_role_rank_after || "-"}</strong>
+                </div>
+              </div>
+              ${
+                simulation.applied_actions?.length
+                  ? `<div class="chip-row action-chip-row">${simulation.applied_actions
+                      .map((action) => `<span class="soft-chip accent-chip">${escapeHtml(action.title)}</span>`)
+                      .join("")}</div>`
+                  : ""
+              }
+              <div class="detail-grid simulation-detail-grid">
+                <div class="detail-card">
+                  <h4>注入的证据节点</h4>
+                  ${
+                    simulation.injected_boosts?.length
+                      ? `<ul class="limit-list">${simulation.injected_boosts
+                          .map(
+                            (boost) =>
+                              `<li>${escapeHtml(
+                                `${boost.node_name}：${Math.round((boost.from_score || 0) * 100)} → ${Math.round((boost.to_score || 0) * 100)} 分`
+                              )}</li>`
+                          )
+                          .join("")}</ul>`
+                      : `<p class="soft-note">当前行动更偏向巩固已有节点，短期内没有新增证据注入。</p>`
+                  }
+                </div>
+                <div class="detail-card">
+                  <h4>被带动的图节点</h4>
+                  ${
+                    simulation.activated_nodes?.length
+                      ? `<ul class="limit-list">${simulation.activated_nodes
+                          .map(
+                            (node) =>
+                              `<li>${escapeHtml(
+                                `${node.node_name}（${LAYER_LABELS[node.layer] || node.layer}）：${Math.round((node.before_score || 0) * 100)} → ${Math.round((node.after_score || 0) * 100)} 分`
+                              )}</li>`
+                          )
+                          .join("")}</ul>`
+                      : `<p class="soft-note">当前没有足够显著的下游节点增益。</p>`
+                  }
+                </div>
+              </div>
+              <div class="role-preview-grid">
+                <div class="detail-card">
+                  <h4>模拟前 Top 岗位</h4>
+                  ${renderRolePreviewList(simulation.before_top_roles)}
+                </div>
+                <div class="detail-card">
+                  <h4>模拟后 Top 岗位</h4>
+                  ${renderRolePreviewList(simulation.after_top_roles)}
+                </div>
+              </div>
+            </article>
+          `
+          : `<p class="soft-note">点击上方任一“模拟这个动作”，查看目标岗位分数、排序和传播链路会如何变化。</p>`
+      }
+    </section>
+  `;
+}
+
+function renderRolePreviewList(items) {
+  if (!items?.length) {
+    return `<p class="soft-note">当前没有足够稳定的岗位排序变化。</p>`;
+  }
+  return `
+    <div class="role-preview-list">
+      ${items
+        .map(
+          (item, index) => `
+            <div class="role-preview-row">
+              <span>Top ${index + 1} · ${escapeHtml(item.job_name)}</span>
+              <strong>${Math.round((item.score || 0) * 100)} 分</strong>
+            </div>
+          `
+        )
+        .join("")}
+    </div>
   `;
 }
 
@@ -1184,6 +1380,14 @@ async function postJSON(url, payload) {
 
 function formatScore(score) {
   return clampScore(score).toFixed(2);
+}
+
+function formatSignedScore(score) {
+  const value = Number(score) || 0;
+  const percent = Math.round(Math.abs(value) * 100);
+  if (value > 0) return `+${percent}`;
+  if (value < 0) return `-${percent}`;
+  return "±0";
 }
 
 function formatDiagnosticValue(value) {
