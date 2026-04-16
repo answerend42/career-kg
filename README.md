@@ -28,6 +28,7 @@
 - `scripts/bootstrap_demo_data.py`: 生成 demo source 数据并编译图谱
 - `scripts/build_graph.py`: 从 source 数据编译图谱 seed 与词典
 - `scripts/run_nl_benchmark.py`: 回归口语化自然语言 benchmark
+- `scripts/run_planning_benchmark.py`: 回归目标岗位规划、动作模拟与方案采纳 benchmark
 - `scripts/validate_graph.py`: 校验 DAG 和图谱规模
 - `docs/data_pipeline.md`: 图谱数据流水线说明
 - `tests`: 单元测试
@@ -88,6 +89,12 @@ python3 scripts/run_nl_benchmark.py
 
 ```bash
 python3 scripts/run_recommendation_benchmark.py
+```
+
+9. 运行 planning benchmark
+
+```bash
+python3 scripts/run_planning_benchmark.py
 ```
 
 ## 接口
@@ -226,19 +233,27 @@ python3 scripts/validate_graph.py
 
 ## 评测
 
-当前仓库包含两套质量护栏：
+当前仓库包含三套质量护栏：
 
 - `python3 scripts/run_nl_benchmark.py`
   - 验证自然语言解析与候选岗位召回
 - `python3 scripts/run_recommendation_benchmark.py`
   - 验证端到端推荐质量、解释覆盖和 provenance 覆盖
+- `python3 scripts/run_planning_benchmark.py`
+  - 验证目标岗位差距分析、成长路径、行动模拟和方案采纳后的非回退表现
+  - 采纳判定使用 OR 语义：得分或排名任一不退化即可通过，报告中的 `Adopt Basis` 会明确标出是 `score+rank`、`score_only`、`rank_only` 还是 `regressed`
 
 运行 recommendation benchmark 后会生成：
 
 - `data/demo/recommendation_benchmark_report.json`
 - `data/demo/recommendation_benchmark_report.md`
 
-Markdown 报告会直接列出每条 case 的匹配岗位名、Top 推荐摘要和失败原因，便于课堂展示和回归排查。
+运行 planning benchmark 后会生成：
+
+- `data/demo/planning_benchmark_report.json`
+- `data/demo/planning_benchmark_report.md`
+
+Markdown 报告会直接列出每条 case 的目标岗位、关键 focus 节点、所选行动、模拟增益、`Adopt Basis` 和失败原因，便于课堂展示和回归排查。
 
 更详细的指标说明见 [docs/evaluation.md](/Users/ans42/Code/auto-evol-project/projects/career-kg/docs/evaluation.md)。
 

@@ -22,6 +22,8 @@
   - parser/API 回归用的自然语言 benchmark
 - `data/sources/recommendation_benchmark.json`
   - 端到端推荐质量 benchmark
+- `data/sources/planning_benchmark.json`
+  - 目标岗位规划链路 benchmark
 - `data/sources/sample_request.json`
   - 示例输入
 - `data/sources/action_templates.json`
@@ -61,6 +63,7 @@ python3 scripts/validate_graph.py
 - `data/demo/sample_request.json`
 - `data/demo/nl_benchmark.json`
 - `data/demo/recommendation_benchmark.json`
+- `data/demo/planning_benchmark.json`
 - `data/demo/action_templates.json`
 
 运行时只读取这些编译产物，`backend/app/services/graph_loader.py` 不直接消费 source 文件。
@@ -89,7 +92,7 @@ python3 scripts/validate_graph.py
 3. 在 `roles.json` 新增通用岗位或 specialization
 4. 如涉及口语化输入，补 `parsing_patterns.json` 和 `nl_benchmark.json`
 5. 运行 `python3 scripts/build_graph.py`
-6. 运行 `python3 scripts/validate_graph.py`、测试、`python3 scripts/run_nl_benchmark.py` 和 `python3 scripts/run_recommendation_benchmark.py`
+6. 运行 `python3 scripts/validate_graph.py`、测试、`python3 scripts/run_nl_benchmark.py`、`python3 scripts/run_recommendation_benchmark.py` 和 `python3 scripts/run_planning_benchmark.py`
 
 如果后续引入爬虫或外部职位数据，建议先落到 `data/sources/raw/` 或中间清洗脚本，再统一映射到当前 source schema。
 
