@@ -726,6 +726,22 @@
       "origin": "curated"
     }
   ],
+  "language": [
+    {
+      "id": "language_english_reading",
+      "name": "英文阅读",
+      "aliases": [
+        "english",
+        "英语",
+        "英文",
+        "英语阅读",
+        "英文阅读",
+        "technical english"
+      ],
+      "description": "阅读英文技术资料与英文界面的能力。",
+      "origin": "curated"
+    }
+  ],
   "knowledge": [
     {
       "id": "knowledge_data_structures",
@@ -838,6 +854,20 @@
         "数学基础"
       ],
       "description": "数学基础。",
+      "origin": "curated"
+    },
+    {
+      "id": "knowledge_technical_documentation",
+      "name": "技术文档阅读",
+      "aliases": [
+        "technical docs",
+        "technical documentation",
+        "技术文档",
+        "技术文档阅读",
+        "英文文档",
+        "英文技术文档"
+      ],
+      "description": "阅读官方文档、英文教程与 API 说明的知识基础。",
       "origin": "curated"
     },
     {
@@ -1496,6 +1526,21 @@
         "不太擅长数学"
       ],
       "description": "数学理论短板。",
+      "origin": "curated"
+    },
+    {
+      "id": "constraint_weak_english",
+      "name": "英语薄弱",
+      "aliases": [
+        "不会英语",
+        "英语不好",
+        "英文不好",
+        "英语薄弱",
+        "英语很差",
+        "看不懂英文",
+        "英文文档看不懂"
+      ],
+      "description": "英文阅读与技术文档理解薄弱。",
       "origin": "curated"
     },
     {

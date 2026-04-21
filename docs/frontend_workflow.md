@@ -2,7 +2,19 @@
 
 ## 目标
 
-前端不是单纯展示 Top-K 列表，而是把知识图谱推荐过程拆成可观察、可微调、可回溯的工作台。
+前端不是单纯展示 Top-K 列表，而是把知识图谱推荐过程拆成可观察、可微调、可回溯的工作台。当前实现基于 `Vite + React + TypeScript`，但仍保持原有 `/api/*` 后端契约不变。
+
+## 页面结构
+
+- 左栏：输入与节点确认
+  - 案例画廊、自然语言输入、结构化信号、目标岗位选择
+- 中栏：传播图与节点详情
+  - 按 `evidence -> ability -> composite -> direction -> role` 分层布局
+  - 支持回放激活路径和查看节点来源/聚合信息
+- 右栏：结果与规划面板
+  - `results` 标签展示 strong match、near miss、bridge recommendation
+  - `target` 标签展示目标岗位差距、成长路径和推荐行动
+  - `simulation` 标签展示单行动或双行动方案的收益对比
 
 ## 页面主流程
 
@@ -61,7 +73,7 @@
 - `GET /api/catalog`
   - 返回 evidence 节点目录、role 节点目录、示例请求和 demo cases
 - `POST /api/recommend`
-  - 返回标准化输入、推荐结果和传播快照
+  - 返回标准化输入、推荐结果、bridge fallback 和传播快照
 - `POST /api/role-gap`
   - 返回目标岗位分析、优先补齐建议、多步成长路径、行动模板和 what-if 模拟结果
 - `POST /api/action-simulate`
@@ -69,6 +81,8 @@
 
 ## 交互设计取舍
 
-- 不引入重型前端框架，使用静态 HTML/CSS/JS，降低本轮接入成本
+- 使用组件化的 `React + TypeScript`，把原来的前端巨石拆成输入、图谱、结果三个职责清晰的区域
+- 保持单屏工作台，不回到纵向长页面；需要滚动时只在面板内部滚动
 - 不展示全量边，而是只展示已激活节点和高贡献边，提高可读性
 - 节点确认与推荐结果分开，强化“用户可控”而不是“一次性黑盒”
+- 当输入稀疏时优先展示 bridge recommendation，而不是直接给空结果

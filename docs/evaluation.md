@@ -27,6 +27,9 @@
 - `signals`
 - `top_k`
 - `expected_roles_any`
+- `expected_near_miss_roles_any`
+- `expected_bridge_anchor_ids_any`
+- `expected_bridge_roles_any`
 - `forbidden_roles`
 - `expected_explanation_nodes_any`
 - `expected_source_types_any`
@@ -38,6 +41,7 @@
 
 - `hit_at_3`
 - `hit_at_5`
+- `fallback_coverage`
 - `forbidden_role_violations`
 - `explanation_coverage`
 - `provenance_coverage`
@@ -47,6 +51,7 @@
 
 - `hit_at_3 >= 0.75`
 - `hit_at_5 >= 0.90`
+- `fallback_coverage >= 1.00`
 - `forbidden_role_violations = 0`
 - `explanation_coverage >= 0.80`
 - `provenance_coverage >= 0.80`
@@ -61,6 +66,14 @@ python3 scripts/run_recommendation_benchmark.py
 
 - `data/demo/recommendation_benchmark_report.json`
 - `data/demo/recommendation_benchmark_report.md`
+
+对于常规 case，脚本继续检查 top-k 命中、解释节点和 provenance 覆盖。
+
+对于稀疏输入 / 兜底 case，脚本会重点检查：
+
+- 是否命中了预期的 near miss 岗位
+- 是否给出了预期的 bridge anchor
+- bridge recommendation 是否把用户引导到了合理的相关岗位
 
 ## Planning Benchmark
 

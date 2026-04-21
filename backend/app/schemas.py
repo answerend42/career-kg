@@ -248,6 +248,41 @@ class NearMissItem:
 
 
 @dataclass(slots=True)
+class BridgeRolePreview:
+    job_id: str
+    job_name: str
+    score: float
+
+    def as_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(slots=True)
+class BridgeRecommendationItem:
+    anchor_id: str
+    anchor_name: str
+    anchor_type: str
+    bridge_score: float
+    score: float
+    summary: str
+    paths: list[PathExplanation]
+    limitations: list[str]
+    next_steps: list[GapSuggestion] = field(default_factory=list)
+    related_roles: list[BridgeRolePreview] = field(default_factory=list)
+    provenance_count: int = 0
+    source_type_count: int = 0
+    source_types: list[str] = field(default_factory=list)
+    source_refs: list[dict[str, Any]] = field(default_factory=list)
+
+    def as_dict(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["paths"] = [path.as_dict() for path in self.paths]
+        payload["next_steps"] = [item.as_dict() for item in self.next_steps]
+        payload["related_roles"] = [item.as_dict() for item in self.related_roles]
+        return payload
+
+
+@dataclass(slots=True)
 class SimulatedBoost:
     node_id: str
     node_name: str

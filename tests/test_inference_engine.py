@@ -49,6 +49,21 @@ class RecommendationInferenceTests(unittest.TestCase):
             }
         )
         self.assertEqual(result["recommendations"], [])
+        self.assertGreater(len(result["near_miss_roles"]), 0)
+        self.assertGreater(len(result["bridge_recommendations"]), 0)
+
+    def test_math_only_returns_bridge_not_formal_ml_role(self) -> None:
+        result = self.service.recommend({"text": "我只会数学", "top_k": 8})
+        self.assertEqual(result["recommendations"], [])
+        self.assertGreater(len(result["bridge_recommendations"]), 0)
+        bridge_anchor_ids = {item["anchor_id"] for item in result["bridge_recommendations"]}
+        self.assertIn("cap_ml_engineering", bridge_anchor_ids)
+        bridge_role_ids = {
+            role["job_id"]
+            for item in result["bridge_recommendations"]
+            for role in item.get("related_roles", [])
+        }
+        self.assertIn("role_ml_engineer", bridge_role_ids)
 
     def test_math_shortfall_suppresses_machine_learning(self) -> None:
         strong_math = {

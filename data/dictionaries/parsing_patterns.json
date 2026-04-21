@@ -17,6 +17,41 @@
   ],
   "phrase_rules": [
     {
+      "label": "英语约束",
+      "phrases": [
+        "不会英语",
+        "英语不好",
+        "英文不好",
+        "英语很差",
+        "看不懂英文",
+        "英文文档看不懂"
+      ],
+      "signals": [
+        {
+          "node_id": "language_english_reading",
+          "score": 0.34
+        },
+        {
+          "node_id": "knowledge_technical_documentation",
+          "score": 0.28
+        }
+      ],
+      "negative_signals": [
+        {
+          "node_id": "constraint_weak_english",
+          "score": 0.9
+        },
+        {
+          "node_id": "language_english_reading",
+          "score": 0.18
+        },
+        {
+          "node_id": "knowledge_technical_documentation",
+          "score": 0.16
+        }
+      ]
+    },
+    {
       "label": "接口开发",
       "phrases": [
         "接口开发",

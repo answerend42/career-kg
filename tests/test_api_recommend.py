@@ -119,6 +119,8 @@ class RecommendationApiTests(unittest.TestCase):
         self.assertEqual(result["normalized_inputs"], [])
         self.assertEqual(result["recommendations"], [])
         self.assertEqual(result["near_miss_roles"], [])
+        self.assertEqual(result["bridge_recommendations"], [])
+        self.assertIsNotNone(result["empty_result_reason"])
 
     def test_near_miss_roles_expose_gap_suggestions_without_formal_recommendations(self) -> None:
         result = self.service.recommend(
@@ -153,6 +155,29 @@ class RecommendationApiTests(unittest.TestCase):
         self.assertEqual(java_near_miss["suggestions"][0]["relation"], "requires")
         self.assertNotIn("补齐关键前置", java_near_miss["suggestions"][0]["tip"])
         self.assertIn("补强", java_near_miss["suggestions"][0]["tip"])
+
+    def test_sparse_skill_pair_returns_bridge_recommendations(self) -> None:
+        result = self.service.recommend({"text": "Python SQL", "top_k": 6})
+        self.assertEqual(result["recommendations"], [])
+        self.assertGreater(len(result["bridge_recommendations"]), 0)
+        bridge_anchor_ids = {item["anchor_id"] for item in result["bridge_recommendations"]}
+        self.assertTrue({"cap_data_engineering", "cap_data_analysis"} & bridge_anchor_ids)
+        bridge_role_ids = {
+            role["job_id"]
+            for item in result["bridge_recommendations"]
+            for role in item.get("related_roles", [])
+        }
+        self.assertTrue({"role_data_engineer", "role_data_analyst"} & bridge_role_ids)
+        self.assertIn("bridge", result["empty_result_reason"])
+
+    def test_no_english_is_parsed_as_constraint_and_returns_bridge(self) -> None:
+        result = self.service.recommend({"text": "我不会英语", "top_k": 6})
+        normalized_ids = {item["node_id"] for item in result["normalized_inputs"]}
+        self.assertIn("constraint_weak_english", normalized_ids)
+        self.assertGreater(len(result["bridge_recommendations"]), 0)
+        bridge_anchor_ids = {item["anchor_id"] for item in result["bridge_recommendations"]}
+        self.assertTrue({"dir_quality_assurance", "dir_data_analytics", "dir_web_backend"} & bridge_anchor_ids)
+        self.assertIn("bridge", result["empty_result_reason"])
 
 
 if __name__ == "__main__":

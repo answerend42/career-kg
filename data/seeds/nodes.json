@@ -1078,6 +1078,20 @@
     }
   },
   {
+    "id": "language_english_reading",
+    "name": "英文阅读",
+    "layer": "evidence",
+    "node_type": "language",
+    "aggregator": "source",
+    "description": "阅读英文技术资料与英文界面的能力。",
+    "params": {},
+    "metadata": {
+      "origin": "curated",
+      "source_file": "skills.json",
+      "category": "language"
+    }
+  },
+  {
     "id": "knowledge_data_structures",
     "name": "数据结构",
     "layer": "evidence",
@@ -1224,6 +1238,20 @@
     "node_type": "knowledge",
     "aggregator": "source",
     "description": "数学基础。",
+    "params": {},
+    "metadata": {
+      "origin": "curated",
+      "source_file": "skills.json",
+      "category": "knowledge"
+    }
+  },
+  {
+    "id": "knowledge_technical_documentation",
+    "name": "技术文档阅读",
+    "layer": "evidence",
+    "node_type": "knowledge",
+    "aggregator": "source",
+    "description": "阅读官方文档、英文教程与 API 说明的知识基础。",
     "params": {},
     "metadata": {
       "origin": "curated",
@@ -2092,6 +2120,20 @@
     "node_type": "constraint",
     "aggregator": "source",
     "description": "数学理论短板。",
+    "params": {},
+    "metadata": {
+      "origin": "curated",
+      "source_file": "skills.json",
+      "category": "constraint"
+    }
+  },
+  {
+    "id": "constraint_weak_english",
+    "name": "英语薄弱",
+    "layer": "evidence",
+    "node_type": "constraint",
+    "aggregator": "source",
+    "description": "英文阅读与技术文档理解薄弱。",
     "params": {},
     "metadata": {
       "origin": "curated",

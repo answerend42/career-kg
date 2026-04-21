@@ -80,6 +80,16 @@
     "min_signal_count": 2
   },
   {
+    "id": "english_constraint",
+    "text": "我不会英语，英文文档基本看不懂。",
+    "expected_nodes": [
+      "constraint_weak_english",
+      "language_english_reading",
+      "knowledge_technical_documentation"
+    ],
+    "min_signal_count": 3
+  },
+  {
     "id": "backend_ops_design",
     "text": "我比较擅长做服务端接口、数据库表设计和排查线上问题，也熟悉 Docker 和 Redis。",
     "expected_nodes": [

@@ -192,5 +192,55 @@
     ],
     "expected_source_types_any": ["roadmap_sh"],
     "min_provenance_count": 1
+  },
+  {
+    "id": "no_english_bridge",
+    "text": "我不会英语",
+    "top_k": 6,
+    "expected_bridge_anchor_ids_any": [
+      "dir_quality_assurance",
+      "dir_data_analytics",
+      "dir_web_backend"
+    ],
+    "expected_bridge_roles_any": [
+      "role_test_development_engineer",
+      "role_data_analyst",
+      "role_backend_engineer"
+    ]
+  },
+  {
+    "id": "math_only_bridge",
+    "text": "我只会数学",
+    "top_k": 6,
+    "expected_bridge_anchor_ids_any": [
+      "cap_ml_engineering"
+    ],
+    "expected_bridge_roles_any": [
+      "role_ml_engineer",
+      "role_ai_application_engineer"
+    ]
+  },
+  {
+    "id": "python_sql_sparse",
+    "text": "Python SQL",
+    "top_k": 6,
+    "expected_bridge_anchor_ids_any": [
+      "cap_data_engineering",
+      "cap_data_analysis"
+    ],
+    "expected_bridge_roles_any": [
+      "role_data_engineer",
+      "role_data_analyst"
+    ]
+  },
+  {
+    "id": "backend_preference_sparse",
+    "text": "偏好后端",
+    "top_k": 6,
+    "expected_near_miss_roles_any": [
+      "role_backend_engineer",
+      "role_api_platform_engineer"
+    ],
+    "forbidden_roles": ["role_frontend_engineer"]
   }
 ]

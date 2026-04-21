@@ -49,6 +49,14 @@ class NLParserTests(unittest.TestCase):
         self.assertIn("constraint_dislike_math_theory", signal_map)
         self.assertNotIn("project_model_training", signal_map)
 
+    def test_negative_english_sentence_maps_to_language_constraint(self) -> None:
+        result = self.parser.parse_detailed("我不会英语，英文文档基本看不懂。")
+        signal_map = {item.node_id: item.score for item in result.signals}
+        self.assertIn("constraint_weak_english", signal_map)
+        self.assertIn("language_english_reading", signal_map)
+        self.assertIn("knowledge_technical_documentation", signal_map)
+        self.assertLessEqual(signal_map["language_english_reading"], 0.2)
+
     def test_demo_benchmark_expected_nodes_are_recalled(self) -> None:
         benchmark = json.loads((ROOT / "data" / "demo" / "nl_benchmark.json").read_text(encoding="utf-8"))
         for case in benchmark:

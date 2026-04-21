@@ -186,7 +186,7 @@ class LightweightNLParser:
                 node = self.graph.nodes.get(signal.node_id)
                 if node is None:
                     continue
-                score = self._adjust_score(signal.score, segment.text)
+                score = signal.score if has_negative else self._adjust_score(signal.score, segment.text)
                 self._upsert(found, node.id, node.name, score, "natural_language")
                 notes.append(f"{rule.label}:{matched_phrase} -> {node.name} ({score:.2f})")
                 rule_hits.append(
@@ -225,6 +225,13 @@ class LightweightNLParser:
                     constraint = self.graph.nodes.get("constraint_dislike_math_theory")
                     if constraint is not None:
                         self._upsert(found, constraint.id, constraint.name, 0.82, "natural_language")
+                if (
+                    self._contains(segment.text, "negative")
+                    and (node.node_type == "language" or node.id == "knowledge_technical_documentation")
+                ):
+                    constraint = self.graph.nodes.get("constraint_weak_english")
+                    if constraint is not None:
+                        self._upsert(found, constraint.id, constraint.name, 0.9, "natural_language")
                 notes.append(f"{alias_pattern.alias} -> {node.name} ({score:.2f})")
                 alias_hits.append(
                     {
@@ -255,6 +262,8 @@ class LightweightNLParser:
         if has_negative:
             if node_id == "knowledge_math_foundation":
                 return 0.22
+            if node_type == "language" or node_id == "knowledge_technical_documentation":
+                return 0.18
             return None
 
         base_score = 0.74 if node_type == "project" else 0.62

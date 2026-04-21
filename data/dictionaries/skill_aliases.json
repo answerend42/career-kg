@@ -469,6 +469,15 @@
     "不爱做样式",
     "不爱抠样式"
   ],
+  "constraint_weak_english": [
+    "不会英语",
+    "看不懂英文",
+    "英文不好",
+    "英文文档看不懂",
+    "英语不好",
+    "英语很差",
+    "英语薄弱"
+  ],
   "dir_ai_application": [
     "ai 应用方向"
   ],
@@ -706,11 +715,27 @@
     "架构设计",
     "系统设计"
   ],
+  "knowledge_technical_documentation": [
+    "technical docs",
+    "technical documentation",
+    "技术文档",
+    "技术文档阅读",
+    "英文技术文档",
+    "英文文档"
+  ],
   "knowledge_ui_ux_basics": [
     "ui ux",
     "交互设计",
     "界面交互",
     "界面交互基础"
+  ],
+  "language_english_reading": [
+    "english",
+    "technical english",
+    "英文",
+    "英文阅读",
+    "英语",
+    "英语阅读"
   ],
   "project_ab_testing": [
     "a/b test",

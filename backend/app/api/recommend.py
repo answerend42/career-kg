@@ -6,6 +6,9 @@ from typing import Any
 
 from ..schemas import (
     ActionSimulationRequest,
+    BridgeRecommendationItem,
+    BridgeRolePreview,
+    GapSuggestion,
     LearningPathStep,
     NearMissItem,
     RecommendationItem,
@@ -25,7 +28,31 @@ from ..services.role_gap_analyzer import RoleGapAnalyzer
 
 MIN_RECOMMENDATION_SCORE = 0.05
 MIN_NEAR_MISS_SCORE = 0.05
+MIN_BRIDGE_SCORE = 0.03
 MAX_NEAR_MISS_ITEMS = 4
+MAX_BRIDGE_ITEMS = 4
+CONSTRAINT_BRIDGE_FALLBACKS = {
+    "constraint_weak_english": [
+        {
+            "anchor_id": "dir_quality_assurance",
+            "related_role_ids": ["role_test_development_engineer", "role_qa_platform_engineer"],
+            "next_step_ids": ["language_english_reading", "knowledge_technical_documentation", "project_test_automation"],
+            "summary": "当前主要识别到英语约束，还没有足够技能证据直接下岗位结论。可先从测试开发这类资料路径更清晰的方向起步，同时补技术英语与文档阅读。",
+        },
+        {
+            "anchor_id": "dir_data_analytics",
+            "related_role_ids": ["role_data_analyst", "role_bi_engineer"],
+            "next_step_ids": ["language_english_reading", "skill_sql", "project_dashboard"],
+            "summary": "如果你现在最担心的是英语门槛，可以先沿数据分析方向建立 SQL 和报表基础，再逐步补英文文档阅读能力。",
+        },
+        {
+            "anchor_id": "dir_web_backend",
+            "related_role_ids": ["role_backend_engineer", "role_python_backend_engineer"],
+            "next_step_ids": ["language_english_reading", "knowledge_technical_documentation", "project_backend_api"],
+            "summary": "后端依然可以作为中期目标，但当前更像桥接路径。先补技术英语和文档阅读，再通过一个 API 项目建立可迁移的正向证据。",
+        },
+    ]
+}
 DEMO_CASE_METADATA = {
     "sample_request": {
         "title": "系统示例：后端入门画像",
@@ -91,6 +118,7 @@ class RecommendationService:
             request.text,
             request.signals,
         )
+        active_signal_ids = {item.node_id for item in merged_signals}
         ranked_roles = sorted(
             self.graph.role_ids,
             key=lambda node_id: (states[node_id].score, self.graph.nodes[node_id].name),
@@ -108,11 +136,25 @@ class RecommendationService:
             excluded_role_ids=set(selected_role_ids),
             limit=min(MAX_NEAR_MISS_ITEMS, max(2, request.top_k)),
         )
+        bridge_recommendations = self._build_bridge_items(
+            states,
+            excluded_role_ids=set(selected_role_ids)
+            | {item.job_id for item in near_miss_roles},
+            active_signal_ids=active_signal_ids,
+            limit=min(MAX_BRIDGE_ITEMS, max(2, request.top_k)),
+        )
 
         return {
             "normalized_inputs": [item.as_dict() for item in merged_signals],
             "recommendations": [item.as_dict() for item in recommendations],
             "near_miss_roles": [item.as_dict() for item in near_miss_roles],
+            "bridge_recommendations": [item.as_dict() for item in bridge_recommendations],
+            "empty_result_reason": self._build_empty_result_reason(
+                merged_signals=merged_signals,
+                recommendations=recommendations,
+                near_miss_roles=near_miss_roles,
+                bridge_recommendations=bridge_recommendations,
+            ),
             "propagation_snapshot": self._build_snapshot(states) if request.include_snapshot else None,
             "parsing_notes": parse_result.notes[:30],
             "parsing_debug": parse_result.debug,
@@ -255,17 +297,337 @@ class RecommendationService:
             near_miss_score += 0.015
         return round(max(0.0, min(1.0, near_miss_score)), 4)
 
-    def _role_source_payload(self, role_id: str) -> dict[str, Any]:
+    def _estimate_bridge_score(self, state: NodeState) -> float:
+        bridge_score = self._latent_signal(state)
+        if state.diagnostics.get("missing_requirements"):
+            bridge_score += 0.01
+        if state.diagnostics.get("hard_gate_closed"):
+            bridge_score += 0.005
+        return round(max(0.0, min(1.0, bridge_score)), 4)
+
+    def _latent_signal(self, state: NodeState) -> float:
+        diagnostics = state.diagnostics
+        support_total = float(diagnostics.get("support_total", 0.0) or 0.0)
+        require_total = float(diagnostics.get("require_total", 0.0) or 0.0)
+        prefer_total = float(diagnostics.get("prefer_total", 0.0) or 0.0)
+        inhibit_total = float(diagnostics.get("inhibit_total", 0.0) or 0.0)
+        return max(
+            state.score,
+            support_total + require_total + prefer_total * 0.55 - inhibit_total * 0.2,
+        )
+
+    def _build_bridge_items(
+        self,
+        states: dict[str, NodeState],
+        excluded_role_ids: set[str],
+        active_signal_ids: set[str],
+        limit: int,
+    ) -> list[BridgeRecommendationItem]:
+        candidates: list[tuple[float, float, str, str]] = []
+        for node_id, node in self.graph.nodes.items():
+            if node.layer not in {"role", "direction", "composite"}:
+                continue
+            if node.layer == "role" and node_id in excluded_role_ids:
+                continue
+            bridge_score = self._estimate_bridge_score(states[node_id])
+            if bridge_score < MIN_BRIDGE_SCORE:
+                continue
+            candidates.append((bridge_score, states[node_id].score, node.layer, node_id))
+
+        selected: list[BridgeRecommendationItem] = []
+        seen_role_signatures: set[tuple[str, ...]] = set()
+        for bridge_score, _, layer, node_id in sorted(
+            candidates,
+            key=lambda item: (
+                item[1] >= MIN_BRIDGE_SCORE,
+                item[1],
+                item[0],
+                item[2] == "role",
+                self.graph.nodes[item[3]].name,
+            ),
+            reverse=True,
+        ):
+            suggestions = self._build_bridge_gap_suggestions(states, node_id)
+            related_roles = self._bridge_related_roles(node_id, states)
+            if layer != "role" and not related_roles:
+                continue
+            role_signature = tuple(role.job_id for role in related_roles[:2]) or (node_id,)
+            if role_signature in seen_role_signatures:
+                continue
+            seen_role_signatures.add(role_signature)
+            paths = self.explainer.top_paths(self.graph, states, node_id, limit=2)
+            source_payload = self._node_source_payload(node_id)
+            selected.append(
+                BridgeRecommendationItem(
+                    anchor_id=node_id,
+                    anchor_name=self.graph.nodes[node_id].name,
+                    anchor_type=layer,
+                    bridge_score=bridge_score,
+                    score=states[node_id].score,
+                    summary=self._summarize_bridge(node_id, states, paths, suggestions, related_roles),
+                    paths=paths,
+                    limitations=self._node_limitations(states, node_id),
+                    next_steps=suggestions,
+                    related_roles=related_roles,
+                    **source_payload,
+                )
+            )
+            if len(selected) >= limit:
+                break
+
+        if selected:
+            return selected
+        return self._build_constraint_fallback_bridges(states, active_signal_ids, limit)
+
+    def _build_bridge_gap_suggestions(
+        self,
+        states: dict[str, NodeState],
+        node_id: str,
+        limit: int = 3,
+    ) -> list[GapSuggestion]:
+        state = states[node_id]
+        missing = set(str(name) for name in state.diagnostics.get("missing_requirements", []))
+        grouped: dict[str, dict[str, Any]] = {}
+
+        for contribution in state.parent_contributions:
+            if contribution.relation not in {"requires", "supports", "evidences"}:
+                continue
+            entry = grouped.setdefault(
+                contribution.parent_id,
+                {
+                    "node_id": contribution.parent_id,
+                    "node_name": contribution.parent_name,
+                    "current_score": states[contribution.parent_id].score,
+                    "support_value": 0.0,
+                    "requires_value": 0.0,
+                    "has_requires": False,
+                },
+            )
+            if contribution.relation == "requires":
+                entry["has_requires"] = True
+                entry["requires_value"] = max(entry["requires_value"], contribution.value)
+            else:
+                entry["support_value"] = max(entry["support_value"], contribution.value)
+
+        ranked: list[tuple[float, GapSuggestion]] = []
+        for item in grouped.values():
+            is_missing = item["node_name"] in missing
+            current_score = float(item["current_score"] or 0.0)
+            priority = item["requires_value"] * 2.2 + item["support_value"] * 1.15
+            priority += max(0.0, 0.58 - current_score)
+            if is_missing:
+                priority += 0.6
+            if priority < 0.22:
+                continue
+            relation = "requires" if item["has_requires"] else "supports"
+            ranked.append(
+                (
+                    priority,
+                    GapSuggestion(
+                        node_id=str(item["node_id"]),
+                        node_name=str(item["node_name"]),
+                        relation=relation,
+                        current_score=round(current_score, 4),
+                        tip=self.role_gap_analyzer.build_gap_tip(
+                            current_score=current_score,
+                            is_missing=is_missing,
+                            relation=relation,
+                        ),
+                    ),
+                )
+            )
+
+        return [
+            suggestion
+            for _, suggestion in sorted(
+                ranked,
+                key=lambda item: (item[0], item[1].current_score, item[1].node_name),
+                reverse=True,
+            )[:limit]
+        ]
+
+    def _bridge_related_roles(
+        self,
+        node_id: str,
+        states: dict[str, NodeState],
+        limit: int = 3,
+    ) -> list[BridgeRolePreview]:
+        node = self.graph.nodes[node_id]
+        if node.layer == "role":
+            return [
+                BridgeRolePreview(
+                    job_id=node_id,
+                    job_name=node.name,
+                    score=states[node_id].score,
+                )
+            ]
+
+        discovered: set[str] = set()
+        queue: list[tuple[str, int]] = [(node_id, 0)]
+        while queue:
+            current_id, depth = queue.pop(0)
+            for edge in self.graph.outgoing.get(current_id, []):
+                target = edge.target
+                target_node = self.graph.nodes[target]
+                if target_node.layer == "role":
+                    discovered.add(target)
+                    continue
+                if depth < 1 and target_node.layer in {"direction", "composite"}:
+                    queue.append((target, depth + 1))
+
+        return [
+            BridgeRolePreview(
+                job_id=role_id,
+                job_name=self.graph.nodes[role_id].name,
+                score=states[role_id].score,
+            )
+            for role_id in sorted(
+                discovered,
+                key=lambda item: (
+                    self._latent_signal(states[item]),
+                    states[item].score,
+                    self.graph.nodes[item].name,
+                ),
+                reverse=True,
+            )[:limit]
+        ]
+
+    def _summarize_bridge(
+        self,
+        node_id: str,
+        states: dict[str, NodeState],
+        paths: list[Any],
+        suggestions: list[GapSuggestion],
+        related_roles: list[BridgeRolePreview],
+    ) -> str:
+        node = self.graph.nodes[node_id]
+        roots = list(dict.fromkeys(path.labels[0] for path in paths if path.labels))
+        driver_text = "、".join(roots[:3]) if roots else "现有信号"
+        next_step = suggestions[0].node_name if suggestions else "一组更明确的技能或项目证据"
+        role_text = "、".join(role.job_name for role in related_roles[:2])
+
+        if node.layer == "role":
+            return f"{driver_text} 已经把你推到 {node.name} 的桥接区间，但还需要先补 {next_step}。"
+        if related_roles:
+            return f"{driver_text} 已形成 {node.name} 的入门信号，可先朝 {role_text} 靠近，优先补 {next_step}。"
+        return f"{driver_text} 已形成 {node.name} 的桥接信号，优先补 {next_step} 后更容易进入正式推荐。"
+
+    def _node_limitations(
+        self,
+        states: dict[str, NodeState],
+        node_id: str,
+    ) -> list[str]:
+        state = states[node_id]
+        messages: list[str] = []
+        missing = state.diagnostics.get("missing_requirements", [])
+        if missing:
+            messages.append(f"当前关键短板: {'、'.join(missing[:3])}")
+        inhibitions = [
+            contribution.parent_name
+            for contribution in state.parent_contributions
+            if contribution.relation == "inhibits" and contribution.value >= 0.05
+        ]
+        if inhibitions:
+            messages.append(f"当前抑制因素: {'、'.join(list(dict.fromkeys(inhibitions))[:3])}")
+        if state.diagnostics.get("hard_gate_closed"):
+            messages.append("当前仍未穿透正式岗位门槛。")
+        return messages
+
+    def _build_constraint_fallback_bridges(
+        self,
+        states: dict[str, NodeState],
+        active_signal_ids: set[str],
+        limit: int,
+    ) -> list[BridgeRecommendationItem]:
+        selected: list[BridgeRecommendationItem] = []
+        for constraint_id, specs in CONSTRAINT_BRIDGE_FALLBACKS.items():
+            if constraint_id not in active_signal_ids:
+                continue
+            for spec in specs:
+                anchor_id = spec["anchor_id"]
+                if anchor_id not in self.graph.nodes:
+                    continue
+                related_roles = [
+                    BridgeRolePreview(
+                        job_id=role_id,
+                        job_name=self.graph.nodes[role_id].name,
+                        score=states.get(role_id, NodeState(score=0.0, direct_input=0.0)).score if role_id in states else 0.0,
+                    )
+                    for role_id in spec.get("related_role_ids", [])
+                    if role_id in self.graph.nodes
+                ]
+                selected.append(
+                    BridgeRecommendationItem(
+                        anchor_id=anchor_id,
+                        anchor_name=self.graph.nodes[anchor_id].name,
+                        anchor_type=self.graph.nodes[anchor_id].layer,
+                        bridge_score=0.06,
+                        score=states[anchor_id].score if anchor_id in states else 0.0,
+                        summary=spec["summary"],
+                        paths=[],
+                        limitations=["当前只识别到约束信息，缺少技能或项目证据。"],
+                        next_steps=self._fallback_step_suggestions(states, spec.get("next_step_ids", [])),
+                        related_roles=related_roles[:3],
+                        **self._node_source_payload(anchor_id),
+                    )
+                )
+                if len(selected) >= limit:
+                    return selected
+        return selected[:limit]
+
+    def _fallback_step_suggestions(
+        self,
+        states: dict[str, NodeState],
+        node_ids: list[str],
+    ) -> list[GapSuggestion]:
+        suggestions: list[GapSuggestion] = []
+        for node_id in node_ids:
+            node = self.graph.nodes.get(node_id)
+            if node is None:
+                continue
+            tip = "先补技术英语" if node.node_type == "language" else "优先补齐基础证据"
+            suggestions.append(
+                GapSuggestion(
+                    node_id=node_id,
+                    node_name=node.name,
+                    relation="supports",
+                    current_score=round(states.get(node_id, NodeState(score=0.0, direct_input=0.0)).score if node_id in states else 0.0, 4),
+                    tip=tip,
+                )
+            )
+        return suggestions
+
+    def _build_empty_result_reason(
+        self,
+        merged_signals: list[Any],
+        recommendations: list[RecommendationItem],
+        near_miss_roles: list[NearMissItem],
+        bridge_recommendations: list[BridgeRecommendationItem],
+    ) -> str | None:
+        if recommendations:
+            return None
+        if near_miss_roles or bridge_recommendations:
+            return "当前输入还不足以形成正式岗位推荐，已降级展示 near miss / bridge 结果。"
+        if not merged_signals:
+            return "当前输入没有解析出稳定的图谱信号。"
+        if all(self.graph.nodes[item.node_id].node_type == "constraint" for item in merged_signals if item.node_id in self.graph.nodes):
+            return "当前只识别到约束，没有技能、项目或方向偏好证据。"
+        return "当前信号过于稀疏，还没有穿透岗位门槛。"
+
+    def _node_source_payload(self, node_id: str) -> dict[str, Any]:
         return {
-            "provenance_count": int(self.graph.nodes[role_id].metadata.get("provenance_count", 0) or 0),
-            "source_type_count": int(self.graph.nodes[role_id].metadata.get("source_type_count", 0) or 0),
+            "provenance_count": int(self.graph.nodes[node_id].metadata.get("provenance_count", 0) or 0),
+            "source_type_count": int(self.graph.nodes[node_id].metadata.get("source_type_count", 0) or 0),
             "source_types": [
                 str(source_type)
-                for source_type in self.graph.nodes[role_id].metadata.get("source_types", [])
+                for source_type in self.graph.nodes[node_id].metadata.get("source_types", [])
                 if str(source_type).strip()
             ],
-            "source_refs": self._normalize_source_refs(self.graph.nodes[role_id].metadata.get("source_refs", [])),
+            "source_refs": self._normalize_source_refs(self.graph.nodes[node_id].metadata.get("source_refs", [])),
         }
+
+    def _role_source_payload(self, role_id: str) -> dict[str, Any]:
+        return self._node_source_payload(role_id)
 
     def catalog(self) -> dict[str, Any]:
         evidence_nodes = [
@@ -497,6 +859,22 @@ class RecommendationService:
         return metadata
 
     def _build_snapshot(self, states: dict[str, Any]) -> dict[str, Any]:
+        root_node_ids = {
+            node_id
+            for node_id, state in states.items()
+            if state.direct_input > 0 and self.graph.nodes[node_id].layer == "evidence"
+        }
+        visible_node_ids = set(root_node_ids)
+        for node_id in self.graph.topological_order:
+            if node_id in visible_node_ids:
+                continue
+            state = states[node_id]
+            if any(
+                contribution.parent_id in visible_node_ids and contribution.value > 0
+                for contribution in state.parent_contributions
+            ):
+                visible_node_ids.add(node_id)
+
         nodes = [
             {
                 "id": node_id,
@@ -514,15 +892,15 @@ class RecommendationService:
                 key=lambda item: (item[1].score, item[0]),
                 reverse=True,
             )
-            if state.score >= 0.05
+            if node_id in visible_node_ids
         ]
 
         edges = []
         for target_id, state in states.items():
-            if state.score < 0.05:
+            if target_id not in visible_node_ids:
                 continue
             for contribution in state.parent_contributions:
-                if contribution.value < 0.05:
+                if contribution.parent_id not in visible_node_ids or contribution.value <= 0:
                     continue
                 edges.append(
                     {
@@ -534,7 +912,7 @@ class RecommendationService:
                     }
                 )
         edges.sort(key=lambda item: item["value"], reverse=True)
-        return {"nodes": nodes, "edges": edges[:200]}
+        return {"nodes": nodes, "edges": edges}
 
 
 def recommend_from_payload(payload: dict[str, Any] | None, base_dir: Path | None = None) -> dict[str, Any]:

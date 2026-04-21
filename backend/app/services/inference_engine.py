@@ -49,7 +49,11 @@ class InferenceEngine:
                     score=direct_input,
                     direct_input=direct_input,
                     evidence=evidence,
-                    diagnostics={"aggregator": "source", "layer": node.layer},
+                    diagnostics={
+                        "aggregator": "source",
+                        "support_total": round(direct_input, 4),
+                        "layer": node.layer,
+                    },
                 )
                 continue
 

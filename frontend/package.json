@@ -1,8 +1,25 @@
 {
   "name": "career-kg-workbench",
   "private": true,
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "build": "node ./tools/build.mjs"
+    "dev": "vite",
+    "build": "node ./tools/export-kg-overview-data.mjs && tsc -p tsconfig.json && tsc -p tsconfig.node.json && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@antv/g6": "^5.1.0",
+    "framer-motion": "^12.23.24",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
   }
 }

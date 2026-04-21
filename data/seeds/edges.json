@@ -165,6 +165,17 @@
     }
   },
   {
+    "source": "knowledge_technical_documentation",
+    "target": "ability_programming_fundamentals",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "该节点正向支撑 编程基础。",
+    "metadata": {
+      "source_file": "capability_templates.json",
+      "relation_group": "supports"
+    }
+  },
+  {
     "source": "knowledge_data_structures",
     "target": "ability_programming_fundamentals",
     "relation": "requires",
@@ -342,6 +353,17 @@
   },
   {
     "source": "tool_nestjs",
+    "target": "ability_backend_basics",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "该节点正向支撑 后端基础。",
+    "metadata": {
+      "source_file": "capability_templates.json",
+      "relation_group": "supports"
+    }
+  },
+  {
+    "source": "language_english_reading",
     "target": "ability_backend_basics",
     "relation": "supports",
     "weight": 0.17,
@@ -1243,6 +1265,17 @@
     }
   },
   {
+    "source": "knowledge_technical_documentation",
+    "target": "ability_data_processing",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "该节点正向支撑 数据处理能力。",
+    "metadata": {
+      "source_file": "capability_templates.json",
+      "relation_group": "supports"
+    }
+  },
+  {
     "source": "project_data_pipeline",
     "target": "ability_data_processing",
     "relation": "supports",
@@ -1650,6 +1683,17 @@
     }
   },
   {
+    "source": "language_english_reading",
+    "target": "ability_ml_foundations",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "该节点正向支撑 机器学习基础。",
+    "metadata": {
+      "source_file": "capability_templates.json",
+      "relation_group": "supports"
+    }
+  },
+  {
     "source": "knowledge_statistics",
     "target": "ability_ml_foundations",
     "relation": "supports",
@@ -1706,6 +1750,17 @@
   },
   {
     "source": "constraint_dislike_math_theory",
+    "target": "ability_ml_foundations",
+    "relation": "inhibits",
+    "weight": 0.28,
+    "note": "该约束会抑制 机器学习基础。",
+    "metadata": {
+      "source_file": "capability_templates.json",
+      "relation_group": "inhibits"
+    }
+  },
+  {
+    "source": "constraint_weak_english",
     "target": "ability_ml_foundations",
     "relation": "inhibits",
     "weight": 0.28,
@@ -2762,6 +2817,17 @@
   },
   {
     "source": "soft_documentation",
+    "target": "ability_engineering_collaboration",
+    "relation": "supports",
+    "weight": 0.17,
+    "note": "该节点正向支撑 工程协作能力。",
+    "metadata": {
+      "source_file": "capability_templates.json",
+      "relation_group": "supports"
+    }
+  },
+  {
+    "source": "language_english_reading",
     "target": "ability_engineering_collaboration",
     "relation": "supports",
     "weight": 0.17,
@@ -8725,6 +8791,55 @@
     }
   },
   {
+    "source": "constraint_weak_english",
+    "target": "dir_web_backend",
+    "relation": "inhibits",
+    "weight": 0.3,
+    "note": "该约束会抑制 Web 后端方向。",
+    "metadata": {
+      "source_file": "capability_templates.json",
+      "relation_group": "inhibits",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1252.00",
+          "source_title": "15-1252.00 - Software Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1252.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Research, design, and develop computer and network software or specialized utility programs. Analyze user needs and develop software solutions, applying principles and techniques of computer science, engineering, and mathematical analysis. Update software or enhance existing software capabilities. May work with computer hardware engineers to integrate hardware and software systems, and develop specifications and performance requirements. May maintain databases within an application area, working individually or coordinating database development as part of a team.",
+          "sample_job_titles": [
+            "Application Developer",
+            "Application Integration Engineer",
+            "Developer",
+            "DevOps Engineer (Development Operations Engineer)"
+          ]
+        },
+        {
+          "profile_id": "roadmap_backend",
+          "source_type": "roadmap_sh",
+          "source_id": "backend",
+          "source_title": "Backend Developer Roadmap: What is Backend Development",
+          "source_url": "https://roadmap.sh/backend",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "If you are a complete beginner who is just getting started, you can start by learning a backend programming language such as Python, Ruby, Java, Go, etc. Once you have gained a basic-to-intermediate understanding of the language, learn about the package manager for that language and learn how to install and use external packages into your applications. Learn the basics of some relational database e.g. PostgreSQL and learn how to run simple CRUD operations. Optionally, you can pick up and learn a web framework for the language of your choice as well. Learn how to build a simple RESTful API and implement simple Authentication/Authorization into it. While you are learning all the items mentioned above, don't forget to learn about Git and GitHub as well.\" After following all the instructions above, you can start applying for the entry level backend developer jobs. Also, look at the backend developer roadmap above to get an idea about the landscape and see what else you are missing. A degree in computer science or related field is not always necessary but networking, building a portfolio and actively seeking internships, junior developer positions or consulting can help to start and advance a career as a backend developer. Note: remember to create a lot of [projects](https://roadmap.sh/backend/project-ideas) while you are learning to solidify your understanding of the concepts. Also, it's important to have the attitude of continuous learning to improve your [skills](https://roadmap.sh/backend/developer-skills) and be prepared for the fast-paced technology evolution in the industry.",
+          "sample_job_titles": [
+            "Backend Developer",
+            "API Engineer",
+            "Microservice Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
+    }
+  },
+  {
     "source": "cap_frontend_engineering",
     "target": "dir_frontend",
     "relation": "supports",
@@ -9267,6 +9382,54 @@
     "metadata": {
       "source_file": "capability_templates.json",
       "relation_group": "prefers",
+      "source_refs": [
+        {
+          "profile_id": "onet_software_developers",
+          "source_type": "onet_online",
+          "source_id": "15-1252.00",
+          "source_title": "15-1252.00 - Software Developers",
+          "source_url": "https://www.onetonline.org/link/summary/15-1252.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Research, design, and develop computer and network software or specialized utility programs. Analyze user needs and develop software solutions, applying principles and techniques of computer science, engineering, and mathematical analysis. Update software or enhance existing software capabilities. May work with computer hardware engineers to integrate hardware and software systems, and develop specifications and performance requirements. May maintain databases within an application area, working individually or coordinating database development as part of a team.",
+          "sample_job_titles": [
+            "Application Developer",
+            "Application Integration Engineer",
+            "Developer",
+            "DevOps Engineer (Development Operations Engineer)"
+          ]
+        },
+        {
+          "profile_id": "roadmap_full_stack",
+          "source_type": "roadmap_sh",
+          "source_id": "full-stack",
+          "source_title": "Full Stack Developer Roadmap",
+          "source_url": "https://roadmap.sh/full-stack",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "You can learn full stack development in 3 months, but only if you are already proficient in either front-end or back-end development, and you just need to pick up the missing half. Otherwise, expecting to learn the ins and outs of web development (both front and back end) in such a short amount of time is too much for a single developer. Usually mastering full stack development takes more time and a lot of hands-on experience. If you only have a 3-month span of time to learn the skill and assuming you already have programming experience, the best thing you can do is to quickly run through [the full stack developer roadmap](https://roadmap.sh/full-stack). While you won't learn everything you need to be a proficient full stack developer, you'll have a basic notion of everything that entails the role.",
+          "sample_job_titles": [
+            "Full Stack Engineer",
+            "Web Application Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
+    }
+  },
+  {
+    "source": "constraint_weak_english",
+    "target": "dir_fullstack",
+    "relation": "inhibits",
+    "weight": 0.3,
+    "note": "该约束会抑制 全栈方向。",
+    "metadata": {
+      "source_file": "capability_templates.json",
+      "relation_group": "inhibits",
       "source_refs": [
         {
           "profile_id": "onet_software_developers",
@@ -9856,6 +10019,50 @@
   },
   {
     "source": "constraint_dislike_math_theory",
+    "target": "dir_machine_learning",
+    "relation": "inhibits",
+    "weight": 0.3,
+    "note": "该约束会抑制 机器学习方向。",
+    "metadata": {
+      "source_file": "capability_templates.json",
+      "relation_group": "inhibits",
+      "source_refs": [
+        {
+          "profile_id": "onet_data_scientists",
+          "source_type": "onet_online",
+          "source_id": "15-2051.00",
+          "source_title": "15-2051.00 - Data Scientists",
+          "source_url": "https://www.onetonline.org/link/summary/15-2051.00",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Develop and implement a set of techniques or analytics applications to transform raw data into meaningful information using data-oriented programming languages and visualization software. Apply data mining, data modeling, natural language processing, and machine learning to extract and analyze information from large structured and unstructured datasets. Visualize, interpret, and report data findings. May create dynamic data reports.",
+          "sample_job_titles": []
+        },
+        {
+          "profile_id": "roadmap_mlops",
+          "source_type": "roadmap_sh",
+          "source_id": "mlops",
+          "source_title": "MLOps Roadmap",
+          "source_url": "https://roadmap.sh/mlops",
+          "snapshot_date": "2026-04-17",
+          "evidence_snippet": "Step by step guide to learn MLOps in 2026",
+          "sample_job_titles": [
+            "MLOps Engineer",
+            "ML Platform Engineer",
+            "Machine Learning Engineer"
+          ]
+        }
+      ],
+      "provenance_count": 2,
+      "source_types": [
+        "onet_online",
+        "roadmap_sh"
+      ],
+      "source_type_count": 2,
+      "latest_snapshot_date": "2026-04-17"
+    }
+  },
+  {
+    "source": "constraint_weak_english",
     "target": "dir_machine_learning",
     "relation": "inhibits",
     "weight": 0.3,

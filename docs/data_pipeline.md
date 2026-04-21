@@ -40,6 +40,7 @@ python3 scripts/bootstrap_demo_data.py
 仅重新编译 source 数据：
 
 ```bash
+python3 scripts/source_validation.py
 python3 scripts/build_graph.py
 ```
 
@@ -67,6 +68,7 @@ python3 scripts/validate_graph.py
 - `data/demo/action_templates.json`
 
 运行时只读取这些编译产物，`backend/app/services/graph_loader.py` 不直接消费 source 文件。
+`scripts/build_graph.py` 在编译前会先运行 source schema 校验，避免把缺字段、错引用或重复 ID 的数据直接写进 runtime seeds。
 
 ## specialization 机制
 

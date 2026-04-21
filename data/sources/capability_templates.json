@@ -18,7 +18,8 @@
         "skill_php",
         "skill_bash",
         "tool_git",
-        "knowledge_oop"
+        "knowledge_oop",
+        "knowledge_technical_documentation"
       ],
       "requires": [
         "knowledge_data_structures",
@@ -66,6 +67,7 @@
         "tool_nodejs",
         "tool_express",
         "tool_nestjs",
+        "language_english_reading",
         "project_backend_api",
         "project_microservice"
       ],
@@ -345,6 +347,7 @@
         "tool_numpy",
         "tool_spark",
         "tool_hadoop",
+        "knowledge_technical_documentation",
         "project_data_pipeline"
       ],
       "requires": [
@@ -472,6 +475,7 @@
         "skill_python",
         "tool_numpy",
         "tool_scikit_learn",
+        "language_english_reading",
         "knowledge_statistics",
         "knowledge_linear_algebra",
         "knowledge_probability",
@@ -483,7 +487,8 @@
       "prefers": [],
       "evidences": [],
       "inhibits": [
-        "constraint_dislike_math_theory"
+        "constraint_dislike_math_theory",
+        "constraint_weak_english"
       ],
       "params": {
         "cap": 1.0,
@@ -803,6 +808,7 @@
         "soft_teamwork",
         "soft_self_learning",
         "soft_documentation",
+        "language_english_reading",
         "tool_git"
       ],
       "requires": [],
@@ -1668,7 +1674,9 @@
         "interest_backend"
       ],
       "evidences": [],
-      "inhibits": [],
+      "inhibits": [
+        "constraint_weak_english"
+      ],
       "params": {
         "cap": 1.0,
         "required_threshold": 0.03,
@@ -1719,7 +1727,9 @@
         "interest_frontend"
       ],
       "evidences": [],
-      "inhibits": [],
+      "inhibits": [
+        "constraint_weak_english"
+      ],
       "params": {
         "cap": 1.0,
         "required_threshold": 0.03,
@@ -1789,7 +1799,8 @@
       ],
       "evidences": [],
       "inhibits": [
-        "constraint_dislike_math_theory"
+        "constraint_dislike_math_theory",
+        "constraint_weak_english"
       ],
       "params": {
         "cap": 1.0,

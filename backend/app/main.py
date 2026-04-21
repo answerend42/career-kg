@@ -36,12 +36,18 @@ def frontend_root() -> Path:
     dist_dir = repo_root() / "frontend" / "dist"
     if dist_dir.exists():
         return dist_dir
-    return repo_root() / "frontend" / "src"
+    raise FileNotFoundError(
+        "frontend build not found at frontend/dist; run "
+        "`npm --prefix frontend install` and `npm --prefix frontend run build` first."
+    )
 
 
 def serve(host: str, port: int) -> None:
     service = RecommendationService()
-    static_root = frontend_root().resolve()
+    try:
+        static_root = frontend_root().resolve()
+    except FileNotFoundError as error:
+        raise SystemExit(str(error)) from error
 
     class Handler(BaseHTTPRequestHandler):
         def _send_json(self, payload: dict[str, Any], status: int = HTTPStatus.OK) -> None:
@@ -68,6 +74,9 @@ def serve(host: str, port: int) -> None:
                 candidate = static_root / "index.html"
             else:
                 candidate = (static_root / path.lstrip("/")).resolve()
+                # Allow direct navigation to SPA routes while still serving real assets by path.
+                if not candidate.exists() and "." not in Path(path).name:
+                    candidate = static_root / "index.html"
             if not candidate.exists() or not candidate.is_file():
                 return None
             if not candidate.is_relative_to(static_root):

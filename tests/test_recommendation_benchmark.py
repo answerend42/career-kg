@@ -22,11 +22,13 @@ class RecommendationBenchmarkTests(unittest.TestCase):
         cls.cases = json.loads(BENCHMARK_PATH.read_text(encoding="utf-8"))
 
     def test_benchmark_cases_cover_multiple_directions(self) -> None:
-        self.assertGreaterEqual(len(self.cases), 8)
+        self.assertGreaterEqual(len(self.cases), 12)
         case_ids = {case["id"] for case in self.cases}
         self.assertIn("backend_nl", case_ids)
         self.assertIn("security_structured", case_ids)
         self.assertIn("frontend_structured", case_ids)
+        self.assertIn("no_english_bridge", case_ids)
+        self.assertIn("python_sql_sparse", case_ids)
 
     def test_recommendation_benchmark_thresholds_pass(self) -> None:
         results = [evaluate_case(self.service, case) for case in self.cases]
@@ -37,8 +39,15 @@ class RecommendationBenchmarkTests(unittest.TestCase):
         self.assertEqual(summary["forbidden_role_violations"], QUALITY_THRESHOLDS["forbidden_role_violations"])
         self.assertGreaterEqual(summary["explanation_coverage"], QUALITY_THRESHOLDS["explanation_coverage"])
         self.assertGreaterEqual(summary["provenance_coverage"], QUALITY_THRESHOLDS["provenance_coverage"])
+        self.assertGreaterEqual(summary["fallback_coverage"], QUALITY_THRESHOLDS["fallback_coverage"])
         self.assertFalse(validate_thresholds(summary))
-        self.assertTrue(all(result["matched_role_name"] for result in results if result["case_pass"]))
+        self.assertTrue(
+            all(
+                result["matched_role_name"] or result["fallback_ok"]
+                for result in results
+                if result["case_pass"]
+            )
+        )
 
     def test_evaluate_case_surfaces_failure_reasons(self) -> None:
         class FakeRecommendationService:

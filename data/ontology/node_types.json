@@ -12,6 +12,12 @@
     "description": "课程、理论基础或通用知识证据。"
   },
   {
+    "id": "language",
+    "layer": "evidence",
+    "default_aggregator": "source",
+    "description": "语言能力证据，例如英语阅读与技术文档理解。"
+  },
+  {
     "id": "project",
     "layer": "evidence",
     "default_aggregator": "source",

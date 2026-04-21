@@ -4,14 +4,20 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import sys
 from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.source_validation import validate_sources
 
 EVIDENCE_NODE_TYPES = {
     "skill": "skill",
     "tool": "skill",
+    "language": "language",
     "knowledge": "knowledge",
     "project": "project",
     "interest": "interest",
@@ -31,6 +37,12 @@ NODE_TYPES = [
         "layer": "evidence",
         "default_aggregator": "source",
         "description": "课程、理论基础或通用知识证据。",
+    },
+    {
+        "id": "language",
+        "layer": "evidence",
+        "default_aggregator": "source",
+        "description": "语言能力证据，例如英语阅读与技术文档理解。",
     },
     {
         "id": "project",
@@ -158,6 +170,7 @@ class GraphBuilder:
         self.imported_profile_ids: set[str] = set()
 
     def build(self) -> dict[str, int]:
+        validate_sources(self.base_dir)
         skills = load_json(self.sources_dir / "skills.json")
         templates = load_json(self.sources_dir / "capability_templates.json")
         roles = load_json(self.sources_dir / "roles.json")
