@@ -73,7 +73,7 @@ button {
 
 .presentation-nav {
   display: grid;
-  grid-template-columns: minmax(170px, 0.5fr) minmax(420px, 1fr) minmax(96px, 0.22fr);
+  grid-template-columns: minmax(190px, 1fr) minmax(560px, 760px) minmax(190px, 1fr);
   gap: 18px;
   align-items: center;
   padding: 14px 18px;
@@ -100,7 +100,7 @@ button {
 .deck-title strong {
   overflow: hidden;
   font-family: var(--serif);
-  font-size: 1.08rem;
+  font-size: 1.28rem;
   font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -109,6 +109,8 @@ button {
 .page-tabs {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  justify-self: center;
+  width: min(760px, 100%);
   gap: 14px;
 }
 
@@ -139,13 +141,13 @@ button {
 .page-tab em {
   color: var(--ink-soft);
   font-family: var(--mono);
-  font-size: 0.74rem;
+  font-size: 1.02rem;
   font-style: normal;
 }
 
 .page-tab strong {
   overflow: hidden;
-  font-size: 0.92rem;
+  font-size: 1.08rem;
   font-weight: 650;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1402,6 +1404,10 @@ button {
 .field-block {
   display: grid;
   gap: var(--space-sm);
+}
+
+.support-panel .micro-label {
+  font-size: 0.94rem;
 }
 
 .segmented-control {
