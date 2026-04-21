@@ -416,15 +416,23 @@ button {
   font-weight: 600;
 }
 
-.next-step-button {
+.next-step-button,
+.header-peer-button {
   display: inline-flex;
   align-items: center;
-  width: 212px;
   min-height: 54px;
-  margin-top: 26px;
+  margin-top: 12px;
   justify-content: center;
   padding: 12px 22px;
   text-align: center;
+}
+
+.next-step-button {
+  width: 212px;
+}
+
+.header-peer-button {
+  min-width: 92px;
 }
 
 .primary-button {
@@ -987,14 +995,16 @@ button {
 }
 
 .graph-legend-card {
-  min-width: 214px;
-  gap: 9px;
+  width: 96px;
+  min-width: 96px;
+  gap: 8px;
+  padding: 11px 12px;
 }
 
 .legend-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 14px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 7px;
 }
 
 .legend-grid span {
@@ -1026,10 +1036,10 @@ button {
 
 .legend-line {
   display: inline-block;
-  width: 20px;
-  height: 0;
-  border-top: 3px solid currentColor;
-  border-radius: 999px;
+  width: 5px;
+  height: 18px;
+  border-radius: 2px;
+  background: currentColor;
 }
 
 .legend-line--supports {

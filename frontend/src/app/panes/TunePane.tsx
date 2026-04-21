@@ -221,7 +221,7 @@ export function TunePane({ flow, onNext }: { flow: Flow; onNext: () => void }) {
           <h2>微调画像</h2>
         </div>
         <div className="header-inline-actions">
-          <button className="ghost-button compact-control" type="button" onClick={flow.addConfirmedSignalRow} disabled={flow.status.busy}>
+          <button className="ghost-button header-peer-button" type="button" onClick={flow.addConfirmedSignalRow} disabled={flow.status.busy}>
             补节点
           </button>
           <button className="primary-button next-step-button" type="button" onClick={() => void continueToGraph()} disabled={flow.status.busy}>

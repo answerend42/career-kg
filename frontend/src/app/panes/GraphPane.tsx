@@ -489,7 +489,7 @@ export function GraphPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
         </div>
         <div className="header-inline-actions">
           <span className="mini-badge">{nodeTitle(flow.selectedCard)}</span>
-          <button className="ghost-button" type="button" onClick={flow.replayGraph}>
+          <button className="ghost-button header-peer-button" type="button" onClick={flow.replayGraph}>
             重播
           </button>
           <button className="primary-button next-step-button" type="button" onClick={onNext}>
