@@ -7,7 +7,7 @@ import { useRecommendationFlow } from "../hooks/useRecommendationFlow";
 import { useReducedMotionPreference } from "../hooks/useReducedMotionPreference";
 import { motionTimings } from "../lib/motionTokens";
 import { SourceProfileList } from "../components/SourceProfileList";
-import type { GraphSnapshotEdge, GraphSnapshotNode, ResultCard } from "../types/api";
+import type { GraphSnapshotEdge, GraphSnapshotNode } from "../types/api";
 
 const LAYER_ORDER = ["evidence", "ability", "composite", "direction", "role"] as const;
 const LAYER_LABELS: Record<string, string> = {
@@ -55,13 +55,6 @@ type NodePosition = { x: number; y: number };
 
 function layerRank(layer: string): number {
   return LAYER_INDEX.get(layer) ?? LAYER_ORDER.length - 1;
-}
-
-function nodeTitle(card: ResultCard | null): string {
-  if (!card) {
-    return "尚未选中结论";
-  }
-  return card.kind === "bridge" ? card.anchor_name : card.job_name;
 }
 
 function buildVisibleNodes(
@@ -488,7 +481,6 @@ export function GraphPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
             <h2>知识图谱传播演示</h2>
         </div>
         <div className="header-inline-actions">
-          <span className="mini-badge">{nodeTitle(flow.selectedCard)}</span>
           <button className="ghost-button header-peer-button" type="button" onClick={flow.replayGraph}>
             重播
           </button>

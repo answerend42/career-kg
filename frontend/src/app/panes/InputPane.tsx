@@ -23,7 +23,7 @@ export function InputPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
         <div>
           <p className="section-kicker">Input</p>
           <div className="title-with-tip">
-            <h2>填写与画像</h2>
+            <h2>填写个人画像</h2>
             <InfoTip text={inputGuide} />
           </div>
         </div>
@@ -43,7 +43,7 @@ export function InputPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
               className="editor-textarea"
               value={flow.inputText}
               onChange={(event) => flow.setInputText(event.target.value)}
-              placeholder="例如：我熟悉 Python 和 SQL，做过后端接口项目，不太擅长数学，更偏好稳定交付，不喜欢频繁 on-call。"
+              placeholder="例如：我熟悉 Python 和 SQL，不擅长 C++，做过前端项目，非常擅长数学，尤其喜欢与人交互，英语一般般"
             />
           </label>
         </section>
