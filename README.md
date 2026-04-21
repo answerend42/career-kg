@@ -1,303 +1,431 @@
 # Career KG
 
-一个以知识图谱为核心的计算机职业推荐与职业规划系统原型。当前版本已经具备后端推理闭环、可编译的数据流水线和单屏前端工作台：输入解析、节点确认、职业排序、桥接引导、路径解释和传播可视化都可以直接运行。
+Career KG 是一个面向课程演示的知识图谱职业推荐原型。它不是让模型直接生成职业名称，而是把用户画像归一到图谱节点，在显式的五层职业知识图谱上做确定性传播、排序和解释。
 
-## 当前能力
+当前仓库包含完整闭环：
 
-- 使用 `data/sources/* -> scripts/build_graph.py -> data/seeds/*` 的流水线，构建 `365` 个节点、`1053` 条边、`50` 个职业节点的分层知识图谱，其中 `102` 个节点带有 provenance 来源锚点。
-- 支持两类输入：
-  - 自然语言描述
-  - 结构化信号列表
-- 推荐分数由图上传播、聚合、门槛与抑制规则得到，不依赖 LLM 直接给职业结论。
-- 输出包含：
-  - 标准化后的输入节点
-  - strong match、near miss 和 bridge recommendation
-  - 每个职业的匹配分数
-  - 关键贡献路径
-  - 节点传播快照，便于前端做可视化
-- 已提供 React/Vite 前端工作台，支持输入确认、节点微调、二次重算、目标岗位差距分析、行动模拟与传播图查看。
+- 图谱数据构建：从 source 数据编译运行时节点、边和词典。
+- 推荐后端：自然语言解析、输入归一、图上传播、职业排序、near miss / bridge 兜底、路径解释、目标岗位差距分析和行动模拟。
+- 前端工作台：输入画像、微调画像、图谱传播、结果解释四个演示阶段。
 
-## 目录
+## 核心原理
 
-- `backend/app`: 推荐服务、推理引擎、解释器、输入解析
-- `frontend`: React/Vite/TypeScript 前端工作台
-- `data/sources`: 可编辑的图谱源数据、模板和别名
-- `data/ontology`: 节点类型与边类型本体
-- `data/seeds`: 生成后的图谱节点与边
-- `data/dictionaries`: 别名词典、自然语言模式词典和解析短语规则
-- `scripts/bootstrap_demo_data.py`: 生成 demo source 数据并编译图谱
-- `scripts/source_validation.py`: 校验 source schema 与跨文件引用
-- `scripts/build_graph.py`: 从 source 数据编译图谱 seed 与词典
-- `scripts/run_nl_benchmark.py`: 回归口语化自然语言 benchmark
-- `scripts/run_recommendation_benchmark.py`: 回归推荐、解释和稀疏输入兜底 benchmark
-- `scripts/run_planning_benchmark.py`: 回归目标岗位规划、动作模拟与方案采纳 benchmark
-- `scripts/validate_graph.py`: 校验 DAG 和图谱规模
-- `docs/baseline_status.md`: 基线与回归命令结果
-- `docs/data_pipeline.md`: 图谱数据流水线说明
-- `tests`: 单元测试
+系统采用 KG-first 的推荐链路：
 
-## 快速开始
+1. 用户输入自然语言或结构化信号。
+2. 输入被映射成标准图谱节点和 `0..1` 分值。
+3. 后端加载 `data/seeds/nodes.json` 与 `data/seeds/edges.json`，按 DAG 拓扑序传播分数。
+4. 图谱边的语义决定分数如何流动：支持、要求、偏好、抑制、证据。
+5. 只对 `role` 层职业节点排序，输出正式推荐、near miss 和 bridge recommendation。
+6. 解释器从职业节点反向回溯高贡献路径，前端用 `propagation_snapshot` 展示传播过程。
 
-1. 安装前端依赖
+运行时图谱固定为五层：
+
+| 层级 | 含义 | 示例 |
+| --- | --- | --- |
+| `evidence` | 原子证据，来自用户输入 | Python、SQL、前端项目、偏好与人交互、不擅长 C++ |
+| `ability` | 基础能力 | 编程基础、数据库实践、数学基础 |
+| `composite` | 复合能力 | 后端工程能力、机器学习工程能力 |
+| `direction` | 岗位方向 | Web 后端、机器学习、数据方向 |
+| `role` | 具体职业 | 后端开发工程师、机器学习工程师、数据工程师 |
+
+边类型：
+
+- `supports`：常规正向支持。
+- `evidences`：项目、课程等实践证据，权重略低于普通支持。
+- `requires`：关键前置，参与门槛判断。
+- `prefers`：偏好加成，贡献较温和。
+- `inhibits`：抑制项，会在最后扣分。
+
+## 分数计算过程
+
+实现入口在 `backend/app/services/inference_engine.py`。所有节点最终得到一个 `NodeState`：
+
+- `score`：节点最终分数。
+- `direct_input`：用户是否直接输入了这个节点。
+- `evidence`：哪些根证据贡献了这个分数。
+- `parent_contributions`：父节点通过边传来的贡献。
+- `diagnostics`：支持、要求、偏好、抑制等诊断分量。
+
+### 1. 输入分值归一
+
+自然语言输入会先经过 `backend/app/services/nl_parser.py` 做轻量解析，结构化输入会经过 `backend/app/services/input_normalizer.py` 直接映射。两者最终都变成：
+
+```text
+node_id -> score
+```
+
+分数会被夹到 `[0, 1]`。如果输入命中的是 `evidence` 节点，该节点直接使用输入分值：
+
+```text
+evidence.score = direct_input
+```
+
+并把自己记录为根证据：
+
+```text
+evidence = { node_id: direct_input }
+```
+
+### 2. 父边贡献
+
+非 evidence 节点会读取所有入边。每条边先计算父节点对当前节点的直接贡献：
+
+```text
+contribution = parent_score * edge_weight * relation_factor
+```
+
+当前 relation factor 为：
+
+| 关系 | factor |
+| --- | ---: |
+| `supports` | `1.00` |
+| `evidences` | `0.92` |
+| `requires` | `1.00` |
+| `prefers` | `0.75` |
+| `inhibits` | `1.00` |
+
+这些贡献会进入 `parent_contributions`，用于解释路径、诊断和前端节点详情。
+
+### 3. 根证据去重
+
+系统不会简单把所有路径相加。每个父节点都会携带“根证据贡献表”，传播到子节点时按根证据记录贡献：
+
+```text
+root_contribution = root_value * edge_weight * relation_factor
+```
+
+如果同一个根证据通过多条路径到达同一个节点，当前实现只保留最大的一条：
+
+```text
+relation_root_maps[relation][root_id] = max(existing, root_contribution)
+```
+
+这样可以减少重复计分。例如同一个 Python 证据同时支持“编程基础”和“后端基础”，再汇入同一职业时，不会因为路径多就被无限叠加。
+
+### 4. 四类诊断分量
+
+节点聚合前会先得到四个主要分量：
+
+```text
+support_total = sum(support roots) + 0.92 * sum(evidence roots)
+require_total = sum(require roots)
+prefer_total  = sum(prefer roots * 0.75)
+inhibit_total = sum(inhibit roots)
+```
+
+说明：
+
+- `evidences` 在边传播阶段已经乘过 `0.92`，汇总到 `support_total` 时仍按证据关系再降权，体现实践证据“强但不无限放大”的策略。
+- `prefers` 在边传播阶段按 `0.75` 降权，进入偏好汇总时再次按 `0.75` 温和处理，因此偏好不会压过能力和要求。
+- `inhibits` 不参与正向 base score，而是在最终阶段扣分。
+
+基础正向分：
+
+```text
+base_positive = min(cap, support_total + require_total + prefer_total + direct_input)
+```
+
+`cap` 来自节点参数，默认是 `1.0`。
+
+### 5. 覆盖率
+
+部分节点要求多个父节点共同支撑。系统会统计有效父节点数量：
+
+```text
+support_parent_count = count(parent relation in supports/evidences/requires and contribution >= 0.05)
+coverage = min(1.0, support_parent_count / min_support_count)
+```
+
+`coverage` 主要用于 `soft_and` 聚合器，避免单个强证据把复合能力或方向节点抬得过高。
+
+### 6. 聚合器
+
+每个节点在 source 数据中配置一个聚合器。当前主要聚合器如下。
+
+#### `source`
+
+用于 evidence 节点：
+
+```text
+score = direct_input
+```
+
+#### `weighted_sum_capped`
+
+这是默认思路：把支持、要求、偏好和直接输入相加，再受 `cap` 限制：
+
+```text
+base_score = min(cap, support_total + require_total + prefer_total + direct_input)
+```
+
+#### `max_pool`
+
+适合“一个强证据就足以显著激活”的节点：
+
+```text
+best_parent = max(parent contributions from supports/evidences/requires, direct_input)
+base_score = min(cap, best_parent + prefer_total * 0.45)
+```
+
+#### `soft_and`
+
+适合复合能力节点。没有有效父节点时为 `0`；有父节点时用覆盖率调节：
+
+```text
+base_score = min(cap, base_positive * (0.45 + 0.55 * coverage))
+```
+
+当覆盖率不足时，节点仍可被激活，但分数会被压低。
+
+#### `penalty_gate`
+
+适合方向节点。关键要求不足时不归零，而是按比例折减：
+
+```text
+ratio = require_total / required_threshold
+gate_multiplier = 1.0 if ratio >= 1 else max(penalty_floor, ratio)
+base_score = base_score * gate_multiplier
+```
+
+#### `hard_gate`
+
+适合职业节点。关键要求存在且未达到阈值时直接关闭：
+
+```text
+if require_total < required_threshold:
+    base_score = 0
+```
+
+这保证具体职业不会只靠兴趣或单个弱证据被正式推荐。
+
+#### 普通 required gate
+
+不属于 `penalty_gate` / `hard_gate` 的节点，如果配置了要求阈值，也会按要求完成度折减：
+
+```text
+ratio = require_total / required_threshold
+gate_multiplier = 1.0 if ratio >= 1 else max(required_floor, ratio)
+base_score = base_score * gate_multiplier
+```
+
+### 7. 抑制项扣分
+
+最后统一处理抑制项：
+
+```text
+final_score = min(cap, max(0, base_score - inhibit_total * 0.82))
+```
+
+`0.82` 是当前 `INHIBIT_FACTOR`。它让“不擅长 C++”“不喜欢频繁 on-call”等负向画像可以明显影响职业方向，但不会直接覆盖所有正向能力证据。
+
+### 8. 证据贡献缩放
+
+得到最终分后，系统会把正向根证据按比例缩放到最终分：
+
+```text
+scale = final_score / sum(positive_root_map.values())
+evidence[root_id] = root_value * scale
+```
+
+小于 `0.01` 的根证据会被过滤。这份 evidence map 用于：
+
+- 推荐解释里的关键路径。
+- 图谱传播页的激活节点和高贡献边。
+- 结果解释里的来源路径排序。
+
+### 9. 职业排序、near miss 和 bridge
+
+`backend/app/api/recommend.py` 会把所有 `role` 节点按最终 `score` 排序：
+
+1. 分数达到正式推荐阈值的进入 `recommendations`。
+2. 未正式推荐但有潜在信号的岗位进入 `near_miss_roles`，用于展示“差一点”的岗位和缺口。
+3. 如果输入稀疏或没有足够岗位命中，会从能力、方向等中间层生成 `bridge_recommendations`，告诉用户可以往哪个方向补充信息或能力。
+
+## 项目组织
+
+```text
+career-kg/
+  backend/app/
+    main.py                         # CLI 与本地 HTTP 服务入口
+    api/recommend.py                # 推荐 API 编排层
+    schemas.py                      # 请求/响应数据结构
+    services/
+      graph_loader.py               # 加载 seed 图谱、词典、模板
+      nl_parser.py                  # 自然语言解析
+      input_normalizer.py           # 结构化输入归一
+      inference_engine.py           # 图谱分数传播
+      explainer.py                  # 路径解释
+      role_gap_analyzer.py          # 目标岗位差距分析
+      learning_path_planner.py      # 成长路径编排
+      action_simulator.py           # 行动模拟
+
+  frontend/
+    src/app/AppShell.tsx            # 四阶段演示壳
+    src/app/panes/InputPane.tsx     # 输入画像
+    src/app/panes/TunePane.tsx      # 微调画像
+    src/app/panes/GraphPane.tsx     # 图谱传播
+    src/app/panes/ResultPane.tsx    # 结果解释
+    src/app/styles/                 # 全局样式与动效
+    tools/export-kg-overview-data.mjs
+
+  data/
+    sources/                        # 可编辑 source 数据
+    sources/raw/                    # O*NET、roadmap.sh 等原始快照
+    ontology/                       # 节点/边类型本体
+    seeds/                          # 编译后的运行时 nodes/edges
+    dictionaries/                   # alias、短语、解析规则
+    demo/                           # 示例请求与 benchmark 报告
+
+  scripts/
+    bootstrap_demo_data.py          # 生成 demo source 并编译图谱
+    source_validation.py            # 校验 source schema 与引用
+    build_graph.py                  # source -> seeds/dictionaries
+    validate_graph.py               # 校验运行时图谱
+    run_nl_benchmark.py             # 自然语言解析回归
+    run_recommendation_benchmark.py # 推荐与解释回归
+    run_planning_benchmark.py       # 规划与行动模拟回归
+```
+
+图谱扩容优先改 `data/sources/*`，再运行构建脚本生成 `data/seeds/*`。不建议直接手改 seed 文件。
+
+## 启动方式
+
+### 1. 安装前端依赖
 
 ```bash
 npm --prefix frontend install
 ```
 
-2. 生成 demo 源数据并编译图谱
+### 2. 准备图谱数据
+
+首次运行或重置 demo 数据：
 
 ```bash
 python3 scripts/bootstrap_demo_data.py
 ```
 
-如果你已经修改了 `data/sources/*`，推荐先做 source 校验，再重新编译：
+如果已经修改 `data/sources/*`，使用：
 
 ```bash
 python3 scripts/source_validation.py
 python3 scripts/build_graph.py
-```
-
-3. 运行图校验
-
-```bash
 python3 scripts/validate_graph.py
 ```
 
-4. 构建前端静态资源
+### 3. 构建前端
 
 ```bash
 npm --prefix frontend run build
 ```
 
-5. 启动本地 HTTP 服务
+该命令会同时导出前端需要的图谱概览数据，并生成 `frontend/dist`。
+
+### 4. 启动本地服务
 
 ```bash
 python3 -m backend.app.main --serve --host 127.0.0.1 --port 8080
 ```
 
-打开 `http://127.0.0.1:8080/` 即可进入前端工作台。`--serve` 只服务 `frontend/dist`，如果尚未构建会直接给出明确提示。
+打开：
 
-6. 运行示例推荐
-
-```bash
-python3 -m backend.app.main --input-file data/demo/sample_request.json
+```text
+http://127.0.0.1:8080/
 ```
 
-7. 运行测试
+本地服务会同时提供前端静态页面和后端 API。
 
-```bash
-PYTHONPATH=. python -m unittest discover -s tests -v
-```
-
-8. 运行自然语言 benchmark
-
-```bash
-PYTHONPATH=. python scripts/run_nl_benchmark.py
-```
-
-9. 运行 recommendation benchmark
-
-```bash
-PYTHONPATH=. python scripts/run_recommendation_benchmark.py
-```
-
-10. 运行 planning benchmark
-
-```bash
-PYTHONPATH=. python scripts/run_planning_benchmark.py
-```
-
-仅做前端开发时，也可以单独启动：
+### 5. 只做前端开发
 
 ```bash
 npm --prefix frontend run dev
 ```
 
-前端仍调用同一组 `/api/*` 接口；迁移到 React/Vite 没有改变后端 API 契约。
+Vite 默认运行在：
 
-## 为什么是 KG-first
+```text
+http://127.0.0.1:5173/
+```
 
-- 推荐结论来自显式图结构、门槛规则和传播分数，而不是让 LLM 直接输出职业名称。
-- 图谱可以稳定回答“为什么推荐”“缺什么”“补齐什么之后会怎样”，解释路径与模拟结果都可回放。
-- provenance 会把外部职业画像来源编译进节点 metadata，便于说明哪些知识来自公开来源，哪些是本体/人工整理节点。
-- LLM 后续可以接在自然语言实体抽取或文档整理环节，但不应替代当前主推荐链路。
+前端代码仍调用同一组 `/api/*` 契约。Vite 配置当前没有内置 API proxy；如果用 dev 模式联调，需要同时启动后端并通过代理或反向代理把 `/api/*` 指到后端服务。完整课堂演示推荐使用上面的“构建前端 + `backend.app.main --serve`”方式。
 
-## 接口
+### 6. 命令行跑一次推荐
 
-`POST /api/recommend` 与 `POST /recommend` 都可用，请求体支持这些字段：
+```bash
+python3 -m backend.app.main --input-file data/demo/sample_request.json
+```
+
+## API
+
+本地 HTTP 服务提供以下接口，均接受 JSON：
+
+- `POST /api/recommend`，等价于 `POST /recommend`
+  - 输入自然语言或结构化信号。
+  - 返回 `normalized_inputs`、`recommendations`、`near_miss_roles`、`bridge_recommendations`、`propagation_snapshot`。
+- `POST /api/role-gap`，等价于 `POST /role-gap`
+  - 输入 `target_role_id` 和画像。
+  - 返回目标岗位当前分数、缺口、优先补齐建议、学习路径和 what-if 场景。
+- `POST /api/action-simulate`，等价于 `POST /action-simulate`
+  - 输入目标岗位和行动模板。
+  - 返回行动组合对岗位分数和排序的影响。
+
+最小推荐请求：
 
 ```json
 {
-  "text": "我熟悉 Python 和 MySQL，做过 Flask 项目，会一点 Linux，更喜欢后端。",
-  "signals": [
-    {"entity": "Python", "score": 0.9},
-    {"entity": "SQL", "score": 0.7}
-  ],
+  "text": "我熟悉 Python 和 SQL，不擅长 C++，做过前端项目，非常擅长数学，尤其喜欢与人交互，英语一般般",
   "top_k": 5,
   "include_snapshot": true
 }
 ```
 
-- `text`: 自然语言描述，可为空。
-- `signals`: 结构化信号列表，也支持 `{ "Python": 0.9, "SQL": 0.7 }` 这种对象写法。
-- `top_k`: 返回的职业数量，范围会被裁剪到 `1-20`。
-- `include_snapshot`: 是否返回传播快照，支持 JSON 布尔值。
-
-`GET /api/catalog` 会返回：
-
-- evidence 节点目录
-- role 节点目录
-- 图谱统计信息
-- 示例请求
-- demo cases
-
-`POST /api/recommend` 还会返回可直接用于展示 provenance 的字段：
-
-- `recommendations[*].source_refs`
-  - 当前职业节点绑定的外部职业画像来源
-- `recommendations[*].provenance_count`
-  - 当前职业节点命中的来源条数
-- `propagation_snapshot.nodes[*].metadata.source_refs`
-  - 传播图节点详情中的来源锚点
-- `graph_stats.source_profile_count`
-  - 已接入的外部职业画像数量
-- `graph_stats.source_type_count`
-  - 当前接入的来源类型数量
-- `graph_stats.source_profile_count_by_type`
-  - 各来源类型对应的职业画像数量
-- `graph_stats.nodes_with_provenance`
-  - 编译后带来源锚点的节点数量
-- `bridge_recommendations`
-  - 当正式推荐过少时，返回桥接能力或方向建议、相关岗位和补齐提示
-- `empty_result_reason`
-  - 当没有 strong match 时，说明当前是 near miss / bridge 场景还是输入过于稀疏
-
-`POST /api/role-gap` 与 `POST /role-gap` 用于分析指定目标岗位的差距，请求体示例：
+结构化信号请求：
 
 ```json
 {
-  "text": "我熟悉 Python、SQL，会一点 Linux，想往机器学习方向转。",
   "signals": [
-    {"entity": "不喜欢高数学理论", "score": 0.8}
+    { "entity": "Python", "score": 0.8 },
+    { "entity": "SQL", "score": 0.8 },
+    { "entity": "数学基础", "score": 0.9 }
   ],
-  "target_role_id": "role_ml_engineer",
-  "scenario_limit": 3
+  "top_k": 5
 }
 ```
 
-- `target_role_id`: 目标岗位节点 ID，必须是 role 节点。
-- `scenario_limit`: what-if 模拟返回条数，范围会被裁剪到 `1-5`。
+## 质量检查
 
-响应重点字段：
-
-- `target_role.current_score`
-- `target_role.missing_requirements`
-- `target_role.priority_suggestions`
-- `target_role.learning_path`
-- `target_role.learning_path[*].recommended_actions`
-- `target_role.what_if_scenarios`
-
-`POST /api/action-simulate` 与 `POST /action-simulate` 用于模拟“执行某个成长路径行动后会怎样”，请求体示例：
-
-```json
-{
-  "target_role_id": "role_backend_engineer",
-  "action_key": "step-1:backend_rest_service_project",
-  "template_id": "backend_rest_service_project",
-  "signals": [
-    {"entity": "Python", "score": 0.8},
-    {"entity": "偏好后端", "score": 0.9}
-  ]
-}
-```
-
-- `action_key` 或 `action_keys`
-  - 推荐从 `learning_path[*].recommended_actions[*].action_key` 直接传回，能精确定位用户点击的是哪一步里的哪张行动卡；当前最多支持 2 个 action 组成组合方案。
-- `template_id` 或 `template_ids`
-  - 兼容唯一模板场景；如果同一个模板在多步成长路径里重复出现，服务端会要求改用 `action_key` 以避免模拟到错误步骤。
-
-响应重点字段：
-
-- `simulation.current_score`
-- `simulation.predicted_score`
-- `simulation.delta_score`
-- `simulation.bundle_size`
-- `simulation.bundle_summary`
-- `simulation.overlap_node_names`
-- `simulation.injected_boosts`
-- `simulation.activated_nodes`
-- `simulation.before_top_roles`
-- `simulation.after_top_roles`
-- `simulation.target_role_rank_before`
-- `simulation.target_role_rank_after`
-
-## 工作台流程
-
-1. 用户可直接在案例画廊中载入 benchmark/demo persona，或手动输入自然语言和结构化信号。
-2. 前端调用 `/api/recommend` 获取 `normalized_inputs`。
-3. 用户在“节点确认”面板里微调节点分值。
-4. 用户可选择目标岗位，调用 `/api/role-gap` 查看差距、成长路径、推荐行动模板和 what-if 模拟。
-5. 用户既可单独模拟某个行动，也可把最多 2 个行动加入方案篮子，再调用 `/api/action-simulate` 比较组合收益、重复覆盖和岗位排序变化。
-6. 用户可采纳当前模拟方案，把 `simulation.injected_boosts` 写回确认节点层，再调用 `/api/recommend` 重算推荐。
-7. 页面展示新的职业排序、near miss、bridge suggestion、关键路径、限制项和传播图；案例画廊中的“一键回放”会自动跑到目标岗位分析这一步。
-
-## 真实来源数据
-
-项目当前接入了多类公开职业知识来源，并把来源信息编译进知识图谱节点元数据：
-
-- 原始快照：`data/sources/raw/onet_profiles.json`
-- 原始快照：`data/sources/raw/roadmap_profiles.json`
-- 来源清洗结果：`data/sources/imported_profiles.json`
-- 导入脚本：`scripts/import_external_profiles.py`
-
-刷新来源数据的推荐命令顺序：
+运行单元测试：
 
 ```bash
-python3 scripts/import_external_profiles.py
-python3 scripts/build_graph.py
-python3 scripts/validate_graph.py
+PYTHONPATH=. python -m unittest discover -s tests -v
 ```
 
-前端工作台会在推荐卡片和传播图节点详情中展示这些来源锚点，便于课程演示时说明“为什么这些岗位和节点被建进图谱”。
-当前推荐卡片还会展示来源类型 badge，例如 `O*NET` 和 `roadmap.sh`，让“多来源融合”在 UI 上可直接感知。
+运行自然语言解析 benchmark：
 
-## 评测
+```bash
+PYTHONPATH=. python scripts/run_nl_benchmark.py
+```
 
-当前仓库包含三套质量护栏：
+运行推荐 benchmark：
 
-- `PYTHONPATH=. python scripts/run_nl_benchmark.py`
-  - 验证自然语言解析与候选岗位召回
-- `PYTHONPATH=. python scripts/run_recommendation_benchmark.py`
-  - 验证端到端推荐质量、解释覆盖、provenance 覆盖和稀疏输入 fallback 覆盖
-- `PYTHONPATH=. python scripts/run_planning_benchmark.py`
-  - 验证目标岗位差距分析、成长路径、行动模拟和方案采纳后的非回退表现
-  - 采纳判定使用 OR 语义：得分或排名任一不退化即可通过，报告中的 `Adopt Basis` 会明确标出是 `score+rank`、`score_only`、`rank_only` 还是 `regressed`
+```bash
+PYTHONPATH=. python scripts/run_recommendation_benchmark.py
+```
 
-运行 recommendation benchmark 后会生成：
+运行规划 benchmark：
+
+```bash
+PYTHONPATH=. python scripts/run_planning_benchmark.py
+```
+
+推荐 benchmark 会生成：
 
 - `data/demo/recommendation_benchmark_report.json`
 - `data/demo/recommendation_benchmark_report.md`
 
-运行 planning benchmark 后会生成：
+规划 benchmark 会生成：
 
 - `data/demo/planning_benchmark_report.json`
 - `data/demo/planning_benchmark_report.md`
 
-Markdown 报告会直接列出每条 case 的目标岗位、关键 focus 节点、所选行动、模拟增益、`Adopt Basis` 和失败原因，便于课堂展示和回归排查。
-
-完整命令记录与最近一次回归结果见 [docs/baseline_status.md](docs/baseline_status.md)，更详细的指标说明见 [docs/evaluation.md](docs/evaluation.md)。
-
-## 推荐链路
-
-1. 结构化输入和自然语言输入都先被映射到标准节点。
-2. 图谱加载器读取 DAG 数据并构建入边/出边索引。
-3. 推理引擎按拓扑序传播分数，处理：
-   - `supports`
-   - `requires`
-   - `prefers`
-   - `inhibits`
-   - `evidences`
-4. 职业节点输出匹配分数。
-5. 解释器回溯高贡献路径，生成可解释理由。
-
-更详细设计见 [docs/architecture.md](docs/architecture.md)、[docs/data_pipeline.md](docs/data_pipeline.md)、[docs/recommendation_flow.md](docs/recommendation_flow.md)、[docs/frontend_workflow.md](docs/frontend_workflow.md)、[docs/gap_analysis.md](docs/gap_analysis.md)、[docs/learning_path.md](docs/learning_path.md)、[docs/action_templates.md](docs/action_templates.md) 和 [careerkg_codex_package/04_Project_Rationale_and_Defense.md](careerkg_codex_package/04_Project_Rationale_and_Defense.md)。
+更多基线记录见 `docs/baseline_status.md`，架构细节见 `docs/architecture.md`，推荐流程细节见 `docs/recommendation_flow.md`。

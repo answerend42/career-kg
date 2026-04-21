@@ -51,7 +51,7 @@ export function AppShell() {
       <nav className="presentation-nav" aria-label="演示页面切换">
         <div className="deck-title">
           <span>Career KG</span>
-          <strong>知识图谱职业演示</strong>
+          <strong>知识图谱职业推荐</strong>
         </div>
 
         <div className="page-tabs" role="tablist" aria-label="演示步骤">
