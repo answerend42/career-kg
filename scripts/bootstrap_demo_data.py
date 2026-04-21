@@ -172,6 +172,15 @@ def build_skills() -> dict[str, list[dict[str, Any]]]:
         evidence("skill_scala", "Scala", ["scala"], "Scala 语言技能。"),
     ]
 
+    languages = [
+        evidence(
+            "language_english_reading",
+            "英文阅读",
+            ["english", "英语", "英文", "英语阅读", "英文阅读", "technical english"],
+            "阅读英文技术资料与英文界面的能力。",
+        ),
+    ]
+
     tools = [
         evidence("tool_flask", "Flask", ["flask"], "Flask 后端框架经验。"),
         evidence("tool_django", "Django", ["django"], "Django 后端框架经验。"),
@@ -248,6 +257,12 @@ def build_skills() -> dict[str, list[dict[str, Any]]]:
         evidence("knowledge_probability", "概率论", ["probability", "概率论"], "概率论基础。"),
         evidence("knowledge_system_design", "系统设计", ["system design", "架构设计", "系统设计"], "系统设计基础。"),
         evidence("knowledge_math_foundation", "数学基础", ["math", "数学", "数学基础"], "数学基础。"),
+        evidence(
+            "knowledge_technical_documentation",
+            "技术文档阅读",
+            ["technical docs", "technical documentation", "技术文档", "技术文档阅读", "英文文档", "英文技术文档"],
+            "阅读官方文档、英文教程与 API 说明的知识基础。",
+        ),
         evidence("knowledge_distributed_systems", "分布式系统", ["distributed systems", "分布式"], "分布式系统基础。"),
         evidence("knowledge_microservice_architecture", "微服务架构", ["microservice architecture", "微服务架构"], "微服务架构设计知识。"),
         evidence("knowledge_data_warehouse_modeling", "数仓建模", ["data warehouse modeling", "数仓建模"], "数仓建模知识。"),
@@ -322,6 +337,12 @@ def build_skills() -> dict[str, list[dict[str, Any]]]:
 
     constraints = [
         evidence("constraint_dislike_math_theory", "不喜欢高数学理论", ["不喜欢数学", "数学薄弱", "怕数学", "不太擅长数学"], "数学理论短板。"),
+        evidence(
+            "constraint_weak_english",
+            "英语薄弱",
+            ["不会英语", "英语不好", "英文不好", "英语薄弱", "英语很差", "看不懂英文", "英文文档看不懂"],
+            "英文阅读与技术文档理解薄弱。",
+        ),
         evidence("constraint_dislike_oncall", "不喜欢值班运维", ["不想值班", "不喜欢运维值班", "抗拒 oncall", "不喜欢 oncall"], "抗拒 on-call 值班。"),
         evidence("constraint_dislike_ui_polish", "不喜欢界面打磨", ["不喜欢前端细节", "不喜欢界面", "不喜欢 ui", "不爱做样式"], "不偏好界面细节打磨。"),
         evidence("constraint_dislike_manual_testing", "不喜欢重复性测试", ["不喜欢重复测试", "抗拒手工测试"], "不偏好重复性测试工作。"),
@@ -333,6 +354,7 @@ def build_skills() -> dict[str, list[dict[str, Any]]]:
     return {
         "skill": skills,
         "tool": tools,
+        "language": languages,
         "knowledge": knowledge,
         "project": projects,
         "interest": interests,
@@ -362,6 +384,7 @@ def build_capability_templates() -> dict[str, list[dict[str, Any]]]:
                 "skill_bash",
                 "tool_git",
                 "knowledge_oop",
+                "knowledge_technical_documentation",
             ],
             requires=["knowledge_data_structures", "knowledge_algorithms"],
             params={"cap": 1.0},
@@ -394,6 +417,7 @@ def build_capability_templates() -> dict[str, list[dict[str, Any]]]:
                 "tool_nodejs",
                 "tool_express",
                 "tool_nestjs",
+                "language_english_reading",
                 "project_backend_api",
                 "project_microservice",
             ],
@@ -501,7 +525,7 @@ def build_capability_templates() -> dict[str, list[dict[str, Any]]]:
         template_node(
             "ability_data_processing",
             "数据处理能力",
-            supports=["skill_python", "skill_sql", "tool_pandas", "tool_numpy", "tool_spark", "tool_hadoop", "project_data_pipeline"],
+            supports=["skill_python", "skill_sql", "tool_pandas", "tool_numpy", "tool_spark", "tool_hadoop", "knowledge_technical_documentation", "project_data_pipeline"],
             requires=["ability_programming_fundamentals"],
             params={"cap": 1.0},
             description="离线数据处理与脚本化处理能力。",
@@ -553,13 +577,14 @@ def build_capability_templates() -> dict[str, list[dict[str, Any]]]:
                 "skill_python",
                 "tool_numpy",
                 "tool_scikit_learn",
+                "language_english_reading",
                 "knowledge_statistics",
                 "knowledge_linear_algebra",
                 "knowledge_probability",
                 "knowledge_algorithms",
             ],
             requires=["knowledge_math_foundation"],
-            inhibits=["constraint_dislike_math_theory"],
+            inhibits=["constraint_dislike_math_theory", "constraint_weak_english"],
             params={"cap": 1.0, "required_threshold": 0.14, "required_floor": 0.35},
             description="机器学习理论与基础建模能力。",
         ),
@@ -687,7 +712,7 @@ def build_capability_templates() -> dict[str, list[dict[str, Any]]]:
         template_node(
             "ability_engineering_collaboration",
             "工程协作能力",
-            supports=["soft_communication", "soft_teamwork", "soft_self_learning", "soft_documentation", "tool_git"],
+            supports=["soft_communication", "soft_teamwork", "soft_self_learning", "soft_documentation", "language_english_reading", "tool_git"],
             evidences=[
                 "project_backend_api",
                 "project_web_ui",
@@ -1065,6 +1090,7 @@ def build_capability_templates() -> dict[str, list[dict[str, Any]]]:
             supports=["cap_backend_engineering", "cap_python_backend_engineering", "cap_java_backend_engineering", "cap_go_backend_engineering", "cap_node_backend_engineering", "cap_php_backend_engineering"],
             requires=["cap_backend_engineering"],
             prefers=["interest_backend"],
+            inhibits=["constraint_weak_english"],
             params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
             aggregator="penalty_gate",
             description="服务端研发方向。",
@@ -1086,6 +1112,7 @@ def build_capability_templates() -> dict[str, list[dict[str, Any]]]:
             supports=["cap_fullstack_engineering", "cap_backend_engineering", "cap_frontend_engineering"],
             requires=["cap_fullstack_engineering"],
             prefers=["interest_backend", "interest_frontend"],
+            inhibits=["constraint_weak_english"],
             params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
             aggregator="penalty_gate",
             description="全栈交付方向。",
@@ -1116,7 +1143,7 @@ def build_capability_templates() -> dict[str, list[dict[str, Any]]]:
             supports=["cap_ml_engineering", "cap_ml_platform_engineering"],
             requires=["cap_ml_engineering"],
             prefers=["interest_ml"],
-            inhibits=["constraint_dislike_math_theory"],
+            inhibits=["constraint_dislike_math_theory", "constraint_weak_english"],
             params={"cap": 1.0, "required_threshold": 0.03, "penalty_floor": 0.45},
             aggregator="penalty_gate",
             description="机器学习工程方向。",
@@ -1841,7 +1868,7 @@ def build_relations() -> dict[str, Any]:
             "medium_positive": ["熟悉", "做过", "写过", "使用过", "实践过", "经验", "常用", "用得多", "比较多", "平时会"],
             "light_positive": ["会", "了解", "接触过", "用过", "还行", "能接受"],
             "weak_positive": ["一点", "入门", "略懂", "会一点"],
-            "negative": ["不擅长", "不太擅长", "薄弱", "很弱", "较弱", "偏弱", "不会", "不喜欢", "讨厌", "抗拒", "不想", "不想做", "不想写", "不太想", "不太想做", "不太想写", "不愿", "没做过", "没有做过", "没兴趣", "不考虑"],
+            "negative": ["不擅长", "不太擅长", "薄弱", "很弱", "较弱", "偏弱", "不会", "不喜欢", "讨厌", "抗拒", "不想", "不想做", "不想写", "不太想", "不太想做", "不太想写", "不愿", "没做过", "没有做过", "看不懂", "没兴趣", "不考虑"],
             "preference": ["喜欢", "更喜欢", "偏好", "倾向", "偏向", "想做", "想转", "希望做", "热爱", "主攻"],
         },
     }
@@ -1878,6 +1905,19 @@ def build_parsing_patterns() -> dict[str, Any]:
     return {
         "project_keywords": ["项目", "做过", "实践", "负责", "写过", "经历", "开发", "搭建", "上线", "部署", "清洗", "分析", "排查", "测试"],
         "phrase_rules": [
+            {
+                "label": "英语约束",
+                "phrases": ["不会英语", "英语不好", "英文不好", "英语很差", "看不懂英文", "英文文档看不懂"],
+                "signals": [
+                    {"node_id": "language_english_reading", "score": 0.34},
+                    {"node_id": "knowledge_technical_documentation", "score": 0.28},
+                ],
+                "negative_signals": [
+                    {"node_id": "constraint_weak_english", "score": 0.9},
+                    {"node_id": "language_english_reading", "score": 0.18},
+                    {"node_id": "knowledge_technical_documentation", "score": 0.16},
+                ],
+            },
             {
                 "label": "接口开发",
                 "phrases": ["接口开发", "服务端接口", "服务端开发", "做接口", "写接口"],
@@ -2016,6 +2056,16 @@ def build_nl_benchmark() -> list[dict[str, Any]]:
             "expected_nodes": ["constraint_dislike_ui_polish", "tool_react"],
             "unexpected_nodes": ["interest_frontend"],
             "min_signal_count": 2,
+        },
+        {
+            "id": "english_constraint",
+            "text": "我不会英语，英文文档基本看不懂。",
+            "expected_nodes": [
+                "constraint_weak_english",
+                "language_english_reading",
+                "knowledge_technical_documentation",
+            ],
+            "min_signal_count": 3,
         },
         {
             "id": "backend_ops_design",
