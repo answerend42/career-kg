@@ -1686,9 +1686,13 @@ button {
   gap: 7px;
 }
 
+.result-detail-head {
+  margin-bottom: -6px;
+}
+
 .result-detail-head > div {
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
 .result-detail-head p {
