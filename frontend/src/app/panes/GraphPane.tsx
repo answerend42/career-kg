@@ -492,7 +492,7 @@ export function GraphPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
           <button className="ghost-button" type="button" onClick={flow.replayGraph}>
             重播
           </button>
-          <button className="primary-button" type="button" onClick={onNext}>
+          <button className="primary-button next-step-button" type="button" onClick={onNext}>
             下一步：看结果
           </button>
         </div>

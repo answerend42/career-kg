@@ -89,12 +89,11 @@ function SelectedResultDetail({
 
   return (
     <section key={card.key} className="section-card detail-panel result-reveal">
-      <div className="section-head">
+      <div className="section-head result-detail-head">
         <div>
           <h3>{titleForCard(card)}</h3>
           <p>{summaryForCard(card)}</p>
         </div>
-        <span className="score-badge">{formatPercent(scoreForCard(card))}</span>
       </div>
 
       {topPaths.length ? (
@@ -220,10 +219,10 @@ export function ResultPane({ flow }: { flow: ReturnType<typeof useRecommendation
           <div className="result-browser">
             <div className="result-browser-head">
               <h3>结果解释</h3>
-              <label className="field-block result-picker" htmlFor="result-card-select">
+              <label className="field-block result-picker result-select-field" htmlFor="result-card-select">
                 <select
                   id="result-card-select"
-                  className="editor-select"
+                  className="editor-select result-select-control"
                   value={activeResultCard?.key || ""}
                   onChange={(event) => {
                     const nextCard = selectableResultCards.find((card) => card.key === event.target.value);

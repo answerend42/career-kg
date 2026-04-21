@@ -28,7 +28,7 @@ export function InputPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
           </div>
         </div>
         <div className="chip-row">
-          <button className="primary-button compact-control" type="button" onClick={() => void runAndContinue()} disabled={flow.status.busy}>
+          <button className="primary-button next-step-button" type="button" onClick={() => void runAndContinue()} disabled={flow.status.busy}>
             下一步：微调
           </button>
         </div>
