@@ -585,7 +585,7 @@ button {
 }
 
 .pane-results {
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
 }
 
 .pane-results > .pane-scroll {
@@ -1120,23 +1120,19 @@ button {
 .result-browser {
   min-height: 0;
   height: 100%;
-  grid-template-columns: minmax(260px, 0.34fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
   align-content: stretch;
 }
 
 .result-browser-head {
-  grid-column: 1 / -1;
-}
-
-.result-picker {
   grid-column: 1;
-  align-self: start;
+  min-width: 0;
 }
 
 .result-browser > .detail-panel,
 .result-browser > .empty-slot {
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 2;
   min-height: 0;
 }
@@ -1190,9 +1186,9 @@ button {
 .case-stage-head,
 .result-browser-head {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   gap: var(--space-md);
-  align-items: start;
+  align-items: center;
 }
 
 .case-stage-stats {
@@ -1210,6 +1206,28 @@ button {
 .result-picker,
 .path-picker {
   max-width: 640px;
+}
+
+.result-browser-head h3 {
+  margin: 0;
+  flex: 0 0 auto;
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  font-weight: 650;
+}
+
+.result-browser-head .result-picker {
+  flex: 0 1 min(520px, 44vw);
+  align-self: center;
+}
+
+.result-degree {
+  flex: 0 0 auto;
+  color: var(--teal-deep);
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 650;
+  white-space: nowrap;
 }
 
 .header-select {
@@ -1561,6 +1579,32 @@ button {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
+}
+
+.result-path-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.result-path-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-sm);
+  align-items: start;
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid color-mix(in oklch, var(--line) 78%, white);
+}
+
+.result-path-row:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.path-score-badge {
+  min-width: 56px;
+  height: 34px;
+  font-size: 0.86rem;
 }
 
 .path-node {

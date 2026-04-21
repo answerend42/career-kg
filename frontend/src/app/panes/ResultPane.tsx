@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { SourceProfileList } from "../components/SourceProfileList";
 import { formatPercent } from "../lib/scoring";
 import { useRecommendationFlow } from "../hooks/useRecommendationFlow";
 import type { GapSuggestion, ResultCard, SourceRef } from "../types/api";
-
-type ResultGroupKey = "recommendation" | "near_miss" | "bridge";
 
 function scoreForCard(card: ResultCard): number {
   if (card.kind === "recommendation") {
@@ -34,18 +32,19 @@ function summaryForCard(card: ResultCard): string {
   return card.summary;
 }
 
-function sourceRefsForCard(card: ResultCard): SourceRef[] {
-  return card.source_refs || [];
-}
-
-function groupKeyForCard(card: ResultCard): ResultGroupKey {
+function recommendationDegreeForCard(card: ResultCard): string {
+  const score = formatPercent(scoreForCard(card));
   if (card.kind === "recommendation") {
-    return "recommendation";
+    return `正式推荐（${score} 分）`;
   }
   if (card.kind === "near_miss") {
-    return "near_miss";
+    return `临门一脚（${score} 分）`;
   }
-  return "bridge";
+  return `桥接方向（${score} 分）`;
+}
+
+function sourceRefsForCard(card: ResultCard): SourceRef[] {
+  return card.source_refs || [];
 }
 
 function selectCard(flow: ReturnType<typeof useRecommendationFlow>, card: ResultCard) {
@@ -77,23 +76,19 @@ function renderSuggestionChips(suggestions: GapSuggestion[]) {
 
 function SelectedResultDetail({
   card,
-  selectedPathIndex,
-  onSelectPathIndex,
 }: {
   card: ResultCard | null;
-  selectedPathIndex: number;
-  onSelectPathIndex: (index: number) => void;
 }) {
   if (!card) {
-    return <div className="empty-slot">先点选一张结果卡片，再查看路径、限制与来源。</div>;
+    return <div className="empty-slot">先生成推荐，再查看路径、限制与来源。</div>;
   }
 
-  const activePath = card.paths?.[selectedPathIndex] || card.paths?.[0];
+  const topPaths = [...(card.paths || [])].sort((a, b) => b.score - a.score).slice(0, 5);
   const suggestions =
     card.kind === "bridge" ? card.next_steps : card.kind === "near_miss" ? card.suggestions : ([] as GapSuggestion[]);
 
   return (
-    <section key={`${card.key}-${selectedPathIndex}`} className="section-card detail-panel result-reveal">
+    <section key={card.key} className="section-card detail-panel result-reveal">
       <div className="section-head">
         <div>
           <h3>{titleForCard(card)}</h3>
@@ -102,36 +97,22 @@ function SelectedResultDetail({
         <span className="score-badge">{formatPercent(scoreForCard(card))}</span>
       </div>
 
-      {card.paths?.length ? (
-        <div className="path-cluster">
-          {card.paths.length > 1 ? (
-            <label className="field-block path-picker" htmlFor="result-path-select">
-              <span className="micro-label">解释路径</span>
-              <select
-                id="result-path-select"
-                className="editor-select"
-                value={Math.min(selectedPathIndex, card.paths.length - 1)}
-                onChange={(event) => onSelectPathIndex(Number(event.target.value))}
-              >
-                {card.paths.map((path, index) => (
-                  <option key={`${titleForCard(card)}-${path.score}-${index}`} value={index}>
-                    路径 {index + 1} / {formatPercent(path.score)}
-                  </option>
+      {topPaths.length ? (
+        <ol className="path-cluster result-path-list">
+          {topPaths.map((path, pathIndex) => (
+            <li key={`${titleForCard(card)}-${path.score}-${pathIndex}`} className="result-path-row">
+              <span className="score-badge path-score-badge">{formatPercent(path.score)}</span>
+              <div className="path-track">
+                {path.labels.map((label, labelIndex) => (
+                  <div key={`${label}-${labelIndex}`} className="path-node">
+                    <span>{label}</span>
+                    {labelIndex < path.labels.length - 1 ? <i>→</i> : null}
+                  </div>
                 ))}
-              </select>
-            </label>
-          ) : null}
-          {activePath ? (
-            <div className="path-track">
-              {activePath.labels.map((label, index) => (
-                <div key={`${label}-${index}`} className="path-node">
-                  <span>{label}</span>
-                  {index < activePath.labels.length - 1 ? <i>→</i> : null}
-                </div>
-              ))}
-            </div>
-          ) : null}
-        </div>
+              </div>
+            </li>
+          ))}
+        </ol>
       ) : (
         <div className="empty-slot compact">当前卡片没有稳定路径，属于更稀疏的桥接结果。</div>
       )}
@@ -183,8 +164,6 @@ function SelectedResultDetail({
 }
 
 export function ResultPane({ flow }: { flow: ReturnType<typeof useRecommendationFlow> }) {
-  const [activeResultGroup, setActiveResultGroup] = useState<ResultGroupKey>("recommendation");
-
   const resultGroups = [
     {
       key: "recommendation" as const,
@@ -211,99 +190,62 @@ export function ResultPane({ flow }: { flow: ReturnType<typeof useRecommendation
       cards: flow.cards.bridges,
     },
   ];
-  const activeResultMeta = resultGroups.find((group) => group.key === activeResultGroup) || resultGroups[0];
-  const activeResultCards = activeResultMeta.cards;
-  const activeResultCard =
-    flow.selectedCard && groupKeyForCard(flow.selectedCard) === activeResultGroup ? flow.selectedCard : activeResultCards[0] || null;
+  const roleResultCards: ResultCard[] = [
+    ...flow.cards.recommendations,
+    ...flow.cards.nearMisses,
+  ];
+  const allResultCards: ResultCard[] = [
+    ...roleResultCards,
+    ...flow.cards.bridges,
+  ];
+  const selectableResultCards = roleResultCards.length ? roleResultCards : allResultCards;
+  const activeResultCard = flow.selectedCard && selectableResultCards.some((card) => card.key === flow.selectedCard?.key)
+    ? flow.selectedCard
+    : selectableResultCards[0] || null;
+  const emptyResultText = resultGroups.find((group) => !group.cards.length)?.empty || "当前还没有可解释的推荐结果。";
 
   useEffect(() => {
-    if (flow.selectedCard) {
-      setActiveResultGroup(groupKeyForCard(flow.selectedCard));
-    }
-  }, [flow.selectedCard]);
-
-  useEffect(() => {
-    if (!activeResultCards.length) {
+    if (!selectableResultCards.length) {
       return;
     }
 
-    if (!activeResultCard || !activeResultCards.some((card) => card.key === activeResultCard.key)) {
-      selectCard(flow, activeResultCards[0]);
+    if (!activeResultCard || !selectableResultCards.some((card) => card.key === activeResultCard.key)) {
+      selectCard(flow, selectableResultCards[0]);
     }
-  }, [activeResultCard, activeResultCards, activeResultGroup, flow, resultGroups]);
+  }, [activeResultCard, flow, selectableResultCards]);
 
   return (
     <section className="pane pane-results">
-      <div className="pane-header">
-        <div>
-          <p className="section-kicker">Results</p>
-          <h2>结果解释</h2>
-        </div>
-      </div>
-
       <div className="pane-scroll">
-          <div className={`result-browser result-browser--${activeResultGroup}`}>
+          <div className="result-browser">
             <div className="result-browser-head">
-              <div>
-                <h3>{activeResultMeta.title}</h3>
-              </div>
-              <label className="field-block inline-select" htmlFor="result-group-select">
-                <span className="micro-label">结果类型</span>
+              <h3>结果解释</h3>
+              <label className="field-block result-picker" htmlFor="result-card-select">
                 <select
-                  id="result-group-select"
+                  id="result-card-select"
                   className="editor-select"
-                  value={activeResultGroup}
+                  value={activeResultCard?.key || ""}
                   onChange={(event) => {
-                    const nextGroup = resultGroups.find((group) => group.key === event.target.value);
-                    if (!nextGroup) {
-                      return;
-                    }
-                    setActiveResultGroup(nextGroup.key);
-                    if (nextGroup.cards[0]) {
-                      selectCard(flow, nextGroup.cards[0]);
+                    const nextCard = selectableResultCards.find((card) => card.key === event.target.value);
+                    if (nextCard) {
+                      selectCard(flow, nextCard);
                     }
                   }}
                 >
-                  {resultGroups.map((group) => (
-                    <option key={group.key} value={group.key}>
-                      {group.label} ({group.cards.length})
+                  {selectableResultCards.map((card) => (
+                    <option key={card.key} value={card.key}>
+                      {titleForCard(card)}
                     </option>
                   ))}
                 </select>
               </label>
+              <strong className="result-degree">{activeResultCard ? recommendationDegreeForCard(activeResultCard) : "暂无推荐"}</strong>
             </div>
 
-            {activeResultCards.length ? (
-              <>
-                <label className="field-block result-picker" htmlFor="result-card-select">
-                  <span className="micro-label">当前结果</span>
-                  <select
-                    id="result-card-select"
-                    className="editor-select"
-                    value={activeResultCard?.key || ""}
-                    onChange={(event) => {
-                      const nextCard = activeResultCards.find((card) => card.key === event.target.value);
-                      if (nextCard) {
-                        selectCard(flow, nextCard);
-                      }
-                    }}
-                  >
-                    {activeResultCards.map((card) => (
-                      <option key={card.key} value={card.key}>
-                        {formatPercent(scoreForCard(card))} / {titleForCard(card)}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <SelectedResultDetail
-                  card={activeResultCard}
-                  selectedPathIndex={flow.selectedPathIndex}
-                  onSelectPathIndex={flow.setSelectedPathIndex}
-                />
-              </>
+            {selectableResultCards.length ? (
+              <SelectedResultDetail card={activeResultCard} />
             ) : (
-              <div className="empty-slot compact">{activeResultMeta.empty}</div>
+              <div className="empty-slot compact">{emptyResultText}</div>
             )}
           </div>
       </div>
