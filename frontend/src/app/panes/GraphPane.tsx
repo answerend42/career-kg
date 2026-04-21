@@ -6,7 +6,6 @@ import type { EdgeData, GraphData, IElementEvent, NodeData } from "@antv/g6";
 import { useRecommendationFlow } from "../hooks/useRecommendationFlow";
 import { useReducedMotionPreference } from "../hooks/useReducedMotionPreference";
 import { motionTimings } from "../lib/motionTokens";
-import { sourceTypeLabel } from "../lib/scoring";
 import { SourceProfileList } from "../components/SourceProfileList";
 import type { GraphSnapshotEdge, GraphSnapshotNode, ResultCard } from "../types/api";
 
@@ -36,29 +35,18 @@ const RELATION_COLORS: Record<string, string> = {
 };
 
 const DIAGNOSTIC_LABELS: Record<string, string> = {
-  aggregator: "聚合规则",
   support_total: "支持总量",
   require_total: "要求总量",
   prefer_total: "偏好总量",
   inhibit_total: "抑制总量",
-  coverage: "覆盖度",
-  gate_multiplier: "门槛系数",
-  hard_gate_closed: "硬门槛关闭",
-  missing_requirements: "缺失要求",
 };
 
-const DIAGNOSTIC_VALUE_LABELS: Record<string, string> = {
-  hard_gate: "硬门槛",
-  weighted_sum: "加权汇总",
-  sum: "求和",
-  max: "取最高值",
-  mean: "取平均值",
-};
+const DETAIL_DIAGNOSTIC_KEYS = ["support_total", "require_total", "prefer_total", "inhibit_total"] as const;
 
 const NODE_HEIGHT = 34;
 const NODE_GAP = 12;
-const CANVAS_PADDING_X = 170;
-const CANVAS_PADDING_TOP = 92;
+const CANVAS_PADDING_X = 210;
+const CANVAS_PADDING_TOP = 104;
 const CANVAS_PADDING_BOTTOM = 52;
 const DEFAULT_SCORE_THRESHOLD = 0.05;
 
@@ -141,6 +129,33 @@ function applyScoreThreshold(
   return nodes.filter((node) => visibleIds.has(node.id) && nodeById.has(node.id));
 }
 
+function keepEvidenceLinkedAbilityNodes(
+  nodes: GraphSnapshotNode[],
+  edges: GraphSnapshotEdge[],
+): GraphSnapshotNode[] {
+  const nodeById = new Map(nodes.map((node) => [node.id, node]));
+  const keepAbilityIds = new Set<string>();
+
+  for (const edge of edges) {
+    if (edge.value <= 0) {
+      continue;
+    }
+    const sourceNode = nodeById.get(edge.source);
+    const targetNode = nodeById.get(edge.target);
+    if (!sourceNode || !targetNode) {
+      continue;
+    }
+    if (sourceNode.layer === "evidence" && targetNode.layer === "ability") {
+      keepAbilityIds.add(targetNode.id);
+    }
+    if (sourceNode.layer === "ability" && targetNode.layer === "evidence") {
+      keepAbilityIds.add(sourceNode.id);
+    }
+  }
+
+  return nodes.filter((node) => node.layer !== "ability" || keepAbilityIds.has(node.id));
+}
+
 function buildLayout(nodes: GraphSnapshotNode[], width: number, height: number): Map<string, { x: number; y: number }> {
   const layout = new Map<string, { x: number; y: number }>();
   const usableWidth = Math.max(520, width - CANVAS_PADDING_X * 2);
@@ -204,11 +219,6 @@ function formatDiagnosticValue(value: unknown): string {
 
 function diagnosticLabel(key: string): string {
   return DIAGNOSTIC_LABELS[key] || key;
-}
-
-function diagnosticValue(value: unknown): string {
-  const formatted = formatDiagnosticValue(value);
-  return DIAGNOSTIC_VALUE_LABELS[formatted] || formatted;
 }
 
 export function GraphPane({ flow, onNext }: { flow: ReturnType<typeof useRecommendationFlow>; onNext: () => void }) {
@@ -330,7 +340,11 @@ export function GraphPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
     () => (snapshot ? applyScoreThreshold(allVisibleNodes, snapshot.edges, scoreThreshold) : []),
     [allVisibleNodes, scoreThreshold, snapshot],
   );
-  const visibleNodes = useMemo(() => thresholdedNodes.filter((node) => layerRank(node.layer) <= revealIndex), [revealIndex, thresholdedNodes]);
+  const evidenceLinkedNodes = useMemo(
+    () => (snapshot ? keepEvidenceLinkedAbilityNodes(thresholdedNodes, snapshot.edges) : []),
+    [snapshot, thresholdedNodes],
+  );
+  const visibleNodes = useMemo(() => evidenceLinkedNodes.filter((node) => layerRank(node.layer) <= revealIndex), [evidenceLinkedNodes, revealIndex]);
   const layout = useMemo(() => buildLayout(visibleNodes, graphSize.width, graphSize.height), [graphSize.height, graphSize.width, visibleNodes]);
   const visibleNodeIds = new Set(visibleNodes.map((node) => node.id));
   const visibleEdges = (snapshot?.edges || []).filter((edge) => {
@@ -346,7 +360,7 @@ export function GraphPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
     );
   });
   const maxVisibleEdgeValue = Math.max(...visibleEdges.map((edge) => edge.value), 0.001);
-  const selectedNode = flow.selectedSnapshotNode || visibleNodes[0] || null;
+  const selectedNode = flow.selectedSnapshotNode && visibleNodeIds.has(flow.selectedSnapshotNode.id) ? flow.selectedSnapshotNode : visibleNodes[0] || null;
   const activeHighlightId = highlightedNodeId && visibleNodeIds.has(highlightedNodeId) ? highlightedNodeId : null;
   const highlightNodeIds = new Set<string>();
   if (activeHighlightId) {
@@ -384,14 +398,14 @@ export function GraphPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
           cursor: "pointer",
           labelText: graphLabel(node),
           labelPlacement: evidenceLabel ? "left" : "right",
-          labelOffsetX: evidenceLabel ? -7 : 7,
+          labelOffsetX: evidenceLabel ? -9 : 9,
           labelFill: "oklch(0.17 0.03 220)",
           labelFillOpacity: dimmed ? 0.42 : 1,
           labelFontFamily: "var(--sans)",
-          labelFontSize: 12,
+          labelFontSize: 15,
           labelFontWeight: selected || focused ? 760 : 680,
           labelTextAlign: evidenceLabel ? "right" : "left",
-          labelMaxWidth: evidenceLabel ? 132 : 118,
+          labelMaxWidth: evidenceLabel ? 170 : 154,
           labelTextBaseline: "middle",
           labelWordWrap: true,
           labelBackground: true,
@@ -399,7 +413,7 @@ export function GraphPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
           labelBackgroundStroke: dimmed ? "oklch(0.84 0.018 220 / 0.34)" : "oklch(0.84 0.018 220)",
           labelBackgroundLineWidth: 0.7,
           labelBackgroundRadius: 0,
-          labelPadding: [2, 4],
+          labelPadding: [3, 6],
           port: true,
           ports: [
             { key: "left", placement: [0, 0.5], r: 1, fill: "transparent", stroke: "transparent" },
@@ -550,23 +564,13 @@ export function GraphPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
                 </div>
               </div>
               <p className="detail-copy">{selectedNode.description}</p>
-              <div className="chip-row">
-                <span className="soft-chip">{selectedNode.node_type}</span>
-                <span className="soft-chip">{selectedNode.aggregator}</span>
-                {(selectedNode.metadata.source_types || []).map((sourceType) => (
-                  <span key={sourceType} className="soft-chip accent-chip">
-                    {sourceTypeLabel(sourceType)}
-                  </span>
-                ))}
-              </div>
-
               <div className="mini-panel">
                 <h4>诊断项</h4>
                 <ul className="list-stack compact-list">
-                  {Object.entries(selectedNode.diagnostics || {}).map(([key, value]) => (
+                  {DETAIL_DIAGNOSTIC_KEYS.map((key) => (
                     <li key={key}>
                       <span>{diagnosticLabel(key)}</span>
-                      <strong>{diagnosticValue(value)}</strong>
+                      <strong>{formatDiagnosticValue(selectedNode.diagnostics?.[key] ?? 0)}</strong>
                     </li>
                   ))}
                 </ul>
