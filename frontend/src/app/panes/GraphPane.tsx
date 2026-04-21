@@ -35,10 +35,10 @@ const RELATION_COLORS: Record<string, string> = {
 };
 
 const DIAGNOSTIC_LABELS: Record<string, string> = {
-  support_total: "支持总量",
-  require_total: "要求总量",
-  prefer_total: "偏好总量",
-  inhibit_total: "抑制总量",
+  support_total: "支持得分",
+  require_total: "要求得分",
+  prefer_total: "偏好得分",
+  inhibit_total: "抑制得分",
 };
 
 const DETAIL_DIAGNOSTIC_KEYS = ["support_total", "require_total", "prefer_total", "inhibit_total"] as const;
@@ -557,15 +557,13 @@ export function GraphPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
           </div>
           {selectedNode ? (
             <div className="detail-stack">
-              <div className="detail-topline">
-                <div>
-                  <p className="micro-label">{LAYER_LABELS[selectedNode.layer] || selectedNode.layer}</p>
-                  <strong>{selectedNode.name}</strong>
-                </div>
+              <div className="detail-topline graph-node-summary">
+                <p className="micro-label">{LAYER_LABELS[selectedNode.layer] || selectedNode.layer}</p>
+                <strong>{selectedNode.name}</strong>
+                <p className="detail-copy">{selectedNode.description}</p>
               </div>
-              <p className="detail-copy">{selectedNode.description}</p>
-              <div className="mini-panel">
-                <h4>诊断项</h4>
+              <div className="mini-panel graph-score-source-panel">
+                <h4>分数来源</h4>
                 <ul className="list-stack compact-list">
                   {DETAIL_DIAGNOSTIC_KEYS.map((key) => (
                     <li key={key}>
@@ -576,7 +574,7 @@ export function GraphPane({ flow, onNext }: { flow: ReturnType<typeof useRecomme
                 </ul>
               </div>
 
-              <div className="mini-panel">
+              <div className="mini-panel graph-source-profile-panel">
                 <h4>来源画像</h4>
                 <SourceProfileList
                   sources={selectedNode.metadata.source_refs || []}

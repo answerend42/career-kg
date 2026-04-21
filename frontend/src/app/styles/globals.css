@@ -1390,18 +1390,29 @@ button {
   height: 100%;
   min-height: 0;
   overflow: hidden;
+  align-content: start;
+  gap: 6px;
+  padding: 8px 16px 16px;
   font-size: 0.92rem;
   line-height: 1.05;
 }
 
 .graph-detail-card .section-head {
   align-items: center;
+  min-height: 0;
+  margin: 0;
   line-height: 1.05;
+}
+
+.graph-detail-card .section-head h3 {
+  margin: 0;
+  line-height: 1;
 }
 
 .graph-detail-card .detail-stack {
   min-height: 0;
   gap: 8px;
+  align-content: start;
   line-height: 1.05;
 }
 
@@ -1420,7 +1431,25 @@ button {
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-  line-height: 1.12;
+  line-height: 1.08;
+}
+
+.graph-detail-card .graph-node-summary {
+  display: grid;
+  justify-content: stretch;
+  gap: 0;
+}
+
+.graph-detail-card .graph-node-summary .micro-label {
+  margin-top: 0;
+}
+
+.graph-detail-card .graph-node-summary strong {
+  margin-top: 14px;
+}
+
+.graph-detail-card .graph-node-summary .detail-copy {
+  margin-top: 3px;
 }
 
 .graph-detail-card .chip-row {
@@ -1432,7 +1461,7 @@ button {
 }
 
 .graph-detail-card .mini-panel h4 {
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 }
 
 .graph-detail-card .compact-list {
@@ -1440,12 +1469,20 @@ button {
   gap: 5px 8px;
 }
 
+.graph-detail-card .graph-score-source-panel {
+  margin-top: 0;
+}
+
+.graph-detail-card .graph-score-source-panel .compact-list {
+  gap: 12px 12px;
+}
+
 .graph-detail-card .compact-list li {
   min-width: 0;
   align-items: center;
   display: flex;
-  gap: 6px;
-  padding-bottom: 3px;
+  gap: 8px;
+  padding-bottom: 6px;
 }
 
 .graph-detail-card .compact-list li span,
@@ -1467,6 +1504,10 @@ button {
 
 .graph-detail-card .source-list {
   gap: 5px;
+}
+
+.graph-detail-card .graph-source-profile-panel {
+  margin-top: 0;
 }
 
 .graph-detail-card .source-list li {
