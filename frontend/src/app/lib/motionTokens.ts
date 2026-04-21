@@ -6,7 +6,7 @@ export const motionDurations = {
 } as const;
 
 export const motionTimings = {
-  layerRevealStepMs: 720,
+  layerRevealStepMs: 420,
   pathSegmentStepMs: 520,
 } as const;
 
